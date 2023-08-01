@@ -1,1 +1,20 @@
-GET http://localhost:8080
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+    "username": "devjam",
+    "password": "Devjam@gohard123",
+    "email": "hdthien21@clc.fitus.edu.vn",
+    "gender": "non-binary",
+    "role": "user"
+}
+
+###
+
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+    "username": "devjam",
+    "password": "Devjam@gohard123"
+}

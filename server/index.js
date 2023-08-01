@@ -1,12 +1,16 @@
-require('dotenv').config();
-const express = require('express');
-const connection = require('./db');
-
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const connection = require("./db");
 const app = express();
-connection(); 
 
-app.get('/', (req, res) => res.send(`Hello world`))
+const authRouter = require("./routes/auth");
+
+connection();
+
+app.use(cors());
+app.use(express.json());
+app.use("/api/auth", authRouter);
 
 const port = process.env.PORT || 8080;
-app.listen(port, console.log(`Listening on port ${port}...`))
-
+app.listen(port, console.log(`Listening on port ${port}...`));
