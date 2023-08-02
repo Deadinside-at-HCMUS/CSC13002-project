@@ -32,7 +32,7 @@ const Navbar: React.FC<NavbarProps> = ({
                     <input type="text" placeholder={searchPlaceholder} />
                 </div>
                 <div className="info-hotline">
-                    <span>Info Hotline: {hotlineNumber}</span>
+                    <span>Hotline: {hotlineNumber}</span>
                 </div>
                 <div className="buttons">
                     <GiveButton onClick={onGiveClick} />
