@@ -7,13 +7,17 @@ const UserSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    unique: true,
   },
   password: {
     type: String,
     required: true,
   },
   email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  phonenumber: {
     type: String,
     required: true,
   },
@@ -47,6 +51,7 @@ const validate = (user) => {
     username: joi.string().min(5).max(15).required(),
     password: passwordComplexity().required(),
     email: joi.string().email().required(),
+    phonenumber: joi.string().min(9).max(12).required(),
     gender: joi.string().valid("male", "female", "non-binary").required(),
     role: joi.string().valid("user", "collaborator", "admin").required(),
   });

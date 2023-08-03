@@ -5,6 +5,7 @@ Content-Type: application/json
     "username": "devjam",
     "password": "Devjam@gohard123",
     "email": "hdthien21@clc.fitus.edu.vn",
+    "phonenumber": "0774689403",
     "gender": "non-binary",
     "role": "user"
 }
@@ -15,6 +16,30 @@ POST http://localhost:8080/api/auth/login
 Content-Type: application/json
 
 {
-    "username": "devjam",
+    "email": "hdthien21@clc.fitus.edu.vn",
     "password": "Devjam@gohard123"
+}
+
+###
+
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "hdthien21@clc.fitus.edu.vn",
+    "password": "aaasd"
+}
+
+###
+
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+    "username": "hwangdeokthien",
+    "password": "Ducthien@123",
+    "email": "huynhducthien41906@gmail.com",
+    "phonenumber": "0912345678",
+    "gender": "non-binary",
+    "role": "user"
 }
