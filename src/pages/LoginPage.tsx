@@ -1,25 +1,43 @@
 import React from 'react';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
-
-enum SelectEnum { receiver, donor }
+import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers/yup";
 
 interface FormData {
     email: string
     password: string
-    select: SelectEnum
     remember: boolean
 }
 
+const defaultValues: FormData = {
+    email: "",
+    password: "",
+    remember: true,
+};
+
+const validationSchema = yup.object({
+    email: yup
+        .string()
+        .required("Email is required!"),
+    password: yup
+        .string()
+        .required("Password is required!"),
+    remember: yup.boolean().required(),
+})
+
 const LoginPage: React.FC = () => {
-    let navigate = useNavigate();
-
-    const { register, handleSubmit } = useForm<FormData>({ mode: "onChange" })
-
-    const onSubmit = handleSubmit(({ email, password, select, remember }) => {
-        console.log(email, password, select, remember)
+    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+        defaultValues,
+        resolver: yupResolver<FormData>(validationSchema),
+        mode: "onTouched",
     })
 
+    const onSubmit = handleSubmit(({ email, password, remember }) => {
+        console.log(email, password, remember)
+    })
+
+    let navigate = useNavigate();
 
     const handleRegisterClick = () => {
         navigate('/signup')
@@ -28,6 +46,7 @@ const LoginPage: React.FC = () => {
     const handleHomeClick = () => {
         navigate('/home')
     }
+
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center">
@@ -39,17 +58,13 @@ const LoginPage: React.FC = () => {
                 <form action="" className="space-y-6" onSubmit={onSubmit}>
                     <div>
                         <label htmlFor="" className="text-sm font-bold text-gray-600 block">Email</label>
-                        <input
-                            {...register("email", {
-                                required: true,
-                                minLength: 4,
-                                pattern: /^\S+@\S+\.\S+$/
-                            })}
-                            name="email" type="text" className="w-full p-2 border-gray-300 rounded mt-1" />
+                        <input {...register("email")} name="email" type="email" className="w-full p-2 border-gray-300 rounded mt-1" />
+                        {errors.email && (<p className="error-message text-red-500">{errors.email.message}</p>)}
                     </div>
                     <div>
                         <label htmlFor="" className="text-sm font-bold text-gray-600 block">Password</label>
                         <input {...register("password")} name="password" type="password" className="w-full p-2 border-gray-300 rounded mt-1" />
+                        {errors.password && (<p className="error-message text-red-500">{errors.password.message}</p>)}
                     </div>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center">
