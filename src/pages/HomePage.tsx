@@ -5,8 +5,12 @@ import Navbar from '../components/Navbar/Navbar';
 const HomePage: React.FC = () => {
     let navigate = useNavigate();
 
-    const handleGiveClick = () => {
+    const handleSearchClick = () => {
         // Handle the click event for Give button
+        console.log('Search Click')
+    }
+
+    const handleGiveClick = () => {
         console.log('Give clicked');
     };
 
@@ -25,8 +29,9 @@ const HomePage: React.FC = () => {
             <Navbar
                 logoUrl="https://file.rendit.io/n/BMguV6XTfgasPlBI7Wr2.svg"
                 name="Connect Me"
-                searchPlaceholder="Search..."
+                searchPlaceholder="e.g. Ho Chi Minh"
                 hotlineNumber="123-456-7890"
+                onSearchClick={handleSearchClick}
                 onGiveClick={handleGiveClick}
                 onReceiveClick={handleReceiveClick}
                 onLoginClick={handleLoginClick}
