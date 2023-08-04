@@ -86,7 +86,7 @@ const LoginPage: React.FC = () => {
   // };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center">
+    <div className="min-h-screen bg-white flex flex-col justify-center">
       <div className="max-w-md w-full mx-auto">
         <img
           className="mx-auto cursor-pointer"
@@ -97,7 +97,7 @@ const LoginPage: React.FC = () => {
           Login Page
         </div>
       </div>
-      <div className="max-w-md w-full mx-auto mt-4 bg-white p-8 border border-gray-300">
+      <div className="max-w-md w-full mx-auto mt-4 bg-[#f7f8f9] p-8 border border-white rounded-[1rem]">
         <form action="" className="space-y-6" onSubmit={login}>
           <div>
             <label htmlFor="" className="text-sm font-bold text-gray-600 block">
