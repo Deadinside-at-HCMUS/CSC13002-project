@@ -1,14 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar/Navbar';
+import Search from '../components/Search/Search';
+import Post from '../components/Post/Post';
+import Footer from '../components/Footer/Footer';
 
 const HomePage: React.FC = () => {
     let navigate = useNavigate();
-
-    const handleSearchClick = () => {
-        // Handle the click event for Give button
-        console.log('Search Click')
-    }
 
     const handleGiveClick = () => {
         console.log('Give clicked');
@@ -24,19 +22,24 @@ const HomePage: React.FC = () => {
         navigate('/login');
     };
 
+    const handelProfileClick = () => {
+        navigate('/profile');
+    };
+
     return (
         <div>
             <Navbar
                 logoUrl="https://file.rendit.io/n/BMguV6XTfgasPlBI7Wr2.svg"
                 name="Connect Me"
-                searchPlaceholder="e.g. Ho Chi Minh"
                 hotlineNumber="123-456-7890"
-                onSearchClick={handleSearchClick}
                 onGiveClick={handleGiveClick}
                 onReceiveClick={handleReceiveClick}
                 onLoginClick={handleLoginClick}
+                onProfileClick={handelProfileClick}
             />
-            {/* Your other components and content */}
+            <Search />
+            <Post />
+            <Footer />
         </div>
     )
 };
