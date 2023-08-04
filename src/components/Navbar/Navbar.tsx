@@ -1,5 +1,5 @@
 import React from 'react';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import { AiOutlineUser } from "react-icons/ai";
 
 interface NavbarProps {
     logoUrl: string;
@@ -22,7 +22,7 @@ const Navbar: React.FC<NavbarProps> = ({
 }) => {
     return (
         <div className="flex flex-col w-full">
-            <div className="shadow-[0px_4px_30px_0px_rgba(0,_0,_0,_0.08)] bg-white flex flex-row justify-between h-32 shrink-0 items-center pt-6 pl-16 pr-10">
+            <div className="flex flex-row justify-between h-32 items-center pt-6 pl-16 pr-10">
                 <div className="flex gap-8">
                     <div className="logo">
                         <img src={logoUrl} className="mx-auto w-10" />
@@ -32,14 +32,13 @@ const Navbar: React.FC<NavbarProps> = ({
                     </div>
                 </div>
 
-
                 <div className="flex gap-8">
                     <div className="info-hotline">
                         <span>Hotline: {hotlineNumber}</span>
                     </div>
-                    <li onClick={onGiveClick} >Give</li>
-                    <li onClick={onReceiveClick} >Recieve</li>
-                    <li onClick={onLoginClick}>Login</li>
+                    <li className="icon hover:text-[#a5a6a6]" onClick={onGiveClick} >Give</li>
+                    <li className="icon hover:text-[#a5a6a6]" onClick={onReceiveClick} >Recieve</li>
+                    <li className="icon hover:text-[#a5a6a6]" onClick={onLoginClick}>Login</li>
                     <div className="language">
                         <select>
                             <option value="en">Vietnamese</option>
@@ -48,7 +47,7 @@ const Navbar: React.FC<NavbarProps> = ({
                         </select>
                     </div>
                     <li>
-                        <AccountCircleOutlinedIcon className="cursor-pointer" fontSize="large" onClick={onProfileClick} />
+                        <AiOutlineUser className="text-[25px] icon hover:text-[#a5a6a6]" onClick={onProfileClick} />
                     </li>
                 </div>
 
