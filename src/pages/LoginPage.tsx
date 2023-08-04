@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, ChangeEvent, FormEvent } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
@@ -9,13 +9,11 @@ import { UserLoginForm } from "../contexts/authContext";
 const defaultValues: UserLoginForm = {
   email: "",
   password: "",
-  remember: true,
 };
 
 const validationSchema = yup.object({
   email: yup.string().required("Email is required!"),
   password: yup.string().required("Password is required!"),
-  remember: yup.boolean().required(),
 });
 
 const LoginPage: React.FC = () => {
@@ -24,17 +22,16 @@ const LoginPage: React.FC = () => {
   const [loginForm, setLoginForm] = useState({
     email: "",
     password: "",
-    remember: false,
   });
 
   const { email, password } = loginForm;
 
-  const handleChangeLoginForm = (event: any) =>
+  const handleChangeLoginForm = (event: ChangeEvent<HTMLInputElement>) =>
     setLoginForm({ ...loginForm, [event.target.name]: event.target.value });
 
   const navigate = useNavigate();
 
-  const login = async (event: any) => {
+  const login = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
@@ -84,9 +81,9 @@ const LoginPage: React.FC = () => {
     navigate("/home");
   };
 
-  const handleForgotPassword = () => {
-    // do something here to modify password
-  };
+  // const handleForgotPassword = () => {
+  //   // do something here to modify password
+  // };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center">
@@ -141,17 +138,6 @@ const LoginPage: React.FC = () => {
             )}
           </div>
           <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                {...register("remember")}
-                name="checkbox"
-                type="checkbox"
-                className="h-4 w-4 text-blue-300 rounded"
-              />
-              <label htmlFor="" className="ml-2 text-sm text-gray-600">
-                Remember me
-              </label>
-            </div>
             <a href="" className="font-medium text-sm text-blue-500">
               Forgot Password
             </a>

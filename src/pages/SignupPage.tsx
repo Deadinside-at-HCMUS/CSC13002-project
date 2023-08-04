@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, ChangeEvent, FormEvent } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
@@ -14,7 +14,6 @@ const defaultValues: UserRegisterForm = {
   gender: "non-binary",
   phonenumber: "",
   role: RoleEnum.user,
-  remember: true,
 };
 
 const phoneRegExp = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
@@ -59,7 +58,6 @@ const SignupPage: React.FC = () => {
     gender: "non-binary",
     phonenumber: "",
     role: RoleEnum.user,
-    remember: true,
   });
 
   const {
@@ -70,10 +68,15 @@ const SignupPage: React.FC = () => {
     gender,
     phonenumber,
     role,
-    remember,
   } = registerForm;
 
-  const handleChangeRegisterForm = (event: any) =>
+  const handleChangeRegisterForm = (event: ChangeEvent<HTMLInputElement>) =>
+    setRegisterForm({
+      ...registerForm,
+      [event.target.name]: event.target.value,
+    });
+
+  const handleChangeSelect = (event: ChangeEvent<HTMLSelectElement>) =>
     setRegisterForm({
       ...registerForm,
       [event.target.name]: event.target.value,
@@ -81,7 +84,7 @@ const SignupPage: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const registering = async (event: any) => {
+  const registering = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (password !== passwordconfirm) {
@@ -244,7 +247,7 @@ const SignupPage: React.FC = () => {
               id="1"
               className="w-full p-2 border border-gray-330 rounded mt-1"
               value={gender}
-              onChange={handleChangeRegisterForm}
+              onChange={handleChangeSelect}
             >
               <option value="non-binary">--Select a option--</option>
               <option value="male">Male</option>
@@ -261,7 +264,7 @@ const SignupPage: React.FC = () => {
               id="2"
               className="w-full p-2 border border-gray-330 rounded mt-1"
               value={role}
-              onChange={handleChangeRegisterForm}
+              onChange={handleChangeSelect}
             >
               <option value="">--Select a option--</option>
               <option value="user">Normal user</option>

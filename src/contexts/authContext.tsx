@@ -1,7 +1,7 @@
-import { createContext, useReducer, ReactNode } from "react";
+import { createContext, useReducer, ReactNode, useEffect } from "react";
 import { authReducer } from "../reducers/authReducer";
 import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from "./constants";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import setAuthToken from "../utils/setAuthToken";
 
 export enum RoleEnum {
@@ -12,7 +12,6 @@ export enum RoleEnum {
 export interface UserLoginForm {
   email: string;
   password: string;
-  remember: boolean;
 }
 
 export interface UserRegisterForm {
@@ -23,14 +22,29 @@ export interface UserRegisterForm {
   gender: string;
   phonenumber: string;
   role: RoleEnum;
-  remember: boolean;
+}
+
+interface AuthStateType {
+  authLoading: true;
+  isAuthenticated: false;
+  user: null;
+}
+
+interface LoginResponse {
+  success: boolean;
+  content: string;
+}
+
+interface RegisterResponse {
+  success: boolean;
+  message: string;
 }
 
 interface AuthContextType {
-  loginUser: (userForm: UserLoginForm) => Promise<any>;
-  registerUser: (userForm: UserRegisterForm) => Promise<any>;
+  loginUser: (userForm: UserLoginForm) => Promise<LoginResponse>;
+  registerUser: (userForm: UserRegisterForm) => Promise<RegisterResponse>;
   logoutUser: () => void;
-  authState: any;
+  authState: AuthStateType;
 }
 
 interface AuthContextProviderProps {
@@ -77,13 +91,17 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     }
   };
 
-  // useEffect(() => loadUser(), []);
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     await loadUser();
+  //   };
+  //   fetchUserData();
+  // }, []);
 
   // login
   const loginUser = async (userForm: UserLoginForm) => {
     try {
-      const { remember, ...submitForm } = userForm;
-      const response = await axios.post(`${apiUrl}/auth/login`, submitForm);
+      const response = await axios.post(`${apiUrl}/auth/login`, userForm);
       if (response.data.success)
         localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data.content);
       else console.log(response.data);
@@ -91,28 +109,49 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
       // await loadUser();
 
       return response.data;
-    } catch (error: any) {
-      return error.response.data
-        ? error.response.data
-        : { success: false, message: "Server error" };
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        return (
+          axiosError.response?.data || {
+            success: false,
+            message: "Server error",
+          }
+        );
+      } else {
+        console.log(error);
+        return { success: false, message: "Unknown error" };
+      }
     }
   };
 
   // Register
-  const registerUser = async (userForm: UserRegisterForm) => {
+  const registerUser = async ({
+    passwordconfirm,
+    ...userForm
+  }: UserRegisterForm) => {
     try {
-      const { passwordconfirm, remember, ...submitForm } = userForm;
-      const response = await axios.post(`${apiUrl}/auth/register`, submitForm);
+      console.log(passwordconfirm);
+      const response = await axios.post(`${apiUrl}/auth/register`, userForm);
       if (response.data.success)
         localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data.content);
 
       // await loadUser();
 
       return response.data;
-    } catch (error: any) {
-      return error.response.data
-        ? error.response.data
-        : { success: false, message: "Server error" };
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        return (
+          axiosError.response?.data || {
+            success: false,
+            message: "Server error",
+          }
+        );
+      } else {
+        console.log(error);
+        return { success: false, message: "Unknown error" };
+      }
     }
   };
 
