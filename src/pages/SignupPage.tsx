@@ -4,24 +4,9 @@ import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AuthContext } from "../contexts/authContext";
+import { UserRegisterForm, RoleEnum } from "../contexts/authContext";
 
-enum RoleEnum {
-  user,
-  collaborator,
-}
-
-interface FormData {
-  username: string;
-  email: string;
-  password: string;
-  passwordconfirm: string;
-  gender: string;
-  phonenumber: string;
-  role: RoleEnum;
-  remember: boolean;
-}
-
-const defaultValues: FormData = {
+const defaultValues: UserRegisterForm = {
   username: "",
   email: "",
   password: "",
@@ -32,7 +17,7 @@ const defaultValues: FormData = {
   remember: true,
 };
 
-const phoneRegExp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
+const phoneRegExp = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
 const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/;
 
 const validationSchema = yup.object({
@@ -74,6 +59,7 @@ const SignupPage: React.FC = () => {
     gender: "non-binary",
     phonenumber: "",
     role: RoleEnum.user,
+    remember: true,
   });
 
   const {
@@ -84,6 +70,7 @@ const SignupPage: React.FC = () => {
     gender,
     phonenumber,
     role,
+    remember,
   } = registerForm;
 
   const handleChangeRegisterForm = (event: any) =>
@@ -92,7 +79,7 @@ const SignupPage: React.FC = () => {
       [event.target.name]: event.target.value,
     });
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const registering = async (event: any) => {
     event.preventDefault();
@@ -103,8 +90,7 @@ const SignupPage: React.FC = () => {
     }
 
     try {
-      const { passwordconfirm, ...submitForm } = registerForm;
-      const registerData = await registerUser(submitForm);
+      const registerData = await registerUser(registerForm);
       console.log(registerData);
 
       if (registerData.success) {
@@ -122,9 +108,9 @@ const SignupPage: React.FC = () => {
     register,
     // handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<UserRegisterForm>({
     defaultValues,
-    resolver: yupResolver<FormData>(validationSchema),
+    resolver: yupResolver<UserRegisterForm>(validationSchema),
     mode: "onTouched",
   });
 
@@ -277,7 +263,7 @@ const SignupPage: React.FC = () => {
               value={role}
               onChange={handleChangeRegisterForm}
             >
-              <option value="user">--Select a option--</option>
+              <option value="">--Select a option--</option>
               <option value="user">Normal user</option>
               <option value="collaborator">Collaborator</option>
             </select>

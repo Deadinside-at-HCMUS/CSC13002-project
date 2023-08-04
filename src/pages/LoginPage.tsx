@@ -4,14 +4,9 @@ import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AuthContext } from "../contexts/authContext";
+import { UserLoginForm } from "../contexts/authContext";
 
-interface FormData {
-  email: string;
-  password: string;
-  remember: boolean;
-}
-
-const defaultValues: FormData = {
+const defaultValues: UserLoginForm = {
   email: "",
   password: "",
   remember: true,
@@ -29,6 +24,7 @@ const LoginPage: React.FC = () => {
   const [loginForm, setLoginForm] = useState({
     email: "",
     password: "",
+    remember: false,
   });
 
   const { email, password } = loginForm;
@@ -36,7 +32,7 @@ const LoginPage: React.FC = () => {
   const handleChangeLoginForm = (event: any) =>
     setLoginForm({ ...loginForm, [event.target.name]: event.target.value });
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const login = async (event: any) => {
     event.preventDefault();
@@ -45,10 +41,21 @@ const LoginPage: React.FC = () => {
       const loginData = await loginUser(loginForm);
 
       if (loginData.success) {
-        // navigate to home
+        // if user logged in
         navigate("/home");
       } else {
-        // handle wrong password here
+        // handle wrong password
+        (() => {
+          alert("Invalid email or password!");
+          setTimeout(() => {
+            const alertElement = document.querySelector(
+              ".alert"
+            ) as HTMLElement;
+            if (alertElement) {
+              alertElement.style.display = "none";
+            }
+          }, 5000);
+        })();
       }
     } catch (error) {
       console.log(error);
@@ -59,9 +66,9 @@ const LoginPage: React.FC = () => {
     register,
     // handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<UserLoginForm>({
     defaultValues,
-    resolver: yupResolver<FormData>(validationSchema),
+    resolver: yupResolver<UserLoginForm>(validationSchema),
     mode: "onTouched",
   });
 

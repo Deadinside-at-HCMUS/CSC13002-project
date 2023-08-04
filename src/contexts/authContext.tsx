@@ -1,12 +1,49 @@
-import { createContext, useReducer, useEffect } from "react";
+import { createContext, useReducer, ReactNode } from "react";
 import { authReducer } from "../reducers/authReducer";
 import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from "./constants";
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 
-export const AuthContext = createContext();
+export enum RoleEnum {
+  user,
+  collaborator,
+}
 
-const AuthContextProvider = ({ children }) => {
+export interface UserLoginForm {
+  email: string;
+  password: string;
+  remember: boolean;
+}
+
+export interface UserRegisterForm {
+  username: string;
+  email: string;
+  password: string;
+  passwordconfirm: string;
+  gender: string;
+  phonenumber: string;
+  role: RoleEnum;
+  remember: boolean;
+}
+
+interface AuthContextType {
+  loginUser: (userForm: UserLoginForm) => Promise<any>;
+  registerUser: (userForm: UserRegisterForm) => Promise<any>;
+  logoutUser: () => void;
+  authState: any;
+}
+
+interface AuthContextProviderProps {
+  children: ReactNode;
+}
+
+export const AuthContext = createContext<AuthContextType>(
+  {} as AuthContextType
+);
+
+const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
+  children,
+}) => {
   const [authState, dispatch] = useReducer(authReducer, {
     authLoading: true,
     isAuthenticated: false,
@@ -43,32 +80,39 @@ const AuthContextProvider = ({ children }) => {
   // useEffect(() => loadUser(), []);
 
   // login
-  const loginUser = async (userForm) => {
+  const loginUser = async (userForm: UserLoginForm) => {
     try {
-      const response = await axios.post(`${apiUrl}/auth/login`, userForm);
+      const { remember, ...submitForm } = userForm;
+      const response = await axios.post(`${apiUrl}/auth/login`, submitForm);
       if (response.data.success)
         localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data.content);
-
-      return response.data;
-    } catch (error: any) {
-      if (error.response.data) return error.response.data;
-      else return { success: false, message: error.message };
-    }
-  };
-
-  // Register
-  const registerUser = async (userForm) => {
-    try {
-      const response = await axios.post(`${apiUrl}/auth/register`, userForm);
-      if (response.data.success) console.log(response.data);
-      localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data.accessToken);
+      else console.log(response.data);
 
       // await loadUser();
 
       return response.data;
     } catch (error: any) {
-      if (error.response.data) return error.response.data;
-      else return { success: false, message: error.message };
+      return error.response.data
+        ? error.response.data
+        : { success: false, message: "Server error" };
+    }
+  };
+
+  // Register
+  const registerUser = async (userForm: UserRegisterForm) => {
+    try {
+      const { passwordconfirm, remember, ...submitForm } = userForm;
+      const response = await axios.post(`${apiUrl}/auth/register`, submitForm);
+      if (response.data.success)
+        localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data.content);
+
+      // await loadUser();
+
+      return response.data;
+    } catch (error: any) {
+      return error.response.data
+        ? error.response.data
+        : { success: false, message: "Server error" };
     }
   };
 
