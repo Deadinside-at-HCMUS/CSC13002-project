@@ -4,9 +4,14 @@ import Navbar from '../components/Navbar/Navbar';
 import Search from '../components/Search/Search';
 import PostList from '../components/PostList/PostList';
 import Footer from '../components/Footer/Footer';
+import Value from "../components/Value/Value"
 
 const HomePage: React.FC = () => {
     let navigate = useNavigate();
+
+    const handleAboutClick = () => {
+        navigate('/about')
+    }
 
     const handleGiveClick = () => {
         console.log('Give clicked');
@@ -31,7 +36,7 @@ const HomePage: React.FC = () => {
             <Navbar
                 logoUrl="https://file.rendit.io/n/BMguV6XTfgasPlBI7Wr2.svg"
                 name="Connect Me"
-                hotlineNumber="123-456-7890"
+                onAboutClick={handleAboutClick}
                 onGiveClick={handleGiveClick}
                 onReceiveClick={handleReceiveClick}
                 onLoginClick={handleLoginClick}
@@ -39,6 +44,7 @@ const HomePage: React.FC = () => {
             />
             <Search />
             <PostList />
+            <Value />
             <Footer />
         </div>
     )

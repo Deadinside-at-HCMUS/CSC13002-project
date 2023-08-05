@@ -4,7 +4,7 @@ import { AiOutlineUser } from "react-icons/ai";
 interface NavbarProps {
     logoUrl: string;
     name: string;
-    hotlineNumber: string;
+    onAboutClick: () => void;
     onGiveClick: () => void;
     onReceiveClick: () => void;
     onLoginClick: () => void;
@@ -14,7 +14,7 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({
     logoUrl,
     name,
-    hotlineNumber,
+    onAboutClick,
     onGiveClick,
     onReceiveClick,
     onLoginClick,
@@ -27,19 +27,17 @@ const Navbar: React.FC<NavbarProps> = ({
                     <div className="logo">
                         <img src={logoUrl} className="mx-auto w-10" />
                     </div>
-                    <div className="name">
+                    <div className="name text-[20px]">
                         <span >{name}</span>
                     </div>
                 </div>
 
                 <div className="flex gap-8">
-                    <div className="info-hotline">
-                        <span>Hotline: {hotlineNumber}</span>
-                    </div>
-                    <li className="icon hover:text-[#a5a6a6]" onClick={onGiveClick} >Give</li>
-                    <li className="icon hover:text-[#a5a6a6]" onClick={onReceiveClick} >Recieve</li>
-                    <li className="icon hover:text-[#a5a6a6]" onClick={onLoginClick}>Login</li>
-                    <div className="language">
+                    <li className="icon hover:text-[#a5a6a6] text-[18px]" onClick={onAboutClick}>About us</li>
+                    <li className="icon hover:text-[#a5a6a6] text-[18px]" onClick={onGiveClick} >Give</li>
+                    <li className="icon hover:text-[#a5a6a6] text-[18px]" onClick={onReceiveClick} >Recieve</li>
+                    <li className="icon hover:text-[#a5a6a6] text-[18px]" onClick={onLoginClick}>Login</li>
+                    <div className="language text-[18px]">
                         <select>
                             <option value="en">Vietnamese</option>
                             <option value="fr">English</option>

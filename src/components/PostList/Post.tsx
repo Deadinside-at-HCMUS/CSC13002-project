@@ -3,7 +3,7 @@ import { BiTimeFive } from 'react-icons/bi'
 
 interface PostProps {
     id: number;
-    name: string;
+    title: string;
     time: string;
     location: string;
     description: string;
@@ -13,7 +13,7 @@ interface PostProps {
 
 const Post: React.FC<PostProps> = ({
     id,
-    name,
+    title,
     time,
     location,
     description,
@@ -24,7 +24,7 @@ const Post: React.FC<PostProps> = ({
         <div key={id}>
             <div className="group group/item w-[250px] p-[20px] bg-white rounded-[10px] hover:bg-[#2a68ff] shadow-lg shadow-[#f1f4f8]-700 hover:shadow-lg cursor-pointer">
                 <span className="flex justify-between items-center gap-4">
-                    <h1 className="text-[16px] font-semibold group-hover:text-white">{name}</h1>
+                    <h1 className="text-[16px] font-semibold group-hover:text-white">{title}</h1>
                     <span className="flex items-center text-[#ccc] gap-1">
                         <BiTimeFive />{time}
                     </span>

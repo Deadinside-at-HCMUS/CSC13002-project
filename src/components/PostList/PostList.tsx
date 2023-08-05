@@ -2,10 +2,10 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import Post from './Post'
 
-const Data = [
+const PostData = [
     {
         id: 1,
-        name: "Vuon Lai Retreat",
+        title: "Vuon Lai Retreat",
         time: "Now",
         location: "Ho Chi Minh",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -13,7 +13,7 @@ const Data = [
     },
     {
         id: 2,
-        name: "Vuon Lai Retreat",
+        title: "Vuon Lai Retreat",
         time: "Now",
         location: "Ho Chi Minh",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -31,11 +31,11 @@ const PostList: React.FC = () => {
     return (
         <div className="flex gap-10 justify-center flex-wrap items-center py-10">
             {
-                Data.map(({ id, name, time, location, description, imgUrl }) => {
+                PostData.map(({ id, title, time, location, description, imgUrl }) => {
                     return (
                         <Post
                             id={id}
-                            name={name}
+                            title={title}
                             time={time}
                             location={location}
                             description={description}
