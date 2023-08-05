@@ -5,6 +5,7 @@ import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import SignupPage from '../pages/SignupPage';
 import ProfilePage from '../pages/ProfilePage';
+import Donate from '../pages/Donate';
 
 const AppRouter: React.FC = () => {
     return (
@@ -15,6 +16,7 @@ const AppRouter: React.FC = () => {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<SignupPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/donate" element={<Donate />}></Route>
             </Routes>
         </Router>
     );

@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Post = () => {
+const Donate = () => {
     return (
         <div>
-            Post
+            Donate Page
         </div>
     )
 }
 
-export default Post
+export default Donate

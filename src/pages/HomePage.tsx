@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar/Navbar';
 import Search from '../components/Search/Search';
-import Post from '../components/Post/Post';
+import PostList from '../components/PostList/PostList';
 import Footer from '../components/Footer/Footer';
 
 const HomePage: React.FC = () => {
@@ -38,7 +38,7 @@ const HomePage: React.FC = () => {
                 onProfileClick={handelProfileClick}
             />
             <Search />
-            <Post />
+            <PostList />
             <Footer />
         </div>
     )
