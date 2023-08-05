@@ -1,27 +1,34 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom'
-import Navbar from '../components/Navbar/Navbar';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar/Navbar";
+import Search from "../components/Search/Search";
+import PostList from "../components/PostList/PostList";
+import Footer from "../components/Footer/Footer";
+import Value from "../components/Value/Value";
 
 const HomePage: React.FC = () => {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
-    const handleSearchClick = () => {
-        // Handle the click event for Give button
-        console.log('Search Click')
-    }
+    const handleAboutClick = () => {
+        navigate("/about");
+    };
 
     const handleGiveClick = () => {
-        console.log('Give clicked');
+        console.log("Give clicked");
     };
 
     const handleReceiveClick = () => {
         // Handle the click event for Receive button
-        console.log('Receive clicked');
+        console.log("Receive clicked");
     };
 
     const handleLoginClick = () => {
         // Handle the click event for Login button
-        navigate('/login');
+        navigate("/login");
+    };
+
+    const handelProfileClick = () => {
+        navigate("/profile");
     };
 
     return (
@@ -29,16 +36,18 @@ const HomePage: React.FC = () => {
             <Navbar
                 logoUrl="https://file.rendit.io/n/BMguV6XTfgasPlBI7Wr2.svg"
                 name="Connect Me"
-                searchPlaceholder="e.g. Ho Chi Minh"
-                hotlineNumber="123-456-7890"
-                onSearchClick={handleSearchClick}
+                onAboutClick={handleAboutClick}
                 onGiveClick={handleGiveClick}
                 onReceiveClick={handleReceiveClick}
                 onLoginClick={handleLoginClick}
+                onProfileClick={handelProfileClick}
             />
-            {/* Your other components and content */}
+            <Search />
+            <PostList />
+            <Value />
+            <Footer />
         </div>
-    )
+    );
 };
 
 export default HomePage;

@@ -1,55 +1,89 @@
-import React from 'react';
-import GiveButton from './Button/GiveButton';
-import ReceiveButton from './Button/ReceiveButton';
-import SearchIcon from '@mui/icons-material/Search'
+import React, { useContext } from "react";
+import { AiOutlineUser } from "react-icons/ai";
+import { AuthContext } from "../../contexts/authContext";
 
 interface NavbarProps {
     logoUrl: string;
     name: string;
-    searchPlaceholder: string;
-    hotlineNumber: string;
-    onSearchClick: () => void;
+    onAboutClick: () => void;
     onGiveClick: () => void;
     onReceiveClick: () => void;
     onLoginClick: () => void;
+    onProfileClick: () => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({
     logoUrl,
     name,
-    searchPlaceholder,
-    hotlineNumber,
-    onSearchClick,
+    onAboutClick,
     onGiveClick,
     onReceiveClick,
     onLoginClick,
+    onProfileClick,
 }) => {
+    const {
+        authState: { isAuthenticated },
+    } = useContext(AuthContext);
+
+    // isAuthenticated ? console.log("true") : console.log("false");
+
     return (
-        <nav className="flex flex-col w-full">
-            <div className="shadow-[0px_4px_30px_0px_rgba(0,_0,_0,_0.08)] bg-white flex flex-row justify-between h-32 shrink-0 items-center pt-6 pl-16 pr-10">
-                <div className="logo">
-                    <img src={logoUrl} className="min-w-0 w-10" />
-                    <span >{name}</span>
+        <div className="flex flex-col w-full">
+            <div className="flex flex-row justify-between h-32 items-center pt-6 pl-16 pr-10">
+                <div className="flex gap-8">
+                    <div className="logo">
+                        <img src={logoUrl} className="mx-auto w-10" />
+                    </div>
+                    <div className="name text-[20px]">
+                        <span>{name}</span>
+                    </div>
                 </div>
-                <div className="search flex items-center border-b border-blue-500 py-2">
-                    <input type="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" placeholder={searchPlaceholder} />
-                    <SearchIcon className="cursor-pointer" color="primary" onClick={onSearchClick} />
-                </div>
-                <div className="info-hotline">
-                    <span>Hotline: {hotlineNumber}</span>
-                </div>
-                <GiveButton onClick={onGiveClick} />
-                <ReceiveButton onClick={onReceiveClick} />
-                <button onClick={onLoginClick}>Login</button>
-                <div className="language">
-                    <select>
-                        <option value="en">Vietnamese</option>
-                        <option value="fr">English</option>
-                        {/* Add more language options as needed */}
-                    </select>
+
+                <div className="flex gap-8">
+                    <li
+                        className="icon hover:text-[#a5a6a6] text-[18px]"
+                        onClick={onAboutClick}
+                    >
+                        About us
+                    </li>
+                    <li
+                        className="icon hover:text-[#a5a6a6] text-[18px]"
+                        onClick={onGiveClick}
+                    >
+                        Give
+                    </li>
+                    <li
+                        className="icon hover:text-[#a5a6a6] text-[18px]"
+                        onClick={onReceiveClick}
+                    >
+                        Recieve
+                    </li>
+                    <ul>
+                        {!isAuthenticated && (
+                            <li
+                                className="icon hover:text-[#a5a6a6] text-[18px]"
+                                onClick={onLoginClick}
+                            >
+                                Login
+                            </li>
+                        )}
+                    </ul>
+                    <div className="language text-[18px]">
+                        <select>
+                            <option value="en">Vietnamese</option>
+                            <option value="fr">English</option>
+                            {/* Add more language options as needed */}
+                        </select>
+                    </div>
+                    <li>
+                        <AiOutlineUser
+                            className="text-[25px] icon hover:text-[#a5a6a6]"
+                            onClick={onProfileClick}
+                        />
+                    </li>
                 </div>
             </div>
-        </nav >
+        </div>
     );
 };
 

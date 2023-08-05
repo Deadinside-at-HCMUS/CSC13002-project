@@ -5,7 +5,7 @@ import AuthContextProvider from "./contexts/authContext";
 const App: React.FC = () => {
   return (
     <AuthContextProvider>
-      <div className="App">
+      <div className="App w-[85%] m-auto bg-white">
         <AppRouter />
       </div>
     </AuthContextProvider>
