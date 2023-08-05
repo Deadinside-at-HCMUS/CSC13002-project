@@ -1,4 +1,32 @@
-export const authReducer = (state, action) => {
+import { RoleEnum } from "../contexts/authContext";
+
+type AuthState = {
+  authLoading: boolean;
+  isAuthenticated: boolean;
+  user: User | null;
+};
+
+export type User = {
+  username: string;
+  email: string;
+  password: string;
+  gender: string;
+  phonenumber: string;
+  role: RoleEnum;
+};
+
+type AuthAction = {
+  type: "SET_AUTH";
+  payload: {
+    isAuthenticated: boolean;
+    user: User | null;
+  };
+};
+
+export const authReducer = (
+  state: AuthState,
+  action: AuthAction
+): AuthState => {
   const {
     type,
     payload: { isAuthenticated, user },

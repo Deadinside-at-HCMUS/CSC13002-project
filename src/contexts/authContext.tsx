@@ -1,5 +1,5 @@
 import { createContext, useReducer, ReactNode, useEffect } from "react";
-import { authReducer } from "../reducers/authReducer";
+import { authReducer, User } from "../reducers/authReducer";
 import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from "./constants";
 import axios, { AxiosError } from "axios";
 import setAuthToken from "../utils/setAuthToken";
@@ -25,9 +25,9 @@ export interface UserRegisterForm {
 }
 
 interface AuthStateType {
-  authLoading: true;
-  isAuthenticated: false;
-  user: null;
+  authLoading: boolean;
+  isAuthenticated: boolean;
+  user: User | null;
 }
 
 interface LoginResponse {
@@ -82,21 +82,31 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         });
       }
     } catch (error) {
-      localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
-      setAuthToken(null);
-      dispatch({
-        type: "SET_AUTH",
-        payload: { isAuthenticated: false, user: null },
-      });
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response?.status === 401) {
+          console.log("hehe2");
+          localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
+          setAuthToken(null);
+          dispatch({
+            type: "SET_AUTH",
+            payload: { isAuthenticated: false, user: null },
+          });
+        } else {
+          console.log(error.config);
+        }
+      } else {
+        console.log(error);
+      }
     }
   };
 
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     await loadUser();
-  //   };
-  //   fetchUserData();
-  // }, []);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      await loadUser();
+    };
+    fetchUserData();
+  }, []);
 
   // login
   const loginUser = async (userForm: UserLoginForm) => {
@@ -106,7 +116,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data.content);
       else console.log(response.data);
 
-      // await loadUser();
+      await loadUser();
 
       return response.data;
     } catch (error) {
@@ -136,7 +146,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
       if (response.data.success)
         localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data.content);
 
-      // await loadUser();
+      await loadUser();
 
       return response.data;
     } catch (error) {

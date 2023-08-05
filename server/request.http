@@ -43,3 +43,8 @@ Content-Type: application/json
     "gender": "non-binary",
     "role": "user"
 }
+
+###
+
+GET http://localhost:8080/api/auth
+

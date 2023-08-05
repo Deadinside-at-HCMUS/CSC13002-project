@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AuthContext } from "../contexts/authContext";
 import { UserLoginForm } from "../contexts/authContext";
+import { Spinner } from "react-bootstrap";
 
 const defaultValues: UserLoginForm = {
   email: "",
@@ -61,17 +62,12 @@ const LoginPage: React.FC = () => {
 
   const {
     register,
-    // handleSubmit,
     formState: { errors },
   } = useForm<UserLoginForm>({
     defaultValues,
     resolver: yupResolver<UserLoginForm>(validationSchema),
     mode: "onTouched",
   });
-
-  // const onSubmit = handleSubmit(({ email, password, remember }) => {
-  //   console.log(email, password, remember);
-  // });
 
   const handleRegisterClick = () => {
     navigate("/signup");
@@ -85,18 +81,22 @@ const LoginPage: React.FC = () => {
   //   // do something here to modify password
   // };
 
-  return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center">
-      <div className="max-w-md w-full mx-auto">
-        <img
-          className="mx-auto cursor-pointer"
-          onClick={handleHomeClick}
-          src="https://file.rendit.io/n/BMguV6XTfgasPlBI7Wr2.svg"
-        />
-        <div className="text-3xl font-bold text-gray-900 mt-2 text-center">
-          Login Page
-        </div>
+  const {
+    authState: { authLoading, isAuthenticated },
+  } = useContext(AuthContext);
+
+  let body: JSX.Element | null = null;
+
+  if (authLoading) {
+    body = (
+      <div className="d-flex justify-content-center mt-2">
+        <Spinner animation="border" variant="info" />
       </div>
+    );
+  } else if (isAuthenticated) {
+    navigate("/home");
+  } else {
+    body = (
       <div className="max-w-md w-full mx-auto mt-4 bg-white p-8 border border-gray-300">
         <form action="" className="space-y-6" onSubmit={login}>
           <div>
@@ -160,6 +160,22 @@ const LoginPage: React.FC = () => {
           </div>
         </form>
       </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 flex flex-col justify-center">
+      <div className="max-w-md w-full mx-auto">
+        <img
+          className="mx-auto cursor-pointer"
+          onClick={handleHomeClick}
+          src="https://file.rendit.io/n/BMguV6XTfgasPlBI7Wr2.svg"
+        />
+        <div className="text-3xl font-bold text-gray-900 mt-2 text-center">
+          Login Page
+        </div>
+      </div>
+      {body}
     </div>
   );
 };
