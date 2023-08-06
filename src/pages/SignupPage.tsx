@@ -17,7 +17,7 @@ const defaultValues: UserRegisterForm = {
 };
 
 const phoneRegExp = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
-const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/;
+const passwordRegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]$/;
 
 const validationSchema = yup.object({
     username: yup.string().required("Username is required!"),
@@ -28,9 +28,11 @@ const validationSchema = yup.object({
     password: yup
         .string()
         .required("Password is required!")
+        .min(8, "Password has minimun 8 characters!")
+        .max(26, "Password has maximum 26 characters!")
         .matches(
             passwordRegExp,
-            "Password has minimum 8 characters, at least 1 letter and 1 number!"
+            "Password has at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character!"
         ),
     passwordconfirm: yup
         .string()
