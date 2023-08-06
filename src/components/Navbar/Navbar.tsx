@@ -25,8 +25,6 @@ const Navbar: React.FC<NavbarProps> = ({
         authState: { isAuthenticated },
     } = useContext(AuthContext);
 
-    // isAuthenticated ? console.log("true") : console.log("false");
-
     return (
         <div className="flex flex-col w-full">
             <div className="flex flex-row justify-between h-32 items-center pt-6 pl-16 pr-10">
