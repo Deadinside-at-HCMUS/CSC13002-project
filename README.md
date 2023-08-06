@@ -1,8 +1,8 @@
 # CSC13002-project
 
-# My Server App
+# Connect Me
 
-Welcome to My Server App! This is a simple server application built with Node.js and npm. It provides some functionality and requires a successful connection to start.
+Welcome to Connect Me! This is a simple server application built with MERN stack. It provides some functionality and requires a successful connection to start.
 
 ## Prerequisites
 
@@ -14,22 +14,26 @@ Before getting started, make sure you have the following installed on your machi
 
 To run the server locally, follow these steps:
 
-1. Clone the repository:
-
+1. Clone and open the repository:
     ```bash
-    git clone https://github.com/yourusername/your-repo.git
-    cd your-repo
+    git clone https://github.com/DevJamHCMUS/CSC13002-project.git
+    cd CSC13002-project
     ```
-
-2. Navigate to server folder and install required packages.
-
+2. Install required packages for frontend.
+    ```bash
+    pnpm i
+    ```
+3. Navigate to server folder and install required packages for backend server.
     ```bash
     cd ./server
-    npm install
+    pnpm i
     ```
-
-3. Run the server
-
+4. Run the server
     ```bash
-    npm run server
+    pnpm run server
     ```
+5. Open another terminal tab in root folder and run web page.
+    ```bash
+    pnpm run dev
+    ```
+6. Ctrl + click to ip server to open localhost
