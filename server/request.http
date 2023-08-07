@@ -12,11 +12,35 @@ Content-Type: application/json
 
 ###
 
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+    "username": "tinongdan",
+    "password": "Devjam@gohard123",
+    "email": "nmdat21@clc.fitus.edu.vn",
+    "phonenumber": "0374043354",
+    "gender": "non-binary",
+    "role": "user"
+}
+
+###
+
 POST http://localhost:8080/api/auth/login
 Content-Type: application/json
 
 {
     "email": "hdthien21@clc.fitus.edu.vn",
+    "password": "Devjam@gohard123"
+}
+
+###
+
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "nmdat21@clc.fitus.edu.vn",
     "password": "Devjam@gohard123"
 }
 
@@ -47,4 +71,57 @@ Content-Type: application/json
 ###
 
 GET http://localhost:8080/api/auth
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNlN2YwOWEwNjRjODk5NjhmYTQ5MjUiLCJpYXQiOjE2OTEzMzY1OTcsImV4cCI6MTY5MTk0MTM5N30.j3LwT8gsRsQqQ635rjemTlKjIeZcinmSRlWBI5_YAjk
 
+###
+
+POST http://localhost:8080/api/post/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNlN2YwOWEwNjRjODk5NjhmYTQ5MjUiLCJpYXQiOjE2OTEzMzY1OTcsImV4cCI6MTY5MTk0MTM5N30.j3LwT8gsRsQqQ635rjemTlKjIeZcinmSRlWBI5_YAjk
+
+{
+    "type": "Donating",
+    "title": "Donate Book",
+    "body": "There are 10 literature books for children",
+    "author": "",
+    "item": "Literature Books",
+    "quantity": 10,
+    "category": "Book",
+    "status": "Verified",
+    "location": "Tp HCM",
+    "match": []
+}
+
+###
+
+POST http://localhost:8080/api/post/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNmY2Y5MzgwNDBmY2ZlZGFkODJkM2EiLCJpYXQiOjE2OTEzNDA3MDIsImV4cCI6MTY5MTk0NTUwMn0.LXM-Ui67NuAYM4z5novjrHz0TyS4ajH_cmkUfzk7N_k
+
+{
+    "type": "Receiving",
+    "title": "Receive Book",
+    "body": "We are in need of 8 literature books for children",
+    "author": "",
+    "item": "Children Books",
+    "quantity": 8,
+    "category": "Book",
+    "location": "Tp HCM",
+    "match": ["64d0ab69e7da501e3714539b"]
+}
+
+###
+
+GET http://localhost:8080/api/post/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNmY2Y5MzgwNDBmY2ZlZGFkODJkM2EiLCJpYXQiOjE2OTEzNDA3MDIsImV4cCI6MTY5MTk0NTUwMn0.LXM-Ui67NuAYM4z5novjrHz0TyS4ajH_cmkUfzk7N_k
+
+###
+
+PUT http://localhost:8080/api/post/64d0abf9e7da501e3714539e
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNmY2Y5MzgwNDBmY2ZlZGFkODJkM2EiLCJpYXQiOjE2OTEzNDA3MDIsImV4cCI6MTY5MTk0NTUwMn0.LXM-Ui67NuAYM4z5novjrHz0TyS4ajH_cmkUfzk7N_k
+
+{
+    "body": "We are in need of 13 children books",
+    "quantity": 13
+}
