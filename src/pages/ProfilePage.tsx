@@ -1,16 +1,19 @@
 import React from "react";
-
-import SideBar from "../components/SideBar/SideBar";
+import Sidebar from "../components/Sidebar/Sidebar";
+import Header from "../components/Header/Header"
 
 const ProfilePage: React.FC = () => {
     return (
-        <div className="flex flex-row h-screen w-screen overflow-hidden">
-            <SideBar />
-            <div className="p-4">
-                <div className="bg-teal-200">Header</div>
+        <div className="h-screen w-screen overflow-hidden flex flex-row">
+            <Sidebar />
+            <div className="flex flex-col flex-1">
+                <Header />
+                {/* <div className="flex-1 p-4 min-h-0 overflow-auto">
+                    <Outlet />
+                </div> */}
             </div>
         </div>
-    );
+    )
 };
 
 export default ProfilePage;

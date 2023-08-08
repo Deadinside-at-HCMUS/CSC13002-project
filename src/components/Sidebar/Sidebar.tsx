@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../contexts/authContext';
-import { SIDEBAR_UPPER_LINKS, SIDEBAR_BOTTOM_LINKS } from './SideBarLinks';
+import { SIDEBAR_UPPER_LINKS, SIDEBAR_BOTTOM_LINKS } from './SidebarLinks';
 import { BiLogOutCircle } from 'react-icons/bi';
 
 interface SidebarLinkProps {
@@ -28,7 +28,7 @@ function SidebarLink({ item }: SidebarLinkProps) {
     );
 }
 
-const SideBar: React.FC = () => {
+const Sidebar: React.FC = () => {
     const navigate = useNavigate();
 
     const {
@@ -79,4 +79,4 @@ const SideBar: React.FC = () => {
     );
 };
 
-export default SideBar;
+export default Sidebar;
