@@ -56,7 +56,7 @@ const Navbar: React.FC<NavbarProps> = ({
                         className="icon hover:text-[#a5a6a6] text-[18px]"
                         onClick={onReceiveClick}
                     >
-                        Recieve
+                        Receive
                     </li>
                     <div className="language text-[18px]">
                         <select>

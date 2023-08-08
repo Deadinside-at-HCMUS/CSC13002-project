@@ -5,6 +5,8 @@ import Search from "../components/Search/Search";
 import PostList from "../components/PostList/PostList";
 import Footer from "../components/Footer/Footer";
 import Value from "../components/Value/Value";
+import { AuthContext } from "../contexts/authContext";
+
 
 const HomePage: React.FC = () => {
     const navigate = useNavigate();
@@ -14,16 +16,14 @@ const HomePage: React.FC = () => {
     };
 
     const handleGiveClick = () => {
-        console.log("Give clicked");
+        navigate("/give")
     };
 
     const handleReceiveClick = () => {
-        // Handle the click event for Receive button
-        console.log("Receive clicked");
+        navigate("/receive");
     };
 
     const handleLoginClick = () => {
-        // Handle the click event for Login button
         navigate("/login");
     };
 
