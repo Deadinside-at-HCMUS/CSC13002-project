@@ -5,8 +5,7 @@ import Search from "../components/Search/Search";
 import PostList from "../components/PostList/PostList";
 import Footer from "../components/Footer/Footer";
 import Value from "../components/Value/Value";
-import { AuthContext } from "../contexts/authContext";
-
+import ChatBot from "../components/ChatBox/ChatBox";
 
 const HomePage: React.FC = () => {
     const navigate = useNavigate();
@@ -44,6 +43,7 @@ const HomePage: React.FC = () => {
             />
             <Search />
             <PostList />
+            <ChatBot />
             <Value />
             <Footer />
         </div>
