@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 dependencies:
   '@emotion/react':
     specifier: ^11.11.1
@@ -14,6 +10,9 @@ dependencies:
   '@hookform/resolvers':
     specifier: ^3.1.1
     version: 3.1.1(react-hook-form@7.45.2)
+  '@syncfusion/ej2-react-popups':
+    specifier: ^22.2.7
+    version: 22.2.7
   axios:
     specifier: ^1.4.0
     version: 1.4.0
@@ -866,6 +865,44 @@ packages:
     resolution: {integrity: sha512-sJ902EfIzn1Fa+qYmjdQqh8tPsoxyBz+8yBKC2HKUxyezKJFwPGOn7pv4WY6QuQW//ySQi5lJjA/ZT9sNWWNTg==}
     dependencies:
       tslib: 2.6.1
+    dev: false
+
+  /@syncfusion/ej2-base@22.2.5:
+    resolution: {integrity: sha512-XWNwXu1SUl1KsRtYG6cnlMWLpKMHPSpK/NykrJExxMVNDf1o025j/TF4EzhZIscDjBZR9ApR9nwlZJIBjMCS6A==}
+    hasBin: true
+    dependencies:
+      '@syncfusion/ej2-icons': 22.2.5
+    dev: false
+
+  /@syncfusion/ej2-buttons@22.2.5:
+    resolution: {integrity: sha512-RKbXKJghOCatTznDTZDq2ZHpWLi23sfh9oKGGiRCyHySH0lO06LmZzbd/wjRFuN8BL72rBUVd68dCqui1WHeZg==}
+    dependencies:
+      '@syncfusion/ej2-base': 22.2.5
+    dev: false
+
+  /@syncfusion/ej2-icons@22.2.5:
+    resolution: {integrity: sha512-gNfUKBZ3kQNCX9fPDYai0xDVXbMPpmTSA9/tcuAv2rJhilCtkL7WSof5dPV/z9IOX8tjWYW/KCOdaTpxMPDQlg==}
+    dev: false
+
+  /@syncfusion/ej2-popups@22.2.7:
+    resolution: {integrity: sha512-M4m+Hla9Fg8j2pV0sgMtWJkqERdL517ETGzn7zY9frYf+kLGUxNsv5/tP6VdqD0+hoSTUWDSjlbCe2vmyjyHdQ==}
+    dependencies:
+      '@syncfusion/ej2-base': 22.2.5
+      '@syncfusion/ej2-buttons': 22.2.5
+    dev: false
+
+  /@syncfusion/ej2-react-base@22.2.5:
+    resolution: {integrity: sha512-EoYaVKOpgcFB5NXySLcZDxvwS6ER8Y2QrWVcHLVgCGfnTqbzfbpiXjkWLIKGI4V9C8OsOENrhn/ta1NboevbVA==}
+    dependencies:
+      '@syncfusion/ej2-base': 22.2.5
+    dev: false
+
+  /@syncfusion/ej2-react-popups@22.2.7:
+    resolution: {integrity: sha512-QTqxcVbMVAc8GYUiQJTSgXh8yfwHXwZ25s8Tx+R4wFjDJ3rPg70b79NbAvCL+yhb3GiQVuIgyOzOaYlCw/MHpw==}
+    dependencies:
+      '@syncfusion/ej2-base': 22.2.5
+      '@syncfusion/ej2-popups': 22.2.7
+      '@syncfusion/ej2-react-base': 22.2.5
     dev: false
 
   /@types/json-schema@7.0.12:
@@ -3350,3 +3387,7 @@ packages:
       toposort: 2.0.2
       type-fest: 2.19.0
     dev: false
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false

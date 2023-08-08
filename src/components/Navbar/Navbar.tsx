@@ -30,11 +30,11 @@ const Navbar: React.FC<NavbarProps> = ({
     return (
         <div className="flex flex-col w-full">
             <div className="flex flex-row justify-between h-32 items-center pt-6 pl-16 pr-10">
-                <div className="flex gap-8">
+                <div className="flex gap-4 items-center">
                     <div className="logo">
                         <img src={logoUrl} className="mx-auto w-10" />
                     </div>
-                    <div className="name text-[20px]">
+                    <div className="name text-xl font-extrabold tracking-tight dark:text-white text-slate-900">
                         <span>{name}</span>
                     </div>
                 </div>

@@ -31,7 +31,7 @@ const HomePage: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="w-[85%] m-auto bg-white">
             <Navbar
                 logoUrl="https://file.rendit.io/n/BMguV6XTfgasPlBI7Wr2.svg"
                 name="Connect Me"
@@ -46,7 +46,7 @@ const HomePage: React.FC = () => {
             <ChatBot />
             <Value />
             <Footer />
-        </div>
+        </div >
     );
 };
 
