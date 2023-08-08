@@ -1,5 +1,7 @@
 import React from "react";
 import StatsGrid from "../Chart/StatsGrid";
+import TransactionChart from "../Chart/TransactionChart";
+import UserPieChart from "../Chart/UserPieChart";
 
 const Dashboard: React.FC = () => {
     return (
@@ -10,6 +12,10 @@ const Dashboard: React.FC = () => {
                 totalUsers={72}
                 totalConnections={50}
             />
+            <div className="flex flex-row gap-4 w-full">
+                <TransactionChart />
+                <UserPieChart />
+            </div>
         </div>
     )
 };
