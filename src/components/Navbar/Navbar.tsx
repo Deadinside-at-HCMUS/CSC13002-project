@@ -58,29 +58,30 @@ const Navbar: React.FC<NavbarProps> = ({
                     >
                         Recieve
                     </li>
-                    <ul>
-                        {!isAuthenticated && (
-                            <li
-                                className="icon hover:text-[#a5a6a6] text-[18px]"
-                                onClick={onLoginClick}
-                            >
-                                Login
-                            </li>
-                        )}
-                    </ul>
                     <div className="language text-[18px]">
                         <select>
-                            <option value="en">Vietnamese</option>
-                            <option value="fr">English</option>
+                            <option value="vi">Vietnamese</option>
+                            <option value="en">English</option>
                             {/* Add more language options as needed */}
                         </select>
                     </div>
-                    <li>
-                        <AiOutlineUser
-                            className="text-[25px] icon hover:text-[#a5a6a6]"
-                            onClick={onProfileClick}
-                        />
-                    </li>
+                    {!isAuthenticated && (
+                        <li
+                            className="icon hover:text-[#a5a6a6] text-[18px]"
+                            onClick={onLoginClick}
+                        >
+                            Login
+                        </li>
+                    )}
+                    {isAuthenticated && (
+                        <li>
+                            <AiOutlineUser
+                                className="text-[25px] icon hover:text-[#a5a6a6]"
+                                onClick={onProfileClick}
+                            />
+                        </li>
+                    )
+                    }
                 </div>
             </div>
         </div>
