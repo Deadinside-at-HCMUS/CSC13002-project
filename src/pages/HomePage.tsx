@@ -2,10 +2,10 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
 import Search from "../components/Search/Search";
-import PostList from "../components/PostList/PostList";
+import Postlist from "../components/Postlist/PostList";
 import Footer from "../components/Footer/Footer";
 import Value from "../components/Value/Value";
-import ChatBot from "../components/ChatBox/ChatBox";
+import ChatBot from "../components/Chatbox/ChatBox";
 
 const HomePage: React.FC = () => {
     const navigate = useNavigate();
@@ -42,7 +42,7 @@ const HomePage: React.FC = () => {
                 onProfileClick={handelProfileClick}
             />
             <Search />
-            <PostList />
+            <Postlist />
             <ChatBot />
             <Value />
             <Footer />
