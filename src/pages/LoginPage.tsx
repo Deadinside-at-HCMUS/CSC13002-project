@@ -32,7 +32,7 @@ const LoginPage: React.FC = () => {
 
     const navigate = useNavigate();
 
-    const login = async (event: FormEvent<HTMLFormElement>) => {
+    const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         try {
@@ -98,7 +98,7 @@ const LoginPage: React.FC = () => {
     } else {
         body = (
             <div className="max-w-md w-full mx-auto mt-4 bg-[#f7f8f9] p-8 border border-white rounded-[1rem]">
-                <form action="" className="space-y-6" onSubmit={login}>
+                <form action="" className="space-y-6" onSubmit={handleLogin}>
                     <div>
                         <label
                             htmlFor=""

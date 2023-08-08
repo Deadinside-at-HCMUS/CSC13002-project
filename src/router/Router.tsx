@@ -7,7 +7,8 @@ import SignupPage from '../pages/SignupPage';
 import ProfilePage from '../pages/ProfilePage';
 import DonatePage from '../pages/DonatePage';
 import AboutPage from '../pages/AboutPage';
-
+import GivePage from '../pages/GivePage';
+import ReceivePage from '../pages/ReceivePage';
 
 const AppRouter: React.FC = () => {
     return (
@@ -20,8 +21,10 @@ const AppRouter: React.FC = () => {
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/donate" element={<DonatePage />}></Route>
                 <Route path="/about" element={<AboutPage />}></Route>
+                <Route path="/give" element={<GivePage />}></Route>
+                <Route path="/receive" element={<ReceivePage />}></Route>
             </Routes>
-        </Router>
+        </Router >
     );
 };
 

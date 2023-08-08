@@ -5,6 +5,7 @@ import Search from "../components/Search/Search";
 import PostList from "../components/PostList/PostList";
 import Footer from "../components/Footer/Footer";
 import Value from "../components/Value/Value";
+import ChatBot from "../components/ChatBox/ChatBox";
 
 const HomePage: React.FC = () => {
     const navigate = useNavigate();
@@ -14,16 +15,14 @@ const HomePage: React.FC = () => {
     };
 
     const handleGiveClick = () => {
-        console.log("Give clicked");
+        navigate("/give")
     };
 
     const handleReceiveClick = () => {
-        // Handle the click event for Receive button
-        console.log("Receive clicked");
+        navigate("/receive");
     };
 
     const handleLoginClick = () => {
-        // Handle the click event for Login button
         navigate("/login");
     };
 
@@ -32,7 +31,7 @@ const HomePage: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="w-[85%] m-auto bg-white">
             <Navbar
                 logoUrl="https://file.rendit.io/n/BMguV6XTfgasPlBI7Wr2.svg"
                 name="Connect Me"
@@ -44,9 +43,10 @@ const HomePage: React.FC = () => {
             />
             <Search />
             <PostList />
+            <ChatBot />
             <Value />
             <Footer />
-        </div>
+        </div >
     );
 };
 
