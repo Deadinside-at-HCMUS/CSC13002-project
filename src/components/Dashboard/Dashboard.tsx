@@ -2,6 +2,7 @@ import React from "react";
 import StatsGrid from "../Chart/StatsGrid";
 import TransactionChart from "../Chart/TransactionChart";
 import UserPieChart from "../Chart/UserPieChart";
+import PostTable from "../Chart/PostTable"
 
 const Dashboard: React.FC = () => {
     return (
@@ -16,6 +17,7 @@ const Dashboard: React.FC = () => {
                 <TransactionChart />
                 <UserPieChart />
             </div>
+            <PostTable />
         </div>
     )
 };
