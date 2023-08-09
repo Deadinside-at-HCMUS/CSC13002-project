@@ -6,7 +6,7 @@ interface NavbarProps {
     logoUrl: string;
     name: string;
     onAboutClick: () => void;
-    onGiveClick: () => void;
+    onDonateClick: () => void;
     onReceiveClick: () => void;
     onLoginClick: () => void;
     onProfileClick: () => void;
@@ -16,7 +16,7 @@ const Navbar: React.FC<NavbarProps> = ({
     logoUrl,
     name,
     onAboutClick,
-    onGiveClick,
+    onDonateClick,
     onReceiveClick,
     onLoginClick,
     onProfileClick,
@@ -46,9 +46,9 @@ const Navbar: React.FC<NavbarProps> = ({
                     </li>
                     <li
                         className="icon hover:text-[#a5a6a6] text-[18px]"
-                        onClick={onGiveClick}
+                        onClick={onDonateClick}
                     >
-                        Give
+                        Donate
                     </li>
                     <li
                         className="icon hover:text-[#a5a6a6] text-[18px]"
@@ -78,8 +78,7 @@ const Navbar: React.FC<NavbarProps> = ({
                                 onClick={onProfileClick}
                             />
                         </li>
-                    )
-                    }
+                    )}
                 </div>
             </div>
         </div>

@@ -1,18 +1,17 @@
 // src/router/Router.tsx
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from '../pages/HomePage';
-import LoginPage from '../pages/LoginPage';
-import SignupPage from '../pages/SignupPage';
-import ProfilePage from '../pages/ProfilePage';
-import DonatePage from '../pages/DonatePage';
-import AboutPage from '../pages/AboutPage';
-import GivePage from '../pages/GivePage';
-import ReceivePage from '../pages/ReceivePage';
-import Information from '../components/Information/Information'
-import Dashboard from '../components/Dashboard/Dashboard'
-import Message from '../components/Message/Message';
-import Notification from '../components/Notification/Notification';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import HomePage from "../pages/HomePage";
+import LoginPage from "../pages/LoginPage";
+import SignupPage from "../pages/SignupPage";
+import ProfilePage from "../pages/ProfilePage";
+import AboutPage from "../pages/AboutPage";
+import DonatePage from "../pages/DonatePage";
+import ReceivePage from "../pages/ReceivePage";
+import Information from "../components/Information/Information";
+import Dashboard from "../components/Dashboard/Dashboard";
+import Message from "../components/Message/Message";
+import Notification from "../components/Notification/Notification";
 
 const AppRouter: React.FC = () => {
     return (
@@ -28,12 +27,11 @@ const AppRouter: React.FC = () => {
                     <Route path="message" element={<Message />} />
                     <Route path="notification" element={<Notification />} />
                 </Route>
-                <Route path="/donate" element={<DonatePage />}></Route>
                 <Route path="/about" element={<AboutPage />}></Route>
-                <Route path="/give" element={<GivePage />}></Route>
+                <Route path="/donate" element={<DonatePage />}></Route>
                 <Route path="/receive" element={<ReceivePage />}></Route>
             </Routes>
-        </Router >
+        </Router>
     );
 };
 
