@@ -1,6 +1,6 @@
 import React from "react";
 
-const Information: React.FC = () => {
+const InformationPage: React.FC = () => {
     return (
         <div className="">
             Information
@@ -8,4 +8,4 @@ const Information: React.FC = () => {
     )
 };
 
-export default Information;
+export default InformationPage;

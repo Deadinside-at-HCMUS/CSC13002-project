@@ -1,10 +1,10 @@
 import React from "react";
-import StatsGrid from "../Chart/StatsGrid";
-import TransactionChart from "../Chart/TransactionChart";
-import UserPieChart from "../Chart/UserPieChart";
-import PostTable from "../Chart/PostTable"
+import StatsGrid from "../components/Chart/StatsGrid";
+import TransactionChart from "../components/Chart/TransactionChart";
+import UserPieChart from "../components/Chart/UserPieChart";
+import PostTable from "../components/Chart/PostTable"
 
-const Dashboard: React.FC = () => {
+const DashboardPage: React.FC = () => {
     return (
         <div className="flex flex-col gap-4">
             <StatsGrid
@@ -22,4 +22,4 @@ const Dashboard: React.FC = () => {
     )
 };
 
-export default Dashboard;
+export default DashboardPage;

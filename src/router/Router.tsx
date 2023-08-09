@@ -9,10 +9,10 @@ import DonatePage from '../pages/DonatePage';
 import AboutPage from '../pages/AboutPage';
 import GivePage from '../pages/GivePage';
 import ReceivePage from '../pages/ReceivePage';
-import Information from '../components/Information/Information'
-import Dashboard from '../components/Dashboard/Dashboard'
-import Message from '../components/Message/Message';
-import Notification from '../components/Notification/Notification';
+import InformationPage from '../pages/InformationPage'
+import DashboardPage from '../pages/DashboardPage'
+import MessagePage from '../pages/MessagePage';
+import NotificationPage from '../pages/Notification';
 
 const AppRouter: React.FC = () => {
     return (
@@ -23,10 +23,10 @@ const AppRouter: React.FC = () => {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<SignupPage />} />
                 <Route path="/profile" element={<ProfilePage />}>
-                    <Route index element={<Information />} />
-                    <Route path="dashboard" element={<Dashboard />} />
-                    <Route path="message" element={<Message />} />
-                    <Route path="notification" element={<Notification />} />
+                    <Route index element={<InformationPage />} />
+                    <Route path="dashboard" element={<DashboardPage />} />
+                    <Route path="message" element={<MessagePage />} />
+                    <Route path="notification" element={<NotificationPage />} />
                 </Route>
                 <Route path="/donate" element={<DonatePage />}></Route>
                 <Route path="/about" element={<AboutPage />}></Route>

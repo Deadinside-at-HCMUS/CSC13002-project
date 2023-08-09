@@ -1,6 +1,6 @@
 import React from "react";
 
-const Notification: React.FC = () => {
+const NotificationPage: React.FC = () => {
     return (
         <div className="">
             Notification
@@ -8,4 +8,4 @@ const Notification: React.FC = () => {
     )
 };
 
-export default Notification;
+export default NotificationPage;
