@@ -292,7 +292,7 @@ const DonatePage: React.FC = () => {
 
                                     <div className="mt-3 mb-3 float-right flex gap-2 items-center cursor-pointer text-blue-500 hover:text-blue-600 " onClick={handleAddItem}>
                                         Add Item
-                                        <SiAddthis fontSize="30" />
+                                        <SiAddthis fontSize="25" />
                                     </div>
 
                                     <div className="mt-12">

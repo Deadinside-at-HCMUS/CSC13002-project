@@ -11,7 +11,7 @@ import ReceivePage from "../pages/ReceivePage";
 import InformationPage from "../pages/InformationPage";
 import DashboardPage from "../pages/DashboardPage";
 import MessagePage from "../pages/MessagePage";
-import NotificationPage from "../pages/Notification";
+import NotificationPage from "../pages/NotificationPage";
 
 const AppRouter: React.FC = () => {
     return (

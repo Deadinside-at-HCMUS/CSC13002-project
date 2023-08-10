@@ -1,8 +1,19 @@
-import { AiOutlineSearch, AiOutlineCloseCircle } from 'react-icons/ai'
-import { BsHouseDoor } from 'react-icons/bs'
-import { CiLocationOn } from 'react-icons/ci'
+import React, { useState } from 'react';
+import { AiOutlineSearch, AiOutlineCloseCircle } from 'react-icons/ai';
+import { BsHouseDoor } from 'react-icons/bs';
+import { CiLocationOn } from 'react-icons/ci';
 
-const Search = () => {
+const Search: React.FC = () => {
+    const [selectedType, setSelectedType] = useState<string>("");
+    const [selectedSortBy, setSelectedSortBy] = useState<string>("");
+    const [selectedLocation, setSelectedLocation] = useState<string>("");
+
+    const handleClearAll = () => {
+        setSelectedType("");
+        setSelectedSortBy("");
+        setSelectedLocation("");
+    };
+
     return (
         <div className="grid gap-10 bg-[#f1f4f8] rounded-[10px] p-[3rem]">
             <form action="">
@@ -31,8 +42,13 @@ const Search = () => {
                     <label htmlFor="type" className="text-[#808080] font-semibold">
                         Type:
                     </label>
-
-                    <select name="" id="type" className="bg-white rounded-[3px] px-4 py-1">
+                    <select
+                        name="type"
+                        id="type"
+                        value={selectedType}
+                        onChange={(e) => setSelectedType(e.target.value)}
+                        className="bg-white rounded-[3px] px-4 py-1"
+                    >
                         <option value=""></option>
                         <option value="donation">Donation</option>
                         <option value="receive">Receive</option>
@@ -43,8 +59,13 @@ const Search = () => {
                     <label htmlFor="relevance" className="text-[#808080] font-semibold">
                         Sort by:
                     </label>
-
-                    <select name="" id="relevance" className="bg-white rounded-[3px] px-4 py-1">
+                    <select
+                        name=""
+                        id="relevance"
+                        value={selectedSortBy}
+                        onChange={(e) => setSelectedSortBy(e.target.value)}
+                        className="bg-white rounded-[3px] px-4 py-1"
+                    >
                         <option value=""></option>
                         <option value="time">Newest</option>
                         <option value="priority">Priority</option>
@@ -56,8 +77,13 @@ const Search = () => {
                     <label htmlFor="location" className="text-[#808080] font-semibold">
                         Location:
                     </label>
-
-                    <select name="" id="location" className="bg-white rounded-[3px] px-4 py-1">
+                    <select
+                        name=""
+                        id="location"
+                        value={selectedLocation}
+                        onChange={(e) => setSelectedLocation(e.target.value)}
+                        className="bg-white rounded-[3px] px-4 py-1"
+                    >
                         <option value=""></option>
                         <option value="hcm">Ho Chi Minh</option>
                         <option value="hn">Ha Noi</option>
@@ -65,10 +91,12 @@ const Search = () => {
                     </select>
                 </div>
 
-                <span className="text-[#a1a1a1] cursor-pointer">Clear All</span>
+                <span className="text-[#a1a1a1] cursor-pointer" onClick={handleClearAll}>
+                    Clear All
+                </span>
             </div>
         </div>
-    )
+    );
 }
 
-export default Search
+export default Search;
