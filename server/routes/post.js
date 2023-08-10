@@ -18,6 +18,10 @@ router.post("/", verifyToken, async (req, res) => {
         });
 
     const user = await User.findById(req.userId);
+    if (!user)
+        return res
+            .status(400)
+            .json({ success: false, message: "User not found!" });
 
     if (req.body.type == "Receiving") {
         if (req.body.match && req.body.match.length > 0) {
@@ -78,6 +82,7 @@ router.put("/:id", [validateObjectId, verifyToken], async (req, res) => {
             status: req.body.status || post.status,
             location: req.body.location || post.location,
             match: req.body.match || post.match,
+            isArchived: req.body.isArchived || post.isArchived,
         };
 
         const { error } = validate(updatedPost);
@@ -111,6 +116,31 @@ router.put("/:id", [validateObjectId, verifyToken], async (req, res) => {
         return res
             .status(500)
             .json({ success: false, message: "An error occurred" });
+    }
+});
+
+// @route DELETE api/posts
+// @desc Delete post
+// @access Private
+router.delete("/:id", verifyToken, async (req, res) => {
+    try {
+        const postDeleteCondition = { _id: req.params.id, author: req.userId };
+        const deletedPost = await Post.findOneAndDelete(postDeleteCondition);
+
+        // User not authorised or post not found
+        if (!deletedPost)
+            return res.status(401).json({
+                success: false,
+                message: "Post not found or user not authorised",
+            });
+
+        res.json({ success: true, post: deletedPost });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+        });
     }
 });
 

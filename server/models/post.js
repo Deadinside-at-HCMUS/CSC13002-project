@@ -6,11 +6,9 @@ const itemSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            // required: true,
         },
         quantity: {
             type: Number,
-            // required: true,
         },
         category: {
             type: String,
@@ -22,8 +20,9 @@ const itemSchema = new mongoose.Schema(
                 "Vehicle",
                 "Household",
                 "Medical",
+                "Unknown",
             ],
-            // required: true,
+            default: "Unknown",
         },
     },
     { timestamps: true }
@@ -34,15 +33,12 @@ const postSchema = new mongoose.Schema(
         type: {
             type: String,
             enum: ["Donating", "Receiving"],
-            // required: true,
         },
         title: {
             type: String,
-            // required: true,
         },
         body: {
             type: String,
-            // required: true,
         },
         // photo: {
         //   type: String, // Assuming you store the path or URL of the image
@@ -50,41 +46,17 @@ const postSchema = new mongoose.Schema(
         author: {
             type: Schema.Types.ObjectId,
             ref: "user",
-            // required: true,
         },
         item: {
             type: [itemSchema],
-            // required: true,
         },
-        // item: {
-        //     type: String,
-        //     required: true,
-        // },
-        // quantity: {
-        //     type: Number,
-        //     required: true,
-        // },
-        // category: {
-        //     type: String,
-        //     enum: [
-        //         "Electronic",
-        //         "Clothing",
-        //         "Book",
-        //         "Food",
-        //         "Vehicle",
-        //         "Household",
-        //     ],
-        //     required: true,
-        // },
         status: {
             type: String,
-            enum: ["Published", "Verified", "Matching", "Matched"],
-            default: "Published",
-            // required: true,
+            enum: ["Posted", "Verified", "Waiting", "Done", "Doing"],
+            default: "Posted",
         },
         location: {
             type: String,
-            // required: true,
         },
         match: {
             type: [
@@ -94,6 +66,10 @@ const postSchema = new mongoose.Schema(
                 },
             ],
             default: [],
+        },
+        isArchived: {
+            type: Boolean,
+            default: false,
         },
     },
     { timestamps: true }
@@ -112,40 +88,28 @@ const validate = (post) => {
                 "Food",
                 "Vehicle",
                 "Household",
-                "Medical"
+                "Medical",
+                "Unknown"
             )
-            .required(),
+            .default("Unknown"),
     };
 
-    const singleItemSchema = joi.object().keys(itemSchema);
+    const singleItemSchema = joi.object().keys(itemSchema).unknown(true);
 
     const schema = joi.object({
         type: joi.string().valid("Donating", "Receiving").required(),
         title: joi.string().required(),
         body: joi.string().required(),
         author: joi.string().allow(""),
-        // item: joi.string().required(),
-        // quantity: joi.number().greater(0).required(),
-        // category: joi
-        //     .string()
-        //     .valid(
-        //         "Electronic",
-        //         "Clothing",
-        //         "Book",
-        //         "Food",
-        //         "Vehicle",
-        //         "Household"
-        //     )
-        //     .required(),
-        // item: joi.object().keys(itemSchema).unknown(true),
         item: joi.array().items(singleItemSchema),
         status: joi
             .string()
-            .valid("Published", "Verified", "Matching", "Matched")
-            .default("Published")
+            .valid("Posted", "Verified", "Waiting", "Done", "Doing")
+            .default("Posted")
             .allow(""),
         location: joi.string().required(),
         match: joi.array().default([]).optional(),
+        isArchived: joi.boolean().default(false),
     });
     return schema.validate(post);
 };

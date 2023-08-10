@@ -86,19 +86,18 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNlN
     "author": "",
     "item": [{
         "name": "Literature Books",
-        "quantity": 10,
-        "category": "Book"
+        "quantity": 10
     }],
     "status": "Verified",
     "location": "Tp HCM",
-    "match": ["64d3c88aebfb9e7c0e62675c"]
+    "match": []
 }
 
 ###
 
 POST http://localhost:8080/api/post/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNmY2Y5MzgwNDBmY2ZlZGFkODJkM2EiLCJpYXQiOjE2OTEzNDA3MDIsImV4cCI6MTY5MTk0NTUwMn0.LXM-Ui67NuAYM4z5novjrHz0TyS4ajH_cmkUfzk7N_k
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGQ0ZTEwNTk2ZGU0NjA3MTdhZTdmMmIiLCJpYXQiOjE2OTE2NzI4NDIsImV4cCI6MTY5MjI3NzY0Mn0.mSkf7qDNJyEohijuO-_ODPJ2oEqMjene3Galfcqb3ds
 
 {
     "type": "Receiving",
@@ -117,7 +116,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNmY
 
 POST http://localhost:8080/api/post/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNmY2Y5MzgwNDBmY2ZlZGFkODJkM2EiLCJpYXQiOjE2OTEzNDA3MDIsImV4cCI6MTY5MTk0NTUwMn0.LXM-Ui67NuAYM4z5novjrHz0TyS4ajH_cmkUfzk7N_k
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGQ0ZTEwNTk2ZGU0NjA3MTdhZTdmMmIiLCJpYXQiOjE2OTE2NzI4NDIsImV4cCI6MTY5MjI3NzY0Mn0.mSkf7qDNJyEohijuO-_ODPJ2oEqMjene3Galfcqb3ds
 
 {
     "type": "Receiving",
@@ -133,14 +132,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNmY
         "quantity": 15,
         "category": "Clothing"
     }],
-    "location": "Tp HCM"
+    "location": "Tp HCM",
+    "isArchived": true
 }
 
 ###
 
 POST http://localhost:8080/api/post/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNmY2Y5MzgwNDBmY2ZlZGFkODJkM2EiLCJpYXQiOjE2OTEzNDA3MDIsImV4cCI6MTY5MTk0NTUwMn0.LXM-Ui67NuAYM4z5novjrHz0TyS4ajH_cmkUfzk7N_k
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGQ0ZTEwNTk2ZGU0NjA3MTdhZTdmMmIiLCJpYXQiOjE2OTE2NzI4NDIsImV4cCI6MTY5MjI3NzY0Mn0.mSkf7qDNJyEohijuO-_ODPJ2oEqMjene3Galfcqb3ds
 
 {
     "type": "Receiving",
@@ -149,12 +149,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNmY
     "author": "",
     "item": [{
         "name": "Bike",
-        "quantity": 15,
-        "category": "Vehicle"
+        "quantity": 15
     }],
-    "status": "Published",
+    "status": "Waiting",
     "location": "Tp HCM",
-    "match": []
+    "match": [],
+    "isArchived": false
 }
 
 ###
@@ -165,20 +165,19 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNmY
 ###
 
 GET http://localhost:8080/api/post/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNlN2YwOWEwNjRjODk5NjhmYTQ5MjUiLCJpYXQiOjE2OTE1OTc4ODgsImV4cCI6MTY5MjIwMjY4OH0._lmRWeTvOFcvi_nISf8-99YdGVxaL82vPPdUlzF14hU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGQ0ZTEwNTk2ZGU0NjA3MTdhZTdmMmIiLCJpYXQiOjE2OTE2NzI4NDIsImV4cCI6MTY5MjI3NzY0Mn0.mSkf7qDNJyEohijuO-_ODPJ2oEqMjene3Galfcqb3ds
 
 ###
 
-PUT http://localhost:8080/api/post/64d3c88aebfb9e7c0e62675c
+PUT http://localhost:8080/api/post/64d4e12196de460717ae7f2f
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNmY2Y5MzgwNDBmY2ZlZGFkODJkM2EiLCJpYXQiOjE2OTEzNDA3MDIsImV4cCI6MTY5MTk0NTUwMn0.LXM-Ui67NuAYM4z5novjrHz0TyS4ajH_cmkUfzk7N_k
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGQ0ZTEwNTk2ZGU0NjA3MTdhZTdmMmIiLCJpYXQiOjE2OTE2NzI4NDIsImV4cCI6MTY5MjI3NzY0Mn0.mSkf7qDNJyEohijuO-_ODPJ2oEqMjene3Galfcqb3ds
 
 {
-    "title": "Receive Books",
-    "body": "We are in need of 10 literature books for high school students",
-    "item": [{
-        "name": "Literature books",
-        "quantity": 10,
-        "category": "Book"
-    }]
+    "title": "Receive Children Socks"
 }
+
+###
+
+DELETE http://localhost:8080/api/post/64d4e12196de460717ae7f2f
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGQ0ZTEwNTk2ZGU0NjA3MTdhZTdmMmIiLCJpYXQiOjE2OTE2NzI4NDIsImV4cCI6MTY5MjI3NzY0Mn0.mSkf7qDNJyEohijuO-_ODPJ2oEqMjene3Galfcqb3ds
