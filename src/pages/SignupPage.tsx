@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AuthContext } from "../contexts/authContext";
 import { UserRegisterForm, RoleEnum } from "../contexts/authContext";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 
 const defaultValues: UserRegisterForm = {
     username: "",
@@ -47,8 +48,8 @@ const validationSchema = yup.object({
         .required("Full name is required!")
         .min(3, "Full name has minimum 3 characters!")
         .max(30, "Full name has maximum 30 characters!"),
-    dateOfBirth: yup.string().required(),
-    location: yup.string().required("Full name is required!"),
+    dateOfBirth: yup.string().required("Date of birth is required!"),
+    location: yup.string().required("Location is required!"),
     gender: yup.string().required().oneOf(["male", "female", "non-binary"]),
     phonenumber: yup
         .string()
@@ -62,6 +63,9 @@ const validationSchema = yup.object({
 
 const SignupPage: React.FC = () => {
     const { registerUser } = useContext(AuthContext);
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
     const [registerForm, setRegisterForm] = useState({
         username: "",
@@ -206,15 +210,23 @@ const SignupPage: React.FC = () => {
                         >
                             Password
                         </label>
-                        <input
-                            {...register("password")}
-                            name="password"
-                            type="password"
-                            className="w-full p-2 border-gray-300 rounded mt-1"
-                            required
-                            value={password}
-                            onChange={handleChangeRegisterForm}
-                        />
+                        <div className="relative">
+                            <input
+                                {...register("password")}
+                                name="password"
+                                type={showPassword ? "text" : "password"}
+                                className="w-full p-2 border-gray-300 rounded mt-1"
+                                required
+                                value={password}
+                                onChange={handleChangeRegisterForm}
+                            />
+                            <button
+                                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                            </button>
+                        </div>
                         {errors.password && (
                             <p className="error-message text-red-500">
                                 {errors.password.message}
@@ -228,15 +240,23 @@ const SignupPage: React.FC = () => {
                         >
                             Confirm Password
                         </label>
-                        <input
-                            {...register("passwordconfirm")}
-                            name="passwordconfirm"
-                            type="password"
-                            className="w-full p-2 border-gray-300 rounded mt-1"
-                            required
-                            value={passwordconfirm}
-                            onChange={handleChangeRegisterForm}
-                        />
+                        <div className="relative">
+                            <input
+                                {...register("passwordconfirm")}
+                                name="passwordconfirm"
+                                type={showPasswordConfirm ? "text" : "password"}
+                                className="w-full p-2 border-gray-300 rounded mt-1"
+                                required
+                                value={passwordconfirm}
+                                onChange={handleChangeRegisterForm}
+                            />
+                            <button
+                                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600"
+                                onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
+                            >
+                                {showPasswordConfirm ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                            </button>
+                        </div>
                         {errors.passwordconfirm && (
                             <p className="error-message text-red-500">
                                 {errors.passwordconfirm.message}
@@ -373,7 +393,21 @@ const SignupPage: React.FC = () => {
                         </select>
                     </div>
                     <div>
-                        <button className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 rounded-md text-white text-sm">
+                        <button
+                            className={`w-full py-2 px-4 rounded-md text-white text-sm ${(
+                                !username ||
+                                !email ||
+                                !password ||
+                                !passwordconfirm ||
+                                !fullName ||
+                                !dateOfBirth ||
+                                !location ||
+                                !phonenumber ||
+                                gender === "non-binary" ||
+                                role === RoleEnum.user
+                            ) ? 'bg-gray-500' : 'bg-blue-600 hover:bg-blue-700'
+                                }`}
+                        >
                             Submit
                         </button>
                     </div>
@@ -389,8 +423,8 @@ const SignupPage: React.FC = () => {
                         </div>
                     </div>
                 </form>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 

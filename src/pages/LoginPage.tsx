@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { AuthContext } from "../contexts/authContext";
 import { UserLoginForm } from "../contexts/authContext";
 import { Spinner } from "react-bootstrap";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const defaultValues: UserLoginForm = {
     email: "",
@@ -19,6 +20,8 @@ const validationSchema = yup.object({
 
 const LoginPage: React.FC = () => {
     const { loginUser } = useContext(AuthContext);
+
+    const [showPassword, setShowPassword] = useState(false);
 
     const [loginForm, setLoginForm] = useState({
         email: "",
@@ -128,15 +131,23 @@ const LoginPage: React.FC = () => {
                         >
                             Password
                         </label>
-                        <input
-                            {...register("password")}
-                            name="password"
-                            type="password"
-                            className="w-full p-2 border-gray-300 rounded mt-1"
-                            required
-                            value={password}
-                            onChange={handleChangeLoginForm}
-                        />
+                        <div className="relative">
+                            <input
+                                {...register("password")}
+                                name="password"
+                                type={showPassword ? "text" : "password"}
+                                className="w-full p-2 border-gray-300 rounded mt-1"
+                                required
+                                value={password}
+                                onChange={handleChangeLoginForm}
+                            />
+                            <button
+                                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                            </button>
+                        </div>
                         {errors.password && (
                             <p className="error-message text-red-500">
                                 {errors.password.message}
