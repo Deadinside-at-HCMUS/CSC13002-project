@@ -405,7 +405,7 @@ const SignupPage: React.FC = () => {
                                 !phonenumber ||
                                 gender === "non-binary" ||
                                 role === RoleEnum.user
-                            ) ? 'bg-gray-500' : 'bg-blue-600 hover:bg-blue-700'
+                            ) ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
                                 }`}
                         >
                             Submit

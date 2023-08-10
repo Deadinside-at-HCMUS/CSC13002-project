@@ -163,8 +163,8 @@ const LoginPage: React.FC = () => {
                         </a>
                     </div>
                     <div>
-                        <button className={`w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 rounded-md text-white text-sm
-                        ${(!email || !password) ? 'bg-gray-500' : 'bg-blue-600 hover:bg-blue-700'}`}>
+                        <button className={`w-full py-2 px-4 rounded-md text-white text-sm
+                        ${(!email || !password) ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}>
                             Submit
                         </button>
                     </div>
