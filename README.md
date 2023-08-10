@@ -23,17 +23,17 @@ To run the server locally, follow these steps:
     ```bash
     pnpm i
     ```
-2. Navigate to server folder and install required packages for backend server.
+3. Navigate to server folder and install required packages for backend server.
     ```bash
     cd ./server
     pnpm i
     ```
-3. Run the server
+4. Run the server
     ```bash
     pnpm run server
     ```
-4. Open another terminal tab in root folder and run web page.
+5. Open another terminal tab in root folder and run web page.
     ```bash
     pnpm run dev
     ```
-5. Ctrl + click to ip server to open localhost
+6. Ctrl + click to ip server to open localhost

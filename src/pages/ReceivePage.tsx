@@ -21,7 +21,7 @@ interface AddedItem {
     category: CategoryEnum;
 }
 
-const DonatePage: React.FC = () => {
+const ReceivePage: React.FC = () => {
     const navigate = useNavigate();
 
     const handleLogoClick = () => {
@@ -147,7 +147,7 @@ const DonatePage: React.FC = () => {
                         onClick={handleLogoClick}
                     />
                     <p className="text-blue-500 p-3 pt-5 pr-6 font-bold text-lg text-center">
-                        Donate
+                        Receive
                     </p>
                     <div className="flex-1">
                         <Header />
@@ -315,4 +315,4 @@ const DonatePage: React.FC = () => {
     );
 };
 
-export default DonatePage;
+export default ReceivePage;

@@ -6,7 +6,7 @@ interface NavbarProps {
     logoUrl: string;
     name: string;
     onAboutClick: () => void;
-    onGiveClick: () => void;
+    onDonateClick: () => void;
     onReceiveClick: () => void;
     onLoginClick: () => void;
     onProfileClick: () => void;
@@ -16,7 +16,7 @@ const Navbar: React.FC<NavbarProps> = ({
     logoUrl,
     name,
     onAboutClick,
-    onGiveClick,
+    onDonateClick,
     onReceiveClick,
     onLoginClick,
     onProfileClick,
@@ -25,16 +25,14 @@ const Navbar: React.FC<NavbarProps> = ({
         authState: { isAuthenticated },
     } = useContext(AuthContext);
 
-    // isAuthenticated ? console.log("true") : console.log("false");
-
     return (
         <div className="flex flex-col w-full">
             <div className="flex flex-row justify-between h-32 items-center pt-6 pl-16 pr-10">
-                <div className="flex gap-8">
+                <div className="flex gap-4 items-center">
                     <div className="logo">
                         <img src={logoUrl} className="mx-auto w-10" />
                     </div>
-                    <div className="name text-[20px]">
+                    <div className="name text-xl font-extrabold tracking-tight dark:text-white text-slate-900">
                         <span>{name}</span>
                     </div>
                 </div>
@@ -48,39 +46,39 @@ const Navbar: React.FC<NavbarProps> = ({
                     </li>
                     <li
                         className="icon hover:text-[#a5a6a6] text-[18px]"
-                        onClick={onGiveClick}
+                        onClick={onDonateClick}
                     >
-                        Give
+                        Donate
                     </li>
                     <li
                         className="icon hover:text-[#a5a6a6] text-[18px]"
                         onClick={onReceiveClick}
                     >
-                        Recieve
+                        Receive
                     </li>
-                    <ul>
-                        {!isAuthenticated && (
-                            <li
-                                className="icon hover:text-[#a5a6a6] text-[18px]"
-                                onClick={onLoginClick}
-                            >
-                                Login
-                            </li>
-                        )}
-                    </ul>
                     <div className="language text-[18px]">
                         <select>
-                            <option value="en">Vietnamese</option>
-                            <option value="fr">English</option>
+                            <option value="vi">Vietnamese</option>
+                            <option value="en">English</option>
                             {/* Add more language options as needed */}
                         </select>
                     </div>
-                    <li>
-                        <AiOutlineUser
-                            className="text-[25px] icon hover:text-[#a5a6a6]"
-                            onClick={onProfileClick}
-                        />
-                    </li>
+                    {!isAuthenticated && (
+                        <li
+                            className="icon hover:text-[#a5a6a6] text-[18px]"
+                            onClick={onLoginClick}
+                        >
+                            Login
+                        </li>
+                    )}
+                    {isAuthenticated && (
+                        <li>
+                            <AiOutlineUser
+                                className="text-[25px] icon hover:text-[#a5a6a6]"
+                                onClick={onProfileClick}
+                            />
+                        </li>
+                    )}
                 </div>
             </div>
         </div>

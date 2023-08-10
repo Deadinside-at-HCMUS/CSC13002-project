@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
 import Search from "../components/Search/Search";
-import PostList from "../components/PostList/PostList";
+import Postlist from "../components/Postlist/PostList";
 import Footer from "../components/Footer/Footer";
 import Value from "../components/Value/Value";
+import ChatBot from "../components/Chatbox/ChatBox";
+import { AuthContext } from "../contexts/authContext";
 
 const HomePage: React.FC = () => {
     const navigate = useNavigate();
@@ -13,17 +15,15 @@ const HomePage: React.FC = () => {
         navigate("/about");
     };
 
-    const handleGiveClick = () => {
-        console.log("Give clicked");
+    const handleDonateClick = () => {
+        isAuthenticated ? navigate("/donate") : navigate("/login");
     };
 
     const handleReceiveClick = () => {
-        // Handle the click event for Receive button
-        console.log("Receive clicked");
+        isAuthenticated ? navigate("/receive") : navigate("/login");
     };
 
     const handleLoginClick = () => {
-        // Handle the click event for Login button
         navigate("/login");
     };
 
@@ -31,19 +31,24 @@ const HomePage: React.FC = () => {
         navigate("/profile");
     };
 
+    const {
+        authState: { isAuthenticated },
+    } = useContext(AuthContext);
+
     return (
-        <div>
+        <div className="w-[85%] m-auto bg-white">
             <Navbar
                 logoUrl="https://file.rendit.io/n/BMguV6XTfgasPlBI7Wr2.svg"
                 name="Connect Me"
                 onAboutClick={handleAboutClick}
-                onGiveClick={handleGiveClick}
+                onDonateClick={handleDonateClick}
                 onReceiveClick={handleReceiveClick}
                 onLoginClick={handleLoginClick}
                 onProfileClick={handelProfileClick}
             />
             <Search />
-            <PostList />
+            <Postlist />
+            <ChatBot />
             <Value />
             <Footer />
         </div>
