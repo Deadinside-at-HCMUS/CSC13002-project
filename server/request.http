@@ -169,15 +169,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGQ0Z
 
 ###
 
-PUT http://localhost:8080/api/post/64d4e12196de460717ae7f2f
+PUT http://localhost:8080/api/post/64d4eede22b2766afa9e1003
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGQ0ZTEwNTk2ZGU0NjA3MTdhZTdmMmIiLCJpYXQiOjE2OTE2NzI4NDIsImV4cCI6MTY5MjI3NzY0Mn0.mSkf7qDNJyEohijuO-_ODPJ2oEqMjene3Galfcqb3ds
 
 {
-    "title": "Receive Children Socks"
+    "title": "Receive Bikes and Helmets"
 }
 
 ###
 
-DELETE http://localhost:8080/api/post/64d4e12196de460717ae7f2f
+DELETE http://localhost:8080/api/post/64d4eede22b2766afa9e1003
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGQ0ZTEwNTk2ZGU0NjA3MTdhZTdmMmIiLCJpYXQiOjE2OTE2NzI4NDIsImV4cCI6MTY5MjI3NzY0Mn0.mSkf7qDNJyEohijuO-_ODPJ2oEqMjene3Galfcqb3ds
