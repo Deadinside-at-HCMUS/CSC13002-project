@@ -70,7 +70,7 @@ const recentOrderData: RecentOrder[] = [
 
 const PostTable: React.FC = () => {
     return (
-        <div className="bg-white px-4 pt-3 pb-4 rounded-sm border border-gray-200 flex-1">
+        <div className="bg-white px-4 pt-3 pb-4 rounded-md border border-gray-200 flex-1">
             <strong className="text-gray-700 font-medium">Recent Posts</strong>
             <div className="mt-3 overflow-x-auto">
                 <table className="w-full table-auto border-collapse border border-gray-300 text-left">
