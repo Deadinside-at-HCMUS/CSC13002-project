@@ -4,6 +4,7 @@ import Header from "../components/Header/Header";
 import { CategoryEnum, PostForm } from "../contexts/postContext";
 import { PostTypeEnum, StatusEnum } from "../contexts/postContext";
 import { SiAddthis } from "react-icons/si"
+import { RiDeleteBinLine } from "react-icons/ri"
 
 const initialPostState: PostForm = {
     type: PostTypeEnum.Donate,
@@ -21,6 +22,16 @@ interface AddedItem {
     quantity: string;
     category: CategoryEnum;
 }
+
+const categoryEnumToString = {
+    [CategoryEnum.Unknown]: "--Select category--",
+    [CategoryEnum.Electronic]: "Electronic",
+    [CategoryEnum.Clothing]: "Clothing",
+    [CategoryEnum.Book]: "Book",
+    [CategoryEnum.Food]: "Food",
+    [CategoryEnum.Vehicle]: "Vehicle",
+    [CategoryEnum.Household]: "Household",
+};
 
 const DonatePage: React.FC = () => {
     const navigate = useNavigate();
@@ -132,6 +143,12 @@ const DonatePage: React.FC = () => {
         });
     };
 
+    const handleDeleteItem = (index: number) => {
+        const updatedItems = [...addedItemData];
+        updatedItems.splice(index, 1);
+        setAddedItemData(updatedItems);
+    };
+
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         console.log(formData);
@@ -148,7 +165,7 @@ const DonatePage: React.FC = () => {
                             alt="Logo"
                             onClick={handleLogoClick}
                         />
-                        <p className="p-3 pt-5 pr-6 font-bold text-lg text-center cursor-pointer" onClick={handleLogoClick}>
+                        <p className="p-3 pt-5 pr-6 font-bold text-xl text-center cursor-pointer" onClick={handleLogoClick}>
                             Donate Form
                         </p>
                         <div className="flex-1">
@@ -269,10 +286,11 @@ const DonatePage: React.FC = () => {
                                             <th className="px-4 py-2">Name</th>
                                             <th className="px-4 py-2">Quantity</th>
                                             <th className="px-4 py-2">Category</th>
+                                            <th className="px-4 py-2"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {addedItemData.map((item) => (
+                                        {addedItemData.map((item, index) => (
                                             <tr
                                                 key={item.item_id}
                                                 className="border"
@@ -296,8 +314,14 @@ const DonatePage: React.FC = () => {
                                                 </td>
                                                 <td className="px-4 py-2 ">
                                                     <Link to={`/profile`}>
-                                                        {item.category}
+                                                        {categoryEnumToString[item.category]}
                                                     </Link>
+                                                </td>
+                                                <td className="px-2 py-2 ">
+                                                    <RiDeleteBinLine
+                                                        onClick={() => handleDeleteItem(index)}
+                                                        className="text-red-500 hover:text-red-600 cursor-pointer"
+                                                    />
                                                 </td>
                                             </tr>
                                         ))}
