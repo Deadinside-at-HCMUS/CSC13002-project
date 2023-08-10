@@ -2,6 +2,7 @@ import React from 'react'
 import { format } from 'date-fns'
 import { Link } from 'react-router-dom'
 import { getPostStatus } from './utils/GetPostStatus'
+import { FiArchive } from "react-icons/fi"
 
 interface RecentOrder {
     post_id: string;
@@ -69,6 +70,9 @@ const recentOrderData: RecentOrder[] = [
 
 
 const PostTable: React.FC = () => {
+    const handleArchivePost = (index: number) => {
+        console.log("archive")
+    };
     return (
         <div className="bg-white px-4 pt-3 pb-4 rounded-md border border-gray-200 flex-1">
             <strong className="text-gray-700 font-medium">Recent Posts</strong>
@@ -83,10 +87,11 @@ const PostTable: React.FC = () => {
                             <th className="px-4 py-2">Donation List</th>
                             <th className="px-4 py-2">Date</th>
                             <th className="px-4 py-2">Order Status</th>
+                            <th className="px-4 py-2"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        {recentOrderData.map((post) => (
+                        {recentOrderData.map((post, index) => (
                             <tr key={post.post_id} className="border">
                                 <td className="px-4 py-2 text-blue-500 font-semibold">
                                     <Link to={`/post/${post.post_id}`}>#{post.post_id}</Link>
@@ -106,6 +111,12 @@ const PostTable: React.FC = () => {
                                 </td>
                                 <td className="px-4 py-2 ">
                                     {getPostStatus(post.current_order_status)}
+                                </td>
+                                <td className="px-2 py-2 ">
+                                    <FiArchive
+                                        onClick={() => handleArchivePost(index)}
+                                        className="text-red-500 hover:text-red-600 cursor-pointer"
+                                    />
                                 </td>
                             </tr>
                         ))}
