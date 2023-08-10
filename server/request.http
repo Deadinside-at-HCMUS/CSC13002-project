@@ -84,12 +84,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNlN
     "title": "Donate Book",
     "body": "There are 10 literature books for children",
     "author": "",
-    "item": "Literature Books",
-    "quantity": 10,
-    "category": "Book",
+    "item": [{
+        "name": "Literature Books",
+        "quantity": 10,
+        "category": "Book"
+    }],
     "status": "Verified",
     "location": "Tp HCM",
-    "match": []
+    "match": ["64d3c88aebfb9e7c0e62675c"]
 }
 
 ###
@@ -100,14 +102,59 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNmY
 
 {
     "type": "Receiving",
-    "title": "Receive Book",
-    "body": "We are in need of 8 literature books for children",
+    "title": "Receive Socks",
+    "body": "We are in need of 8 pairs of socks for children",
     "author": "",
-    "item": "Children Books",
-    "quantity": 8,
-    "category": "Book",
+    "item": [{
+        "name": "Socks",
+        "quantity": 8,
+        "category": "Clothing"
+    }],
+    "location": "Tp HCM"
+}
+
+###
+
+POST http://localhost:8080/api/post/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNmY2Y5MzgwNDBmY2ZlZGFkODJkM2EiLCJpYXQiOjE2OTEzNDA3MDIsImV4cCI6MTY5MTk0NTUwMn0.LXM-Ui67NuAYM4z5novjrHz0TyS4ajH_cmkUfzk7N_k
+
+{
+    "type": "Receiving",
+    "title": "Receive Bikes",
+    "body": "We are in need of 15 bikes and 15 helmets for children",
+    "author": "",
+    "item": [{
+        "name": "Bike",
+        "quantity": 15,
+        "category": "Vehicle"
+    }, {
+        "name": "Helmet",
+        "quantity": 15,
+        "category": "Clothing"
+    }],
+    "location": "Tp HCM"
+}
+
+###
+
+POST http://localhost:8080/api/post/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNmY2Y5MzgwNDBmY2ZlZGFkODJkM2EiLCJpYXQiOjE2OTEzNDA3MDIsImV4cCI6MTY5MTk0NTUwMn0.LXM-Ui67NuAYM4z5novjrHz0TyS4ajH_cmkUfzk7N_k
+
+{
+    "type": "Receiving",
+    "title": "Receive Bikes",
+    "body": "We are in need of 15 bikes for children",
+    "author": "",
+    "item": [{
+        "name": "Bike",
+        "quantity": 15,
+        "category": "Vehicle"
+    }],
+    "status": "Published",
     "location": "Tp HCM",
-    "match": ["64d0ab69e7da501e3714539b"]
+    "match": []
 }
 
 ###
@@ -117,11 +164,21 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNmY
 
 ###
 
-PUT http://localhost:8080/api/post/64d0abf9e7da501e3714539e
+GET http://localhost:8080/api/post/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNlN2YwOWEwNjRjODk5NjhmYTQ5MjUiLCJpYXQiOjE2OTE1OTc4ODgsImV4cCI6MTY5MjIwMjY4OH0._lmRWeTvOFcvi_nISf8-99YdGVxaL82vPPdUlzF14hU
+
+###
+
+PUT http://localhost:8080/api/post/64d3c88aebfb9e7c0e62675c
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNmY2Y5MzgwNDBmY2ZlZGFkODJkM2EiLCJpYXQiOjE2OTEzNDA3MDIsImV4cCI6MTY5MTk0NTUwMn0.LXM-Ui67NuAYM4z5novjrHz0TyS4ajH_cmkUfzk7N_k
 
 {
-    "body": "We are in need of 13 children books",
-    "quantity": 13
+    "title": "Receive Books",
+    "body": "We are in need of 10 literature books for high school students",
+    "item": [{
+        "name": "Literature books",
+        "quantity": 10,
+        "category": "Book"
+    }]
 }
