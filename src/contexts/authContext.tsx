@@ -19,6 +19,9 @@ export interface UserRegisterForm {
     email: string;
     password: string;
     passwordconfirm: string;
+    fullName: string;
+    dateOfBirth: string;
+    location: string;
     gender: string;
     phonenumber: string;
     role: RoleEnum;
@@ -138,23 +141,29 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     };
 
     // Register
-    const registerUser = async ({
-        passwordconfirm,
-        ...userForm
-    }: UserRegisterForm) => {
+    const registerUser = async ({ ...userForm }: UserRegisterForm) => {
         try {
-            console.log(passwordconfirm);
+            const submitForm = {
+                username: userForm.username,
+                email: userForm.email,
+                password: userForm.password,
+                fullName: userForm.fullName,
+                dateOfBirth: userForm.dateOfBirth,
+                location: userForm.location,
+                gender: userForm.gender,
+                phonenumber: userForm.phonenumber,
+                role: userForm.role,
+            };
+
             const response = await axios.post(
                 `${apiUrl}/auth/register`,
-                userForm
+                submitForm
             );
             if (response.data.success)
                 localStorage.setItem(
                     LOCAL_STORAGE_TOKEN_NAME,
                     response.data.content
                 );
-
-            await loadUser();
 
             return response.data;
         } catch (error) {

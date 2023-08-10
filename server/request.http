@@ -5,6 +5,9 @@ Content-Type: application/json
     "username": "devjam",
     "password": "Devjam@gohard123",
     "email": "hdthien21@clc.fitus.edu.vn",
+    "fullName": "Dev Thi Jam",
+    "dateOfBirth": "2023-06-09",
+    "location": "Ho Chi Minh city",
     "phonenumber": "0774689403",
     "gender": "non-binary",
     "role": "user"
@@ -39,6 +42,9 @@ Content-Type: application/json
     "username": "hwangdeokthien",
     "password": "Ducthien@123",
     "email": "huynhducthien41906@gmail.com",
+    "fullName": "Thien Huynh Duc",
+    "dateOfBirth": "2003-08-16",
+    "location": "Da Nang city",
     "phonenumber": "0912345678",
     "gender": "non-binary",
     "role": "user"

@@ -11,13 +11,17 @@ const defaultValues: UserRegisterForm = {
     email: "",
     password: "",
     passwordconfirm: "",
+    fullName: "",
+    dateOfBirth: "",
+    location: "",
     gender: "non-binary",
     phonenumber: "",
     role: RoleEnum.user,
 };
 
 const phoneRegExp = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
-const passwordRegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]$/;
+const passwordRegExp =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 const validationSchema = yup.object({
     username: yup.string().required("Username is required!"),
@@ -38,6 +42,13 @@ const validationSchema = yup.object({
         .string()
         .required("Confirm password is required!")
         .oneOf([yup.ref("password"), ""], "Passwords does not match!"),
+    fullName: yup
+        .string()
+        .required("Full name is required!")
+        .min(3, "Full name has minimum 3 characters!")
+        .max(30, "Full name has maximum 30 characters!"),
+    dateOfBirth: yup.string().required(),
+    location: yup.string().required("Full name is required!"),
     gender: yup.string().required().oneOf(["male", "female", "non-binary"]),
     phonenumber: yup
         .string()
@@ -57,6 +68,9 @@ const SignupPage: React.FC = () => {
         email: "",
         password: "",
         passwordconfirm: "",
+        fullName: "",
+        dateOfBirth: "",
+        location: "",
         gender: "non-binary",
         phonenumber: "",
         role: RoleEnum.user,
@@ -67,6 +81,9 @@ const SignupPage: React.FC = () => {
         email,
         password,
         passwordconfirm,
+        fullName,
+        dateOfBirth,
+        location,
         gender,
         phonenumber,
         role,
@@ -86,7 +103,7 @@ const SignupPage: React.FC = () => {
 
     const navigate = useNavigate();
 
-    const registering = async (event: FormEvent<HTMLFormElement>) => {
+    const handleRegister = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         if (password !== passwordconfirm) {
@@ -96,13 +113,11 @@ const SignupPage: React.FC = () => {
 
         try {
             const registerData = await registerUser(registerForm);
-            console.log(registerData);
 
             if (registerData.success) {
-                // return to login again
                 navigate("/login");
             } else {
-                // none
+                //none
             }
         } catch (error) {
             console.log(error);
@@ -111,17 +126,12 @@ const SignupPage: React.FC = () => {
 
     const {
         register,
-        // handleSubmit,
         formState: { errors },
     } = useForm<UserRegisterForm>({
         defaultValues,
         resolver: yupResolver<UserRegisterForm>(validationSchema),
         mode: "onTouched",
     });
-
-    // const onSubmit = handleSubmit(({ email, password, select, remember }) => {
-    //   console.log(email, password, select, remember);
-    // });
 
     const handleLoginClick = () => {
         navigate("/login");
@@ -144,7 +154,7 @@ const SignupPage: React.FC = () => {
                 </div>
             </div>
             <div className="max-w-md w-full mx-auto mt-4 bg-[#f7f8f9] p-8 border border-white rounded-[1rem]">
-                <form action="" className="space-y-6" onSubmit={registering}>
+                <form action="" className="space-y-6" onSubmit={handleRegister}>
                     <div>
                         <label
                             htmlFor=""
@@ -230,6 +240,72 @@ const SignupPage: React.FC = () => {
                         {errors.passwordconfirm && (
                             <p className="error-message text-red-500">
                                 {errors.passwordconfirm.message}
+                            </p>
+                        )}
+                    </div>
+                    <div>
+                        <label
+                            htmlFor=""
+                            className="text-sm font-bold text-gray-600 block"
+                        >
+                            Full name
+                        </label>
+                        <input
+                            {...register("fullName")}
+                            name="fullName"
+                            type="fullName"
+                            className="w-full p-2 border-gray-300 rounded mt-1"
+                            required
+                            value={fullName}
+                            onChange={handleChangeRegisterForm}
+                        />
+                        {errors.fullName && (
+                            <p className="error-message text-red-500">
+                                {errors.fullName.message}
+                            </p>
+                        )}
+                    </div>
+                    <div>
+                        <label
+                            htmlFor=""
+                            className="text-sm font-bold text-gray-600 block"
+                        >
+                            Date of birth
+                        </label>
+                        <input
+                            {...register("dateOfBirth")}
+                            name="dateOfBirth"
+                            type="date"
+                            className="w-full p-2 border-gray-300 rounded mt-1"
+                            required
+                            value={dateOfBirth}
+                            onChange={handleChangeRegisterForm}
+                        />
+                        {errors.dateOfBirth && (
+                            <p className="error-message text-red-500">
+                                {errors.dateOfBirth.message}
+                            </p>
+                        )}
+                    </div>
+                    <div>
+                        <label
+                            htmlFor=""
+                            className="text-sm font-bold text-gray-600 block"
+                        >
+                            Location
+                        </label>
+                        <input
+                            {...register("location")}
+                            name="location"
+                            type="location"
+                            className="w-full p-2 border-gray-300 rounded mt-1"
+                            required
+                            value={location}
+                            onChange={handleChangeRegisterForm}
+                        />
+                        {errors.location && (
+                            <p className="error-message text-red-500">
+                                {errors.location.message}
                             </p>
                         )}
                     </div>
