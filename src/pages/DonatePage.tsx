@@ -34,6 +34,8 @@ const categoryEnumToString = {
 };
 
 const DonatePage: React.FC = () => {
+    const [selectedImage, setSelectedImage] = useState<File | null>(null);
+
     const navigate = useNavigate();
 
     const handleLogoClick = () => {
@@ -69,6 +71,12 @@ const DonatePage: React.FC = () => {
             [name]: value,
         });
     };
+
+    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0] || null; // Use null as a default value;
+        setSelectedImage(file);
+    };
+
 
     const [addedItemData, setAddedItemData] = useState<AddedItem[]>([
         {
@@ -151,11 +159,16 @@ const DonatePage: React.FC = () => {
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
+        const formDataToSend = new FormData();
+        formDataToSend.append("title", formData.title);
+        formDataToSend.append("body", formData.body);
+        formDataToSend.append("location", formData.location);
+        formDataToSend.append("image", selectedImage || ''); // Provide a default value if selectedImage is null
         console.log(formData);
     };
 
     return (
-        <div className="w-[85%] m-auto">
+        <div className="w-[85%] m-auto mb-3">
             <div className="overflow-hidden flex flex-col">
                 <div className="flex flex-col">
                     <div className="flex p-2">
@@ -177,7 +190,7 @@ const DonatePage: React.FC = () => {
                     <div className="mb-4 gap-5 flex flex-row">
                         <div className="mb-2 w-1/2 flex flex-col ">
                             <label htmlFor="title" className="block font-bold mb-1">
-                                Title:
+                                Title: <span className="text-red-500 font-normal">*</span>
                             </label>
                             <input
                                 type="text"
@@ -205,7 +218,7 @@ const DonatePage: React.FC = () => {
 
                     <div className="mb-4">
                         <label htmlFor="body" className="block font-bold mb-1">
-                            Description:
+                            Description: <span className="text-red-500 font-normal">*</span>
                         </label>
                         <textarea
                             id="body"
@@ -216,32 +229,36 @@ const DonatePage: React.FC = () => {
                             rows={4}
                         />
                     </div>
-                    <label className="block font-bold mb-1">Items:</label>
-                    <div className="mb-4 ">
-                        <div className="flex gap-4">
-                            <div className="mb-2 flex-col w-2/5">
-                                <input
-                                    type="text"
-                                    placeholder="Item Name"
-                                    onChange={handleNameChange}
-                                    className="w-full p-2 border rounded-md focus:outline-none focus:border-blue-400"
-                                />
-                                <input
-                                    type="text"
-                                    placeholder="Quantity"
-                                    onChange={handleQuantityChange}
-                                    className="w-full p-2 border rounded-md focus:outline-none focus:border-blue-400 mt-2"
-                                />
-                                <select
-                                    id="category"
-                                    name="category"
-                                    onChange={handleCategoryChange}
-                                    className="w-full p-2 border rounded-md focus:outline-none focus:border-blue-400 mt-2"
-                                >
-                                    <option value={CategoryEnum.Unknown}>
-                                        --Select category--
-                                    </option>
-                                    {/* {Object.keys(CategoryEnum).map((key) => (
+
+                    <div className="mb-4">
+                        <label className="block font-bold mb-1">
+                            Items: <span className="text-red-500 font-normal">*</span>
+                        </label>
+                        <div className="mb-4 ">
+                            <div className="flex gap-4">
+                                <div className="mb-2 flex-col w-2/5">
+                                    <input
+                                        type="text"
+                                        placeholder="Item Name"
+                                        onChange={handleNameChange}
+                                        className="w-full p-2 border rounded-md focus:outline-none focus:border-blue-400"
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="Quantity"
+                                        onChange={handleQuantityChange}
+                                        className="w-full p-2 border rounded-md focus:outline-none focus:border-blue-400 mt-2"
+                                    />
+                                    <select
+                                        id="category"
+                                        name="category"
+                                        onChange={handleCategoryChange}
+                                        className="w-full p-2 border rounded-md focus:outline-none focus:border-blue-400 mt-2"
+                                    >
+                                        <option value={CategoryEnum.Unknown}>
+                                            --Select category--
+                                        </option>
+                                        {/* {Object.keys(CategoryEnum).map((key) => (
                                     <option
                                         key={key}
                                         value={
@@ -257,84 +274,103 @@ const DonatePage: React.FC = () => {
                                         }
                                     </option>
                                 ))} */}
-                                    <option value={CategoryEnum.Electronic}>
-                                        Electronic
-                                    </option>
-                                    <option value={CategoryEnum.Clothing}>
-                                        Clothing
-                                    </option>
-                                    <option value={CategoryEnum.Book}>Book</option>
-                                    <option value={CategoryEnum.Food}>Food</option>
-                                    <option value={CategoryEnum.Vehicle}>
-                                        Vehicle
-                                    </option>
-                                    <option value={CategoryEnum.Household}>
-                                        Household
-                                    </option>
-                                </select>
+                                        <option value={CategoryEnum.Electronic}>
+                                            Electronic
+                                        </option>
+                                        <option value={CategoryEnum.Clothing}>
+                                            Clothing
+                                        </option>
+                                        <option value={CategoryEnum.Book}>Book</option>
+                                        <option value={CategoryEnum.Food}>Food</option>
+                                        <option value={CategoryEnum.Vehicle}>
+                                            Vehicle
+                                        </option>
+                                        <option value={CategoryEnum.Household}>
+                                            Household
+                                        </option>
+                                    </select>
 
-                                <div className="mt-3 float-right flex gap-2 items-center cursor-pointer text-blue-500 hover:text-blue-600 " onClick={handleAddItem}>
-                                    Add Item
-                                    <SiAddthis fontSize="30" />
+                                    <div className="mt-3 mb-3 float-right flex gap-2 items-center cursor-pointer text-blue-500 hover:text-blue-600 " onClick={handleAddItem}>
+                                        Add Item
+                                        <SiAddthis fontSize="30" />
+                                    </div>
+
+                                    <div className="mt-12">
+                                        <label htmlFor="image" className="block font-bold mb-1 ">
+                                            Image:
+                                        </label>
+                                        <input
+                                            type="file"
+                                            id="image"
+                                            name="image"
+                                            accept="image/*"
+                                            onChange={handleImageChange}
+                                            className="w-full p-2 border rounded-md focus:outline-none focus:border-blue-400"
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="flex-1 mr-2">
-                                <table className="w-full table-auto border-collapse border border-gray-300 text-left ml-2 scroll-auto">
-                                    <thead>
-                                        <tr className="bg-[#F4F2FF] text-blue-500">
-                                            <th className="px-4 py-2">ID</th>
-                                            <th className="px-4 py-2">Name</th>
-                                            <th className="px-4 py-2">Quantity</th>
-                                            <th className="px-4 py-2">Category</th>
-                                            <th className="px-4 py-2"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {addedItemData.map((item, index) => (
-                                            <tr
-                                                key={item.item_id}
-                                                className="border"
-                                            >
-                                                <td className="px-4 py-2 text-blue-500 font-semibold">
-                                                    <Link
-                                                        to={`/post/${item.item_id}`}
-                                                    >
-                                                        #{item.item_id}
-                                                    </Link>
-                                                </td>
-                                                <td className="px-4 py-2 font-semibold">
-                                                    <Link to={`/profile`}>
-                                                        {item.name}
-                                                    </Link>
-                                                </td>
-                                                <td className="px-4 py-2 ">
-                                                    <Link to={`/profile`}>
-                                                        {item.quantity}
-                                                    </Link>
-                                                </td>
-                                                <td className="px-4 py-2 ">
-                                                    <Link to={`/profile`}>
-                                                        {categoryEnumToString[item.category]}
-                                                    </Link>
-                                                </td>
-                                                <td className="px-2 py-2 ">
-                                                    <RiDeleteBinLine
-                                                        onClick={() => handleDeleteItem(index)}
-                                                        className="text-red-500 hover:text-red-600 cursor-pointer"
-                                                    />
-                                                </td>
+
+                                <div className="flex-1 mr-2">
+                                    <table className="w-full table-auto border-collapse border border-gray-300 text-left ml-2 scroll-auto">
+                                        <thead>
+                                            <tr className="bg-[#F4F2FF] text-blue-500">
+                                                <th className="px-4 py-2">ID</th>
+                                                <th className="px-4 py-2">Name</th>
+                                                <th className="px-4 py-2">Quantity</th>
+                                                <th className="px-4 py-2">Category</th>
+                                                <th className="px-4 py-2"></th>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                                <button
-                                    type="submit"
-                                    className="flex bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mt-3 float-right"
-                                >
-                                    Submit Form
-                                </button>
+                                        </thead>
+                                        <tbody>
+                                            {addedItemData.map((item, index) => (
+                                                <tr
+                                                    key={item.item_id}
+                                                    className="border"
+                                                >
+                                                    <td className="px-4 py-2 text-blue-500 font-semibold">
+                                                        <Link
+                                                            to={`/post/${item.item_id}`}
+                                                        >
+                                                            #{item.item_id}
+                                                        </Link>
+                                                    </td>
+                                                    <td className="px-4 py-2 font-semibold">
+                                                        <Link to={`/profile`}>
+                                                            {item.name}
+                                                        </Link>
+                                                    </td>
+                                                    <td className="px-4 py-2 ">
+                                                        <Link to={`/profile`}>
+                                                            {item.quantity}
+                                                        </Link>
+                                                    </td>
+                                                    <td className="px-4 py-2 ">
+                                                        <Link to={`/profile`}>
+                                                            {categoryEnumToString[item.category]}
+                                                        </Link>
+                                                    </td>
+                                                    <td className="px-2 py-2 ">
+                                                        <RiDeleteBinLine
+                                                            onClick={() => handleDeleteItem(index)}
+                                                            className="text-red-500 hover:text-red-600 cursor-pointer"
+                                                        />
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+
                             </div>
                         </div>
+
+                        <button
+                            type="submit"
+                            className={`flex text-white px-4 py-2 rounded-md  float-right
+                            ${(!formData.title || !formData.body || !newItem) ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'}`}
+                        >
+                            Submit Form
+                        </button>
                     </div>
                 </form>
             </div>

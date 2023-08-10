@@ -107,7 +107,7 @@ const LoginPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Email
+                            Email <span className="text-red-500 font-normal">*</span>
                         </label>
                         <input
                             {...register("email")}
@@ -129,7 +129,7 @@ const LoginPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Password
+                            Password <span className="text-red-500 font-normal">*</span>
                         </label>
                         <div className="relative">
                             <input

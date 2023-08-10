@@ -146,7 +146,7 @@ const SignupPage: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-white flex flex-col justify-center">
+        <div className="min-h-screen bg-white flex flex-col justify-center mt-7 mb-14">
             <div className="max-w-md w-full mx-auto">
                 <img
                     className="mx-auto cursor-pointer"
@@ -164,7 +164,7 @@ const SignupPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Username
+                            Username <span className="text-red-500 font-normal">*</span>
                         </label>
                         <input
                             {...register("username")}
@@ -186,7 +186,7 @@ const SignupPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Email
+                            Email <span className="text-red-500 font-normal">*</span>
                         </label>
                         <input
                             {...register("email")}
@@ -208,7 +208,7 @@ const SignupPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Password
+                            Password <span className="text-red-500 font-normal">*</span>
                         </label>
                         <div className="relative">
                             <input
@@ -238,7 +238,7 @@ const SignupPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Confirm Password
+                            Confirm Password <span className="text-red-500 font-normal">*</span>
                         </label>
                         <div className="relative">
                             <input
@@ -268,7 +268,7 @@ const SignupPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Full name
+                            Full name <span className="text-red-500 font-normal">*</span>
                         </label>
                         <input
                             {...register("fullName")}
@@ -290,7 +290,7 @@ const SignupPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Date of birth
+                            Date of birth <span className="text-red-500 font-normal">*</span>
                         </label>
                         <input
                             {...register("dateOfBirth")}
@@ -312,7 +312,7 @@ const SignupPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Location
+                            Location <span className="text-red-500 font-normal">*</span>
                         </label>
                         <input
                             {...register("location")}
@@ -334,7 +334,7 @@ const SignupPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Phone Number
+                            Phone Number <span className="text-red-500 font-normal">*</span>
                         </label>
                         <input
                             {...register("phonenumber")}
@@ -355,7 +355,7 @@ const SignupPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Gender
+                            Gender <span className="text-red-500 font-normal">*</span>
                         </label>
                         <select
                             {...register("gender")}
@@ -377,7 +377,7 @@ const SignupPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            I want to be
+                            I want to be <span className="text-red-500 font-normal">*</span>
                         </label>
                         <select
                             {...register("role")}
