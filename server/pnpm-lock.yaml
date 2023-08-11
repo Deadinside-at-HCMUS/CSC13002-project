@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 lockfileVersion: '6.0'
+=======
+lockfileVersion: '6.1'
+>>>>>>> b50fec3 ([ADD] add feature upload image)
 
 settings:
   autoInstallPeers: true
