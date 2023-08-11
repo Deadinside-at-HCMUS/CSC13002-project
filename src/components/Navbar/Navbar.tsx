@@ -27,7 +27,7 @@ const Navbar: React.FC<NavbarProps> = ({
 
     return (
         <div className="flex flex-col w-full">
-            <div className="flex flex-row justify-between h-32 items-center pt-6 pl-16 pr-10">
+            <div className="flex flex-row justify-between h-32 items-center pl-16 pr-10">
                 <div className="flex gap-4 items-center">
                     <div className="logo">
                         <img src={logoUrl} className="mx-auto w-10" />

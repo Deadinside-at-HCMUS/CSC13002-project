@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { AuthContext } from "../contexts/authContext";
 import { UserLoginForm } from "../contexts/authContext";
 import { Spinner } from "react-bootstrap";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const defaultValues: UserLoginForm = {
     email: "",
@@ -19,6 +20,8 @@ const validationSchema = yup.object({
 
 const LoginPage: React.FC = () => {
     const { loginUser } = useContext(AuthContext);
+
+    const [showPassword, setShowPassword] = useState(false);
 
     const [loginForm, setLoginForm] = useState({
         email: "",
@@ -104,7 +107,7 @@ const LoginPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Email
+                            Email <span className="text-red-500 font-normal">*</span>
                         </label>
                         <input
                             {...register("email")}
@@ -126,17 +129,25 @@ const LoginPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Password
+                            Password <span className="text-red-500 font-normal">*</span>
                         </label>
-                        <input
-                            {...register("password")}
-                            name="password"
-                            type="password"
-                            className="w-full p-2 border-gray-300 rounded mt-1"
-                            required
-                            value={password}
-                            onChange={handleChangeLoginForm}
-                        />
+                        <div className="relative">
+                            <input
+                                {...register("password")}
+                                name="password"
+                                type={showPassword ? "text" : "password"}
+                                className="w-full p-2 border-gray-300 rounded mt-1"
+                                required
+                                value={password}
+                                onChange={handleChangeLoginForm}
+                            />
+                            <button
+                                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                            </button>
+                        </div>
                         {errors.password && (
                             <p className="error-message text-red-500">
                                 {errors.password.message}
@@ -152,7 +163,8 @@ const LoginPage: React.FC = () => {
                         </a>
                     </div>
                     <div>
-                        <button className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 rounded-md text-white text-sm">
+                        <button className={`w-full py-2 px-4 rounded-md text-white text-sm
+                        ${(!email || !password) ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}>
                             Submit
                         </button>
                     </div>
@@ -167,8 +179,8 @@ const LoginPage: React.FC = () => {
                             Signup here
                         </div>
                     </div>
-                </form>
-            </div>
+                </form >
+            </div >
         );
     }
 
