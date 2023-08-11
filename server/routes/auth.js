@@ -9,7 +9,7 @@ const verifyToken = require("../middleware/auth");
 // @access Public
 router.get("/", verifyToken, async (req, res) => {
     try {
-        const user = await User.findById(req.userId).select("-email");
+        const user = await User.findById(req.userId).select("-password");
         if (!user)
             return res
                 .status(400)

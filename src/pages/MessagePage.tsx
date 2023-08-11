@@ -1,23 +1,74 @@
-import React, { useState } from 'react';
-import MessageBox from '../components/Message/Message';
+import React, { useState, useEffect } from "react";
+import MessageBox from "../components/Message/Message";
 
 export interface MessageData {
     id: number;
     sender: string;
+    receiver: string;
     message: string;
     timestamp: string;
 }
 
 const MessagePage: React.FC = () => {
     const [messages, setMessages] = useState<MessageData[]>([
-        { id: 1, sender: 'Alice', message: 'Hello there!', timestamp: '2023-08-10 14:30' },
-        { id: 2, sender: 'Bob', message: 'Hey, how are you?', timestamp: '2023-08-10 15:45' },
+        {
+            id: 1,
+            sender: "Alice",
+            receiver: "self",
+            message: "Hello there!",
+            timestamp: "2023-08-10 14:30",
+        },
+        {
+            id: 2,
+            sender: "Bob",
+            receiver: "self",
+            message: "Hey, how are you?",
+            timestamp: "2023-08-10 15:45",
+        },
+        {
+            id: 3,
+            sender: "self",
+            receiver: "Alice",
+            message: "Noon!",
+            timestamp: "2023-08-10 15:59",
+        },
         // ... add more messages
     ]);
 
-    const handleSendMessage = (newMessage: MessageData) => {
-        setMessages(prevMessages => [...prevMessages, newMessage]);
+    const [selectedContact, setSelectedContact] = useState<string | null>(null);
+    const [inputMessage, setInputMessage] = useState("");
+
+    useEffect(() => {
+        setSelectedContact("Alice"); // Set the desired default contact here
+    }, []);
+
+    const handleSendMessage = () => {
+        if (inputMessage.trim() !== "") {
+            const newMessage: MessageData = {
+                id: messages.length + 1,
+                sender: "self",
+                receiver: selectedContact || "",
+                message: inputMessage,
+                timestamp: new Date().toLocaleString(),
+            };
+            setMessages((prevMessages) => [...prevMessages, newMessage]);
+            setInputMessage("");
+        }
     };
+
+    const handleConversation = (contact: string) => {
+        setSelectedContact(contact);
+    };
+
+    const filteredMessages = selectedContact
+        ? messages.filter(
+              (message) =>
+                  (message.sender === selectedContact &&
+                      message.receiver === "self") ||
+                  (message.sender === "self" &&
+                      message.receiver === selectedContact)
+          )
+        : messages;
 
     return (
         <div className="flex h-screen bg-gray-100">
@@ -27,13 +78,23 @@ const MessagePage: React.FC = () => {
                 <ul className="space-y-2">
                     {/* Replace with your actual contacts */}
                     <li className="flex items-center space-x-2 cursor-pointer">
-                        <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold">
+                        <div
+                            className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold"
+                            onClick={() => {
+                                handleConversation("Alice");
+                            }}
+                        >
                             A
                         </div>
                         <p>Alice</p>
                     </li>
                     <li className="flex items-center space-x-2 cursor-pointer">
-                        <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold">
+                        <div
+                            className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold"
+                            onClick={() => {
+                                handleConversation("Bob");
+                            }}
+                        >
                             B
                         </div>
                         <p>Bob</p>
@@ -43,7 +104,7 @@ const MessagePage: React.FC = () => {
             </div>
             <div className="flex-1 p-4 overflow-y-auto">
                 <div className="space-y-4">
-                    {messages.map(message => (
+                    {filteredMessages.map((message) => (
                         <MessageBox key={message.id} data={message} />
                     ))}
                 </div>
@@ -52,17 +113,12 @@ const MessagePage: React.FC = () => {
                     <textarea
                         className="w-full p-2 border rounded-md focus:outline-none focus:border-blue-400"
                         placeholder="Type your message..."
+                        value={inputMessage}
+                        onChange={(e) => setInputMessage(e.target.value)}
                     />
                     <button
                         className="bg-blue-500 text-white px-4 py-2 mt-2 rounded-md hover:bg-blue-600"
-                        onClick={() =>
-                            handleSendMessage({
-                                id: messages.length + 1,
-                                sender: 'You',
-                                message: 'Sample message',
-                                timestamp: new Date().toLocaleString(),
-                            })
-                        }
+                        onClick={handleSendMessage}
                     >
                         Send
                     </button>
