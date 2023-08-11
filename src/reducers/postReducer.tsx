@@ -29,6 +29,7 @@ export interface Item {
 }
 
 export interface Post {
+    _id: string;
     type: PostTypeEnum;
     title: string;
     body: string;
@@ -38,9 +39,11 @@ export interface Post {
     location: string;
     match: string[];
     isArchived: boolean;
+    photo: string;
 }
 
 type PostState = {
+    postId: string;
     post: Post | null;
     posts: Post[];
     postsLoading: boolean;
@@ -49,6 +52,7 @@ type PostState = {
 type PostAction = {
     type: string;
     payload: {
+        postId?: string;
         post: Post | null;
     };
 };
@@ -59,7 +63,7 @@ export const postReducer = (
 ): PostState => {
     const {
         type,
-        payload: { post },
+        payload: { postId, post },
     } = action;
 
     switch (type) {
@@ -68,13 +72,6 @@ export const postReducer = (
                 ...state,
                 postsLoading: false,
                 post,
-            };
-
-        case "POSTS_LOADED_FAIL":
-            return {
-                ...state,
-                posts: [],
-                postsLoading: false,
             };
 
         case "ADD_POST":
@@ -86,24 +83,21 @@ export const postReducer = (
             }
             return state;
 
-        // case "DELETE_POST":
-        //     return {
-        //         ...state,
-        //         posts: state.posts.filter((post) => post._id !== payload),
-        //     };
+        case "DELETE_POST":
+            return {
+                ...state,
+                posts: state.posts.filter((post) => post._id !== postId),
+            };
 
-        // case "FIND_POST":
-        //     return { ...state, post: payload };
+        case "UPDATE_POST":
+            const newPosts = state.posts.map((post) =>
+                post._id === postId ? post : post
+            );
 
-        // case "UPDATE_POST":
-        //     const newPosts = state.posts.map((post) =>
-        //         post._id === payload._id ? payload : post
-        //     );
-
-        //     return {
-        //         ...state,
-        //         posts: newPosts,
-        //     };
+            return {
+                ...state,
+                posts: newPosts,
+            };
 
         default:
             return state;
