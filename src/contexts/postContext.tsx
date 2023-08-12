@@ -23,7 +23,8 @@ export interface PostForm {
     location: string;
     match: string[];
     isArchived: boolean;
-    photo: string;
+    photoLink: File | null;
+    createAt: string;
 }
 
 interface PostResponse {
@@ -88,10 +89,14 @@ const PostContextProvider: React.FC<PostContextProviderProps> = ({
                 location: postForm.location,
                 match: postForm.match,
                 isArchived: postForm.isArchived,
-                photo: postForm.photo,
+                photoLink: postForm.photoLink,
             };
 
+            console.log(submitForm);
+
             const response = await axios.post(`${apiUrl}/post`, submitForm);
+
+            console.log(response);
             if (response.data.success) {
                 localStorage.setItem(ADD_POST, response.data.content);
 

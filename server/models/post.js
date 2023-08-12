@@ -4,11 +4,14 @@ const Schema = mongoose.Schema;
 
 const itemSchema = new mongoose.Schema(
     {
+        id: {
+            type: String,
+        },
         name: {
             type: String,
         },
         quantity: {
-            type: Number,
+            type: String,
         },
         category: {
             type: String,
@@ -68,8 +71,15 @@ const postSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
-        photo: {
+        photoLink: {
             type: String,
+        },
+        photoId: {
+            type: String,
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now(),
         },
     },
     { timestamps: true }
@@ -78,7 +88,6 @@ const postSchema = new mongoose.Schema(
 const validate = (post) => {
     const itemSchema = {
         name: joi.string().required(),
-        quantity: joi.number().greater(0).required(),
         category: joi
             .string()
             .valid(
@@ -110,7 +119,7 @@ const validate = (post) => {
         location: joi.string().required(),
         match: joi.array().default([]).optional(),
         isArchived: joi.boolean().default(false),
-        photo: joi.string(),
+        photoId: joi.string(),
     });
     return schema.validate(post);
 };

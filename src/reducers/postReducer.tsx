@@ -10,6 +10,7 @@ export enum CategoryEnum {
 }
 
 export interface Item {
+    id: string;
     name: string;
     quantity: string;
     category: CategoryEnum;
@@ -26,7 +27,8 @@ export interface Post {
     location: string;
     match: string[];
     isArchived: boolean;
-    photo: string;
+    photoLink: File | null;
+    createAt: string;
 }
 
 type PostState = {

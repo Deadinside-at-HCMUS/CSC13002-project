@@ -4,40 +4,58 @@ const { Post, validate } = require("../models/post");
 const { User } = require("../models/user");
 const verifyToken = require("../middleware/auth");
 const validateObjectId = require("../middleware/validObjectId");
-const upload = require("../middleware/upload");
+const uploadCloud = require("../middleware/uploadCloud");
+const cloudinary = require("cloudinary").v2;
 
 // @route POST api/post
 // @desc Create post
 // @access Private
-router.post("/", verifyToken, upload.single("photo"), async (req, res) => {
-    const { error } = validate(req.body);
+router.post(
+    "/",
+    verifyToken,
+    uploadCloud.single("photoLink"),
+    async (req, res) => {
+        console.log(req);
+        const { error } = validate(req.body);
+        const fileData = req.file;
 
-    if (error)
-        return res.status(400).json({
-            success: false,
-            message: error.details[0].message,
-        });
-
-    const user = await User.findById(req.userId);
-    if (!user)
-        return res
-            .status(400)
-            .json({ success: false, message: "User not found!" });
-
-    if (req.body.type == "Receiving") {
-        if (req.body.match && req.body.match.length > 0) {
+        if (error) {
+            if (fileData) {
+                cloudinary.uploader.destroy(fileData.filename);
+            }
             return res.status(400).json({
                 success: false,
-                message: "Only donating post can access this field",
+                message: error.details[0].message,
             });
         }
-    }
 
-    if (req.file) {
+        const user = await User.findById(req.userId);
+        if (!user) {
+            if (fileData) {
+                cloudinary.uploader.destroy(fileData.filename);
+            }
+            return res
+                .status(400)
+                .json({ success: false, message: "User not found!" });
+        }
+
+        if (req.body.type == "Receiving") {
+            if (req.body.match && req.body.match.length > 0) {
+                if (fileData) {
+                    cloudinary.uploader.destroy(fileData.filename);
+                }
+                return res.status(400).json({
+                    success: false,
+                    message: "Only donating post can access this field",
+                });
+            }
+        }
+
         const newPost = await Post({
             ...req.body,
             author: user._id,
-            photo: req.file.path,
+            photoLink: fileData?.path,
+            photoId: fileData?.filename,
         }).save();
 
         console.log(newPost);
@@ -45,21 +63,10 @@ router.post("/", verifyToken, upload.single("photo"), async (req, res) => {
         res.status(200).json({
             success: true,
             content: newPost,
-            message: "A new post with photo has been created",
-        });
-    } else {
-        const newPost = await Post({
-            ...req.body,
-            author: user._id,
-        }).save();
-
-        res.status(200).json({
-            success: true,
-            content: newPost,
-            message: "A new post without photo has been created",
+            message: "A new post has been created",
         });
     }
-});
+);
 
 // @route GET api/post
 // @desc Get post
@@ -76,7 +83,7 @@ router.get("/", verifyToken, async (req, res) => {
 // @access Private
 router.put(
     "/:id",
-    [validateObjectId, verifyToken, upload.single("photo")],
+    [validateObjectId, verifyToken, uploadCloud.single("photoLink")],
     async (req, res) => {
         try {
             const post = await Post.findById(req.params.id);
@@ -94,9 +101,9 @@ router.put(
                     .status(403)
                     .send({ message: "User don't have access to edit!" });
 
-            let filePath;
-            if (req.file) {
-                filePath = req.file.path;
+            const fileData = req.file;
+            if (fileData) {
+                cloudinary.uploader.destroy(post.photoId);
             }
 
             let updatedPost = {
@@ -108,7 +115,8 @@ router.put(
                 location: req.body.location || post.location,
                 match: req.body.match || post.match,
                 isArchived: req.body.isArchived || post.isArchived,
-                photo: filePath || post.photo,
+                photoLink: fileData?.path || post.photoLink,
+                photoId: fileData?.filename || post.photoId,
             };
 
             const { error } = validate(updatedPost);
@@ -165,6 +173,8 @@ router.delete("/:id", verifyToken, async (req, res) => {
                 success: false,
                 message: "Post not found or user not authorised",
             });
+
+        cloudinary.uploader.destroy(deletedPost.photoId);
 
         res.json({ success: true, post: deletedPost });
     } catch (error) {

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Header from "../components/Header/Header";
 import { PostForm } from "../contexts/postContext";
@@ -6,6 +6,7 @@ import { CategoryEnum } from "../reducers/postReducer";
 import { SiAddthis } from "react-icons/si";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { PostContext } from "../contexts/postContext";
+import { Item } from "../reducers/postReducer";
 
 const initialPostState: PostForm = {
     id: "",
@@ -18,15 +19,9 @@ const initialPostState: PostForm = {
     location: "",
     match: [],
     isArchived: false,
-    photo: "not empty",
+    photoLink: null,
+    createAt: "",
 };
-
-interface AddedItem {
-    itemId: string;
-    name: string;
-    quantity: string;
-    category: CategoryEnum;
-}
 
 type CategoryEnumToString = {
     [key in CategoryEnum]: string;
@@ -48,13 +43,13 @@ const DonatePage: React.FC = () => {
 
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
+    const [formData, setFormData] = useState<PostForm>(initialPostState);
+
     const navigate = useNavigate();
 
     const handleLogoClick = () => {
         navigate("/home");
     };
-
-    const [formData, setFormData] = useState<PostForm>(initialPostState);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -79,10 +74,10 @@ const DonatePage: React.FC = () => {
         setSelectedImage(file);
     };
 
-    const [addedItemData, setAddedItemData] = useState<AddedItem[]>([]);
+    const [addedItemData, setAddedItemData] = useState<Item[]>(formData.items);
 
-    const [newItem, setNewItem] = useState<AddedItem>({
-        itemId: "",
+    const [newItem, setNewItem] = useState<Item>({
+        id: "",
         name: "",
         quantity: "",
         category: CategoryEnum.Unknown,
@@ -111,8 +106,8 @@ const DonatePage: React.FC = () => {
     };
 
     const handleAddItem = () => {
-        const newItemData: AddedItem = {
-            itemId: (addedItemData.length + 1).toString(),
+        const newItemData: Item = {
+            id: (addedItemData.length + 1).toString(),
             name: newItem.name,
             quantity: newItem.quantity,
             category: newItem.category,
@@ -121,7 +116,7 @@ const DonatePage: React.FC = () => {
         setAddedItemData((prevData) => [...prevData, newItemData]);
 
         setNewItem({
-            itemId: "",
+            id: "",
             name: "",
             quantity: "",
             category: CategoryEnum.Unknown,
@@ -134,12 +129,20 @@ const DonatePage: React.FC = () => {
         setAddedItemData(updatedItems);
     };
 
+    useEffect(() => {
+        setFormData((prevItem) => ({
+            ...prevItem,
+            items: addedItemData,
+            photoLink: selectedImage,
+        }));
+    }, [addedItemData, selectedImage]);
+
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        setFormData({ ...formData, items: addedItemData });
 
         try {
             const addPostData = await addPost(formData);
+            console.log(addPostData);
 
             if (addPostData.success) {
                 // if submit post successfully
@@ -186,7 +189,11 @@ const DonatePage: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <form onSubmit={handleSubmit} className="p-4">
+                <form
+                    encType="multipart/form-data"
+                    onSubmit={handleSubmit}
+                    className="p-4"
+                >
                     <div className="mb-4 gap-5 flex flex-row">
                         <div className="mb-2 w-1/2 flex flex-col ">
                             <label
@@ -266,7 +273,7 @@ const DonatePage: React.FC = () => {
                                         onChange={handleCategoryChange}
                                         className="w-full p-2 border rounded-md focus:outline-none focus:border-blue-400 mt-2"
                                     >
-                                        <option value={CategoryEnum.Unknown}>
+                                        <option value="Unknown">
                                             --Select category--
                                         </option>
                                         {/* {Object.keys(CategoryEnum).map((key) => (
@@ -285,22 +292,16 @@ const DonatePage: React.FC = () => {
                                         }
                                     </option>
                                 ))} */}
-                                        <option value={CategoryEnum.Electronic}>
+                                        <option value="Electronic">
                                             Electronic
                                         </option>
-                                        <option value={CategoryEnum.Clothing}>
+                                        <option value="Clothing">
                                             Clothing
                                         </option>
-                                        <option value={CategoryEnum.Book}>
-                                            Book
-                                        </option>
-                                        <option value={CategoryEnum.Food}>
-                                            Food
-                                        </option>
-                                        <option value={CategoryEnum.Vehicle}>
-                                            Vehicle
-                                        </option>
-                                        <option value={CategoryEnum.Household}>
+                                        <option value="Book">Book</option>
+                                        <option value="Food">Food</option>
+                                        <option value="Vehicle">Vehicle</option>
+                                        <option value="Household">
                                             Household
                                         </option>
                                     </select>
@@ -354,14 +355,14 @@ const DonatePage: React.FC = () => {
                                             {addedItemData.map(
                                                 (item, index) => (
                                                     <tr
-                                                        key={item.itemId}
+                                                        key={item.id}
                                                         className="border"
                                                     >
                                                         <td className="px-4 py-2 text-blue-500 font-semibold">
                                                             <Link
-                                                                to={`/post/${item.itemId}`}
+                                                                to={`/post/${item.id}`}
                                                             >
-                                                                #{item.itemId}
+                                                                #{item.id}
                                                             </Link>
                                                         </td>
                                                         <td className="px-4 py-2 font-semibold">
@@ -382,12 +383,7 @@ const DonatePage: React.FC = () => {
                                                             <Link
                                                                 to={`/profile`}
                                                             >
-                                                                {
-                                                                    categoryEnumToString[
-                                                                        item
-                                                                            .category
-                                                                    ]
-                                                                }
+                                                                {item.category}
                                                             </Link>
                                                         </td>
                                                         <td className="px-2 py-2 ">
