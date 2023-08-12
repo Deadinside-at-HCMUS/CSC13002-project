@@ -68,7 +68,10 @@ const postSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
-        photo: {
+        photoLink: {
+            type: String,
+        },
+        photoId: {
             type: String,
         },
     },
@@ -110,7 +113,8 @@ const validate = (post) => {
         location: joi.string().required(),
         match: joi.array().default([]).optional(),
         isArchived: joi.boolean().default(false),
-        photo: joi.string(),
+        photoLink: joi.string(),
+        photoId: joi.string(),
     });
     return schema.validate(post);
 };
