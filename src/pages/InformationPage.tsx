@@ -91,23 +91,23 @@ const InformationPage: React.FC = () => {
                     Details
                 </strong>
 
-                <div className="border-t">
-                    <div className="flex flex-row place-items-center gap-2">
+                <div className="flex flex-col gap-5 pt-2 border-t border-neutral-200">
+                    <div className="flex flex-row items-center gap-5 pt-2 ml-8 ">
                         <AiOutlineUser
                             fontSize={25}
                             className="text-[#5c5c5c]"
                         />
                         <label className="font-medium mr-2 ml-2">
-                            Full name: {fullname}
+                            Full name: <span className="text-[#5c5c5c]">{fullname}</span>
                         </label>
                     </div>
-                    <div className="flex flex-row place-items-center gap-2">
+                    <div className="flex flex-row items-center gap-5 pt-1 ml-8 ">
                         <HiOutlineMail
                             fontSize={25}
                             className="text-[#5c5c5c]"
                         />
                         <label className="font-medium mr-2 ml-2">
-                            Email: {email}
+                            Email: <span className="text-[#5c5c5c]">{email}</span>
                         </label>
                     </div>
                     {/* <div className="flex flex-row place-items-center">
@@ -119,42 +119,42 @@ const InformationPage: React.FC = () => {
                             Date of Birth: {birthday.toString()}
                         </label>
                     </div> */}
-                    <div className="flex flex-row place-items-center gap-2">
+                    <div className="flex flex-row items-center gap-5 pt-1 ml-8 ">
                         <HiOutlineLocationMarker
                             fontSize={25}
                             className="text-[#5c5c5c]"
                         />
                         <label className="font-medium mr-2 ml-2">
-                            Location: {location}
+                            Location: <span className="text-[#5c5c5c]">{location}</span>
                         </label>
                     </div>
-                    <div className="flex flex-row place-items-center gap-2">
+                    <div className="flex flex-row items-center gap-5 pt-1 ml-8 ">
                         <BiClipboard fontSize={25} className="text-[#5c5c5c]" />
                         <label className="font-medium mr-2 ml-2">
-                            Role: {role}
+                            Role: <span className="text-[#5c5c5c]">{role}</span>
                         </label>
                     </div>
-                    <div className="flex flex-row place-items-center gap-2">
+                    <div className="flex flex-row items-center gap-5 pt-1 ml-8 ">
                         <BsGenderAmbiguous
                             fontSize={25}
                             className="text-[#5c5c5c]"
                         />
                         <label className="font-medium mr-2 ml-2">
-                            Gender: {gender}
+                            Gender: <span className="text-[#5c5c5c]">{gender}</span>
                         </label>
                     </div>
-                    <div className="flex flex-row place-items-center gap-2">
+                    <div className="flex flex-row items-center gap-5 pt-1 ml-8 ">
                         <AiOutlinePhone
                             fontSize={25}
                             className="text-[#5c5c5c]"
                         />
                         <label className="font-medium mr-2 ml-2">
-                            Phone number: {phonenumber}
+                            Phone number: <span className="text-[#5c5c5c]">{phonenumber}</span>
                         </label>
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

@@ -1,26 +1,28 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Header from "../components/Header/Header";
-import { CategoryEnum, PostForm } from "../contexts/postContext";
-import { PostTypeEnum, StatusEnum } from "../contexts/postContext";
+import { PostForm } from "../contexts/postContext";
+import { CategoryEnum } from "../reducers/postReducer";
 import { SiAddthis } from "react-icons/si";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { PostContext } from "../contexts/postContext";
 
 const initialPostState: PostForm = {
-    _id: "",
-    type: PostTypeEnum.Donate,
+    id: "",
+    type: "Donating",
     title: "",
     body: "",
+    author: "",
     items: [],
-    status: StatusEnum.Posted,
+    status: "Posted",
     location: "",
     match: [],
     isArchived: false,
-    photo: "",
+    photo: "not empty",
 };
 
 interface AddedItem {
-    item_id: string;
+    itemId: string;
     name: string;
     quantity: string;
     category: CategoryEnum;
@@ -42,6 +44,8 @@ const categoryEnumToString: CategoryEnumToString = {
 };
 
 const DonatePage: React.FC = () => {
+    const { addPost } = useContext(PostContext);
+
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
     const navigate = useNavigate();
@@ -60,16 +64,6 @@ const DonatePage: React.FC = () => {
         });
     };
 
-    const handleSelectChange = (
-        event: React.ChangeEvent<HTMLSelectElement>
-    ) => {
-        const { name, value } = event.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-    };
-
     const handleBodyChange = (
         event: React.ChangeEvent<HTMLTextAreaElement>
     ) => {
@@ -81,39 +75,14 @@ const DonatePage: React.FC = () => {
     };
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0] || null; // Use null as a default value;
+        const file = event.target.files?.[0] || null;
         setSelectedImage(file);
     };
 
-    const [addedItemData, setAddedItemData] = useState<AddedItem[]>([
-        {
-            item_id: "1",
-            name: "rice",
-            quantity: "50kg",
-            category: CategoryEnum.Food,
-        },
-        {
-            item_id: "2",
-            name: "electric fan",
-            quantity: "1",
-            category: CategoryEnum.Electronic,
-        },
-        {
-            item_id: "3",
-            name: "mac mini m2",
-            quantity: "1",
-            category: CategoryEnum.Electronic,
-        },
-        {
-            item_id: "4",
-            name: "ipad air 5",
-            quantity: "1",
-            category: CategoryEnum.Electronic,
-        },
-    ]);
+    const [addedItemData, setAddedItemData] = useState<AddedItem[]>([]);
 
     const [newItem, setNewItem] = useState<AddedItem>({
-        item_id: "",
+        itemId: "",
         name: "",
         quantity: "",
         category: CategoryEnum.Unknown,
@@ -143,18 +112,19 @@ const DonatePage: React.FC = () => {
 
     const handleAddItem = () => {
         const newItemData: AddedItem = {
-            item_id: (addedItemData.length + 1).toString(),
+            itemId: (addedItemData.length + 1).toString(),
             name: newItem.name,
             quantity: newItem.quantity,
             category: newItem.category,
         };
 
         setAddedItemData((prevData) => [...prevData, newItemData]);
+
         setNewItem({
-            item_id: "",
+            itemId: "",
             name: "",
             quantity: "",
-            category: CategoryEnum.Book,
+            category: CategoryEnum.Unknown,
         });
     };
 
@@ -164,14 +134,34 @@ const DonatePage: React.FC = () => {
         setAddedItemData(updatedItems);
     };
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const formDataToSend = new FormData();
-        formDataToSend.append("title", formData.title);
-        formDataToSend.append("body", formData.body);
-        formDataToSend.append("location", formData.location);
-        formDataToSend.append("image", selectedImage || "");
-        console.log(formData);
+        setFormData({ ...formData, items: addedItemData });
+
+        try {
+            const addPostData = await addPost(formData);
+
+            if (addPostData.success) {
+                // if submit post successfully
+                alert("Upload post successfully");
+                navigate("/home");
+            } else {
+                // if field miss or error
+                (() => {
+                    alert("Invalid post content!");
+                    setTimeout(() => {
+                        const alertElement = document.querySelector(
+                            ".alert"
+                        ) as HTMLElement;
+                        if (alertElement) {
+                            alertElement.style.display = "none";
+                        }
+                    }, 5000);
+                })();
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -364,14 +354,14 @@ const DonatePage: React.FC = () => {
                                             {addedItemData.map(
                                                 (item, index) => (
                                                     <tr
-                                                        key={item.item_id}
+                                                        key={item.itemId}
                                                         className="border"
                                                     >
                                                         <td className="px-4 py-2 text-blue-500 font-semibold">
                                                             <Link
-                                                                to={`/post/${item.item_id}`}
+                                                                to={`/post/${item.itemId}`}
                                                             >
-                                                                #{item.item_id}
+                                                                #{item.itemId}
                                                             </Link>
                                                         </td>
                                                         <td className="px-4 py-2 font-semibold">

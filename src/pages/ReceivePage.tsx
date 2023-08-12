@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Header from "../components/Header/Header";
-import { CategoryEnum, PostForm } from "../contexts/postContext";
-import { PostTypeEnum, StatusEnum } from "../contexts/postContext";
+import { PostForm } from "../contexts/postContext";
+import { CategoryEnum } from "../reducers/postReducer";
 
 const initialPostState: PostForm = {
-    type: PostTypeEnum.Donate,
+    type: "Receiving",
     title: "",
     body: "",
     items: [],
-    status: StatusEnum.Published,
+    status: "Posted",
     location: "",
     match: [],
 };

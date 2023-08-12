@@ -44,7 +44,7 @@ const postSchema = new mongoose.Schema(
             type: Schema.Types.ObjectId,
             ref: "user",
         },
-        item: {
+        items: {
             type: [itemSchema],
         },
         status: {
@@ -101,7 +101,7 @@ const validate = (post) => {
         title: joi.string().required(),
         body: joi.string().required(),
         author: joi.string().allow(""),
-        item: joi.array().items(singleItemSchema),
+        items: joi.array().items(singleItemSchema),
         status: joi
             .string()
             .valid("Posted", "Verified", "Waiting", "Done", "Doing")

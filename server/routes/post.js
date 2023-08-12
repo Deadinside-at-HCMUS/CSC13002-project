@@ -40,6 +40,8 @@ router.post("/", verifyToken, upload.single("photo"), async (req, res) => {
             photo: req.file.path,
         }).save();
 
+        console.log(newPost);
+
         res.status(200).json({
             success: true,
             content: newPost,

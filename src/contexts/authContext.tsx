@@ -1,6 +1,6 @@
 import { createContext, useReducer, ReactNode, useEffect } from "react";
 import { authReducer, User } from "../reducers/authReducer";
-import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from "./constants";
+import { apiUrl, LOCAL_STORAGE_TOKEN_USER } from "./constants";
 import axios, { AxiosError } from "axios";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -69,8 +69,8 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
 
     // authenticate user
     const loadUser = async () => {
-        if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {
-            setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_NAME]);
+        if (localStorage[LOCAL_STORAGE_TOKEN_USER]) {
+            setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_USER]);
         }
 
         try {
@@ -88,7 +88,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
             if (axios.isAxiosError(error)) {
                 const axiosError = error as AxiosError;
                 if (axiosError.response?.status === 401) {
-                    localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
+                    localStorage.removeItem(LOCAL_STORAGE_TOKEN_USER);
                     setAuthToken(null);
                     dispatch({
                         type: "SET_AUTH",
@@ -116,7 +116,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
             const response = await axios.post(`${apiUrl}/auth/login`, userForm);
             if (response.data.success)
                 localStorage.setItem(
-                    LOCAL_STORAGE_TOKEN_NAME,
+                    LOCAL_STORAGE_TOKEN_USER,
                     response.data.content
                 );
             else console.log(response.data);
@@ -161,7 +161,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
             );
             if (response.data.success)
                 localStorage.setItem(
-                    LOCAL_STORAGE_TOKEN_NAME,
+                    LOCAL_STORAGE_TOKEN_USER,
                     response.data.content
                 );
 
@@ -184,7 +184,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
 
     // Logout
     const logoutUser = () => {
-        localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
+        localStorage.removeItem(LOCAL_STORAGE_TOKEN_USER);
         dispatch({
             type: "SET_AUTH",
             payload: { isAuthenticated: false, user: null },

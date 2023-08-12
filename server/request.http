@@ -116,14 +116,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGQ1Y
 
 POST http://localhost:8080/api/post/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGQ0ZTEwNTk2ZGU0NjA3MTdhZTdmMmIiLCJpYXQiOjE2OTE2NzI4NDIsImV4cCI6MTY5MjI3NzY0Mn0.mSkf7qDNJyEohijuO-_ODPJ2oEqMjene3Galfcqb3ds
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGQ0YzJmOWMyMTEyN2IxYTViZThmMDciLCJpYXQiOjE2OTE4NDM2NjMsImV4cCI6MTY5MjQ0ODQ2M30.nMBv1XrlD-WRZS69B16OQbvMR7yH6DcLcKbwZGWNZtA
 
 {
     "type": "Receiving",
     "title": "Receive Socks",
     "body": "We are in need of 8 pairs of socks for children",
     "author": "",
-    "item": [{
+    "items": [{
         "name": "Socks",
         "quantity": 8,
         "category": "Clothing"

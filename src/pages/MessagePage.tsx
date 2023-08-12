@@ -62,63 +62,57 @@ const MessagePage: React.FC = () => {
 
     const filteredMessages = selectedContact
         ? messages.filter(
-              (message) =>
-                  (message.sender === selectedContact &&
-                      message.receiver === "self") ||
-                  (message.sender === "self" &&
-                      message.receiver === selectedContact)
-          )
+            (message) =>
+                (message.sender === selectedContact &&
+                    message.receiver === "self") ||
+                (message.sender === "self" &&
+                    message.receiver === selectedContact)
+        )
         : messages;
 
     return (
         <div className="flex h-screen bg-gray-100">
-            <div className="w-1/4 border-r border-gray-300 bg-white p-4">
-                {/* Sidebar */}
+            <div className="w-1/4 bg-white p-4">
                 <div className="text-gray-700 font-semibold mb-4">Contacts</div>
                 <ul className="space-y-2">
-                    {/* Replace with your actual contacts */}
-                    <li className="flex items-center space-x-2 cursor-pointer">
-                        <div
-                            className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold"
-                            onClick={() => {
-                                handleConversation("Alice");
-                            }}
+                    {/* Updated contact list items */}
+                    {["Alice", "Bob"].map((contact) => (
+                        <li
+                            key={contact}
+                            className={`flex items-center space-x-2 cursor-pointer ${selectedContact === contact ? "font-semibold text-blue-600" : ""
+                                }`}
+                            onClick={() => handleConversation(contact)}
                         >
-                            A
-                        </div>
-                        <p>Alice</p>
-                    </li>
-                    <li className="flex items-center space-x-2 cursor-pointer">
-                        <div
-                            className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold"
-                            onClick={() => {
-                                handleConversation("Bob");
-                            }}
-                        >
-                            B
-                        </div>
-                        <p>Bob</p>
-                    </li>
-                    {/* ... add more contacts */}
+                            <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold">
+                                {contact.charAt(0)}
+                            </div>
+                            <p>{contact}</p>
+                        </li>
+                    ))}
                 </ul>
             </div>
+
             <div className="flex-1 p-4 overflow-y-auto">
                 <div className="space-y-4">
+                    {/* Updated message display */}
                     {filteredMessages.map((message) => (
                         <MessageBox key={message.id} data={message} />
                     ))}
                 </div>
-                {/* Message Input */}
+
                 <div className="mt-4">
                     <textarea
-                        className="w-full p-2 border rounded-md focus:outline-none focus:border-blue-400"
+                        className="w-full p-2 border rounded-md shadow focus:outline-none focus:border-blue-400 resize-none"
+                        style={{ height: "90px" }}
                         placeholder="Type your message..."
                         value={inputMessage}
                         onChange={(e) => setInputMessage(e.target.value)}
                     />
                     <button
-                        className="bg-blue-500 text-white px-4 py-2 mt-2 rounded-md hover:bg-blue-600"
+                        className={`bg-blue-500 text-white px-4 py-2 mt-2 rounded-md hover:bg-blue-600 ${inputMessage.trim() === "" ? "opacity-50 cursor-not-allowed" : ""
+                            }`}
                         onClick={handleSendMessage}
+                        disabled={inputMessage.trim() === ""}
                     >
                         Send
                     </button>

@@ -1,45 +1,25 @@
 import { createContext, ReactNode, useReducer } from "react";
 import { postReducer, Post } from "../reducers/postReducer";
-import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from "./constants";
+import {
+    apiUrl,
+    POSTS_LOADED_SUCCESS,
+    POSTS_LOADED_FAIL,
+    ADD_POST,
+    DELETE_POST,
+    UPDATE_POST,
+    FIND_POST,
+} from "./constants";
 import axios, { AxiosError } from "axios";
-
-export enum CategoryEnum {
-    Electronic,
-    Clothing,
-    Book,
-    Food,
-    Vehicle,
-    Household,
-    Medical,
-    Unknown,
-}
-
-export enum PostTypeEnum {
-    Donate,
-    Receive,
-}
-
-export enum StatusEnum {
-    Posted,
-    Verified,
-    Waiting,
-    Done,
-    Doing,
-}
-
-export interface Item {
-    name: string;
-    quantity: string;
-    category: CategoryEnum;
-}
+import { Item } from "../reducers/postReducer";
 
 export interface PostForm {
-    _id: string;
-    type: PostTypeEnum;
+    id: string;
+    type: string;
     title: string;
     body: string;
+    author: string;
     items: Item[];
-    status: StatusEnum;
+    status: string;
     location: string;
     match: string[];
     isArchived: boolean;
@@ -53,7 +33,6 @@ interface PostResponse {
 }
 
 interface PostStateType {
-    postId: string;
     post: Post | null;
     posts: Post[];
     postsLoading: boolean;
@@ -76,7 +55,6 @@ const PostContextProvider: React.FC<PostContextProviderProps> = ({
     children,
 }) => {
     const [postState, dispatch] = useReducer(postReducer, {
-        postId: "",
         post: null,
         posts: [],
         postsLoading: true,
@@ -97,14 +75,27 @@ const PostContextProvider: React.FC<PostContextProviderProps> = ({
         }
     };
 
+    // Add post
     const addPost = async (postForm: PostForm) => {
         try {
-            const response = await axios.post(`${apiUrl}/post`, postForm);
+            const submitForm = {
+                type: postForm.type,
+                title: postForm.title,
+                body: postForm.body,
+                author: postForm.author,
+                items: postForm.items,
+                status: postForm.status,
+                location: postForm.location,
+                match: postForm.match,
+                isArchived: postForm.isArchived,
+                photo: postForm.photo,
+            };
+
+            const response = await axios.post(`${apiUrl}/post`, submitForm);
             if (response.data.success) {
-                localStorage.setItem(
-                    LOCAL_STORAGE_TOKEN_NAME,
-                    response.data.content
-                );
+                localStorage.setItem(ADD_POST, response.data.content);
+
+                console.log(response.data);
 
                 dispatch({ type: "ADD_POST", payload: response.data.post });
             } else {
@@ -132,7 +123,7 @@ const PostContextProvider: React.FC<PostContextProviderProps> = ({
     const updatePost = async (postForm: PostForm) => {
         try {
             const response = await axios.put(
-                `${apiUrl}/post/${postForm._id}`,
+                `${apiUrl}/post/${postForm.id}`,
                 postForm
             );
             if (response.data.success) {
