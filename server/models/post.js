@@ -40,9 +40,6 @@ const postSchema = new mongoose.Schema(
         body: {
             type: String,
         },
-        // photo: {
-        //   type: String, // Assuming you store the path or URL of the image
-        // },
         author: {
             type: Schema.Types.ObjectId,
             ref: "user",
@@ -70,6 +67,9 @@ const postSchema = new mongoose.Schema(
         isArchived: {
             type: Boolean,
             default: false,
+        },
+        photo: {
+            type: String,
         },
     },
     { timestamps: true }
@@ -110,6 +110,7 @@ const validate = (post) => {
         location: joi.string().required(),
         match: joi.array().default([]).optional(),
         isArchived: joi.boolean().default(false),
+        photo: joi.string(),
     });
     return schema.validate(post);
 };

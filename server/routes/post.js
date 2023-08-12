@@ -1,16 +1,17 @@
 const express = require("express");
 const router = express.Router();
-// const { Post } = require("../models/post");
 const { Post, validate } = require("../models/post");
 const { User } = require("../models/user");
 const verifyToken = require("../middleware/auth");
 const validateObjectId = require("../middleware/validObjectId");
+const upload = require("../middleware/upload");
 
 // @route POST api/post
 // @desc Create post
 // @access Private
-router.post("/", verifyToken, async (req, res) => {
+router.post("/", verifyToken, upload.single("photo"), async (req, res) => {
     const { error } = validate(req.body);
+
     if (error)
         return res.status(400).json({
             success: false,
@@ -32,14 +33,30 @@ router.post("/", verifyToken, async (req, res) => {
         }
     }
 
-    const newPost = await Post({ ...req.body, author: user._id }).save();
+    if (req.file) {
+        const newPost = await Post({
+            ...req.body,
+            author: user._id,
+            photo: req.file.path,
+        }).save();
 
-    // res.status(201).send({ data: newPost });
-    res.status(200).json({
-        success: true,
-        content: newPost,
-        message: "A new post has been created",
-    });
+        res.status(200).json({
+            success: true,
+            content: newPost,
+            message: "A new post with photo has been created",
+        });
+    } else {
+        const newPost = await Post({
+            ...req.body,
+            author: user._id,
+        }).save();
+
+        res.status(200).json({
+            success: true,
+            content: newPost,
+            message: "A new post without photo has been created",
+        });
+    }
 });
 
 // @route GET api/post
@@ -55,69 +72,82 @@ router.get("/", verifyToken, async (req, res) => {
 // @route PUT api/post
 // @desc Update post
 // @access Private
-router.put("/:id", [validateObjectId, verifyToken], async (req, res) => {
-    try {
-        const post = await Post.findById(req.params.id);
+router.put(
+    "/:id",
+    [validateObjectId, verifyToken, upload.single("photo")],
+    async (req, res) => {
+        try {
+            const post = await Post.findById(req.params.id);
 
-        // Check if the post exists
-        if (!post) {
-            return res
-                .status(404)
-                .json({ success: false, message: "Post not found" });
-        }
-
-        const user = await User.findById(req.userId);
-        if (!user._id.equals(post.author))
-            return res
-                .status(403)
-                .send({ message: "User don't have access to edit!" });
-
-        let updatedPost = {
-            type: req.body.type || post.type,
-            title: req.body.title || post.title,
-            body: req.body.body || post.body,
-            item: req.body.item || post.item,
-            // quantity: req.body.quantity || post.quantity,
-            // category: req.body.category || post.category,
-            status: req.body.status || post.status,
-            location: req.body.location || post.location,
-            match: req.body.match || post.match,
-            isArchived: req.body.isArchived || post.isArchived,
-        };
-
-        const { error } = validate(updatedPost);
-        if (error)
-            return res.status(400).send({ message: error.details[0].message });
-
-        const postUpdateCondition = { _id: req.params.id, author: req.userId };
-
-        updatedPost = await Post.findOneAndUpdate(
-            postUpdateCondition,
-            updatedPost,
-            {
-                new: true,
+            // Check if the post exists
+            if (!post) {
+                return res
+                    .status(404)
+                    .json({ success: false, message: "Post not found" });
             }
-        );
 
-        // User not authorised to update post or post not found
-        if (!updatedPost)
-            return res.status(401).json({
-                success: false,
-                message: "Post not found or user not authorised",
+            const user = await User.findById(req.userId);
+            if (!user._id.equals(post.author))
+                return res
+                    .status(403)
+                    .send({ message: "User don't have access to edit!" });
+
+            let filePath;
+            if (req.file) {
+                filePath = req.file.path;
+            }
+
+            let updatedPost = {
+                type: req.body.type || post.type,
+                title: req.body.title || post.title,
+                body: req.body.body || post.body,
+                item: req.body.item || post.item,
+                status: req.body.status || post.status,
+                location: req.body.location || post.location,
+                match: req.body.match || post.match,
+                isArchived: req.body.isArchived || post.isArchived,
+                photo: filePath || post.photo,
+            };
+
+            const { error } = validate(updatedPost);
+            if (error)
+                return res
+                    .status(400)
+                    .send({ message: error.details[0].message });
+
+            const postUpdateCondition = {
+                _id: req.params.id,
+                author: req.userId,
+            };
+
+            updatedPost = await Post.findOneAndUpdate(
+                postUpdateCondition,
+                updatedPost,
+                {
+                    new: true,
+                }
+            );
+
+            // User not authorised to update post or post not found
+            if (!updatedPost)
+                return res.status(401).json({
+                    success: false,
+                    message: "Post not found or user not authorised",
+                });
+
+            res.json({
+                success: true,
+                message: "Update successfully!",
+                post: updatedPost,
             });
-
-        res.json({
-            success: true,
-            message: "Update successfully!",
-            post: updatedPost,
-        });
-    } catch (error) {
-        console.error(error);
-        return res
-            .status(500)
-            .json({ success: false, message: "An error occurred" });
+        } catch (error) {
+            console.error(error);
+            return res
+                .status(500)
+                .json({ success: false, message: "An error occurred" });
+        }
     }
-});
+);
 
 // @route DELETE api/posts
 // @desc Delete post

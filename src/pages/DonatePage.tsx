@@ -3,17 +3,20 @@ import { useNavigate, Link } from "react-router-dom";
 import Header from "../components/Header/Header";
 import { CategoryEnum, PostForm } from "../contexts/postContext";
 import { PostTypeEnum, StatusEnum } from "../contexts/postContext";
-import { SiAddthis } from "react-icons/si"
-import { RiDeleteBinLine } from "react-icons/ri"
+import { SiAddthis } from "react-icons/si";
+import { RiDeleteBinLine } from "react-icons/ri";
 
 const initialPostState: PostForm = {
+    _id: "",
     type: PostTypeEnum.Donate,
     title: "",
     body: "",
     items: [],
-    status: StatusEnum.Published,
+    status: StatusEnum.Posted,
     location: "",
     match: [],
+    isArchived: false,
+    photo: "",
 };
 
 interface AddedItem {
@@ -23,7 +26,11 @@ interface AddedItem {
     category: CategoryEnum;
 }
 
-const categoryEnumToString = {
+type CategoryEnumToString = {
+    [key in CategoryEnum]: string;
+};
+
+const categoryEnumToString: CategoryEnumToString = {
     [CategoryEnum.Unknown]: "--Select category--",
     [CategoryEnum.Electronic]: "Electronic",
     [CategoryEnum.Clothing]: "Clothing",
@@ -31,6 +38,7 @@ const categoryEnumToString = {
     [CategoryEnum.Food]: "Food",
     [CategoryEnum.Vehicle]: "Vehicle",
     [CategoryEnum.Household]: "Household",
+    [CategoryEnum.Medical]: "Medical",
 };
 
 const DonatePage: React.FC = () => {
@@ -76,7 +84,6 @@ const DonatePage: React.FC = () => {
         const file = event.target.files?.[0] || null; // Use null as a default value;
         setSelectedImage(file);
     };
-
 
     const [addedItemData, setAddedItemData] = useState<AddedItem[]>([
         {
@@ -163,7 +170,7 @@ const DonatePage: React.FC = () => {
         formDataToSend.append("title", formData.title);
         formDataToSend.append("body", formData.body);
         formDataToSend.append("location", formData.location);
-        formDataToSend.append("image", selectedImage || ''); // Provide a default value if selectedImage is null
+        formDataToSend.append("image", selectedImage || "");
         console.log(formData);
     };
 
@@ -178,7 +185,10 @@ const DonatePage: React.FC = () => {
                             alt="Logo"
                             onClick={handleLogoClick}
                         />
-                        <p className="p-3 pt-5 pr-6 font-bold text-xl text-center cursor-pointer" onClick={handleLogoClick}>
+                        <p
+                            className="p-3 pt-5 pr-6 font-bold text-xl text-center cursor-pointer"
+                            onClick={handleLogoClick}
+                        >
                             Donate Form
                         </p>
                         <div className="flex-1">
@@ -189,8 +199,14 @@ const DonatePage: React.FC = () => {
                 <form onSubmit={handleSubmit} className="p-4">
                     <div className="mb-4 gap-5 flex flex-row">
                         <div className="mb-2 w-1/2 flex flex-col ">
-                            <label htmlFor="title" className="block font-bold mb-1">
-                                Title: <span className="text-red-500 font-normal">*</span>
+                            <label
+                                htmlFor="title"
+                                className="block font-bold mb-1"
+                            >
+                                Title:{" "}
+                                <span className="text-red-500 font-normal">
+                                    *
+                                </span>
                             </label>
                             <input
                                 type="text"
@@ -202,7 +218,10 @@ const DonatePage: React.FC = () => {
                             />
                         </div>
                         <div className="mb-4 w-1/2 flex flex-col">
-                            <label htmlFor="location" className="block font-bold mb-1">
+                            <label
+                                htmlFor="location"
+                                className="block font-bold mb-1"
+                            >
                                 Location:
                             </label>
                             <input
@@ -218,7 +237,8 @@ const DonatePage: React.FC = () => {
 
                     <div className="mb-4">
                         <label htmlFor="body" className="block font-bold mb-1">
-                            Description: <span className="text-red-500 font-normal">*</span>
+                            Description:{" "}
+                            <span className="text-red-500 font-normal">*</span>
                         </label>
                         <textarea
                             id="body"
@@ -232,7 +252,8 @@ const DonatePage: React.FC = () => {
 
                     <div className="mb-4">
                         <label className="block font-bold mb-1">
-                            Items: <span className="text-red-500 font-normal">*</span>
+                            Items:{" "}
+                            <span className="text-red-500 font-normal">*</span>
                         </label>
                         <div className="mb-4 ">
                             <div className="flex gap-4">
@@ -280,8 +301,12 @@ const DonatePage: React.FC = () => {
                                         <option value={CategoryEnum.Clothing}>
                                             Clothing
                                         </option>
-                                        <option value={CategoryEnum.Book}>Book</option>
-                                        <option value={CategoryEnum.Food}>Food</option>
+                                        <option value={CategoryEnum.Book}>
+                                            Book
+                                        </option>
+                                        <option value={CategoryEnum.Food}>
+                                            Food
+                                        </option>
                                         <option value={CategoryEnum.Vehicle}>
                                             Vehicle
                                         </option>
@@ -290,13 +315,19 @@ const DonatePage: React.FC = () => {
                                         </option>
                                     </select>
 
-                                    <div className="mt-3 mb-3 float-right flex gap-2 items-center cursor-pointer text-blue-500 hover:text-blue-600 " onClick={handleAddItem}>
+                                    <div
+                                        className="mt-3 mb-3 float-right flex gap-2 items-center cursor-pointer text-blue-500 hover:text-blue-600 "
+                                        onClick={handleAddItem}
+                                    >
                                         Add Item
                                         <SiAddthis fontSize="25" />
                                     </div>
 
                                     <div className="mt-12">
-                                        <label htmlFor="image" className="block font-bold mb-1 ">
+                                        <label
+                                            htmlFor="image"
+                                            className="block font-bold mb-1 "
+                                        >
                                             Image:
                                         </label>
                                         <input
@@ -314,68 +345,95 @@ const DonatePage: React.FC = () => {
                                     <table className="w-full table-auto border-collapse border border-gray-300 text-left ml-2 scroll-auto">
                                         <thead>
                                             <tr className="bg-[#F4F2FF] text-blue-500">
-                                                <th className="px-4 py-2">ID</th>
-                                                <th className="px-4 py-2">Name</th>
-                                                <th className="px-4 py-2">Quantity</th>
-                                                <th className="px-4 py-2">Category</th>
+                                                <th className="px-4 py-2">
+                                                    ID
+                                                </th>
+                                                <th className="px-4 py-2">
+                                                    Name
+                                                </th>
+                                                <th className="px-4 py-2">
+                                                    Quantity
+                                                </th>
+                                                <th className="px-4 py-2">
+                                                    Category
+                                                </th>
                                                 <th className="px-4 py-2"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {addedItemData.map((item, index) => (
-                                                <tr
-                                                    key={item.item_id}
-                                                    className="border"
-                                                >
-                                                    <td className="px-4 py-2 text-blue-500 font-semibold">
-                                                        <Link
-                                                            to={`/post/${item.item_id}`}
-                                                        >
-                                                            #{item.item_id}
-                                                        </Link>
-                                                    </td>
-                                                    <td className="px-4 py-2 font-semibold">
-                                                        <Link to={`/profile`}>
-                                                            {item.name}
-                                                        </Link>
-                                                    </td>
-                                                    <td className="px-4 py-2 ">
-                                                        <Link to={`/profile`}>
-                                                            {item.quantity}
-                                                        </Link>
-                                                    </td>
-                                                    <td className="px-4 py-2 ">
-                                                        <Link to={`/profile`}>
-                                                            {categoryEnumToString[item.category]}
-                                                        </Link>
-                                                    </td>
-                                                    <td className="px-2 py-2 ">
-                                                        <RiDeleteBinLine
-                                                            onClick={() => handleDeleteItem(index)}
-                                                            className="text-red-500 hover:text-red-600 cursor-pointer"
-                                                        />
-                                                    </td>
-                                                </tr>
-                                            ))}
+                                            {addedItemData.map(
+                                                (item, index) => (
+                                                    <tr
+                                                        key={item.item_id}
+                                                        className="border"
+                                                    >
+                                                        <td className="px-4 py-2 text-blue-500 font-semibold">
+                                                            <Link
+                                                                to={`/post/${item.item_id}`}
+                                                            >
+                                                                #{item.item_id}
+                                                            </Link>
+                                                        </td>
+                                                        <td className="px-4 py-2 font-semibold">
+                                                            <Link
+                                                                to={`/profile`}
+                                                            >
+                                                                {item.name}
+                                                            </Link>
+                                                        </td>
+                                                        <td className="px-4 py-2 ">
+                                                            <Link
+                                                                to={`/profile`}
+                                                            >
+                                                                {item.quantity}
+                                                            </Link>
+                                                        </td>
+                                                        <td className="px-4 py-2 ">
+                                                            <Link
+                                                                to={`/profile`}
+                                                            >
+                                                                {
+                                                                    categoryEnumToString[
+                                                                        item
+                                                                            .category
+                                                                    ]
+                                                                }
+                                                            </Link>
+                                                        </td>
+                                                        <td className="px-2 py-2 ">
+                                                            <RiDeleteBinLine
+                                                                onClick={() =>
+                                                                    handleDeleteItem(
+                                                                        index
+                                                                    )
+                                                                }
+                                                                className="text-red-500 hover:text-red-600 cursor-pointer"
+                                                            />
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            )}
                                         </tbody>
                                     </table>
                                 </div>
-
                             </div>
                         </div>
 
                         <button
                             type="submit"
                             className={`flex text-white px-4 py-2 rounded-md  float-right
-                            ${(!formData.title || !formData.body || !newItem) ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'}`}
+                            ${
+                                !formData.title || !formData.body || !newItem
+                                    ? "bg-gray-500 cursor-not-allowed"
+                                    : "bg-blue-500 hover:bg-blue-600"
+                            }`}
                         >
                             Submit Form
                         </button>
                     </div>
                 </form>
             </div>
-        </div >
-
+        </div>
     );
 };
 

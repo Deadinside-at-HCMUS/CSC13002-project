@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useReducer, useEffect } from "react";
+import { createContext, ReactNode, useReducer } from "react";
 import { postReducer, Post } from "../reducers/postReducer";
 import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from "./constants";
 import axios, { AxiosError } from "axios";
@@ -43,6 +43,7 @@ export interface PostForm {
     location: string;
     match: string[];
     isArchived: boolean;
+    photo: string;
 }
 
 interface PostResponse {
@@ -52,6 +53,7 @@ interface PostResponse {
 }
 
 interface PostStateType {
+    postId: string;
     post: Post | null;
     posts: Post[];
     postsLoading: boolean;
@@ -74,14 +76,30 @@ const PostContextProvider: React.FC<PostContextProviderProps> = ({
     children,
 }) => {
     const [postState, dispatch] = useReducer(postReducer, {
+        postId: "",
         post: null,
         posts: [],
         postsLoading: true,
     });
 
+    // Get all posts
+    const getPosts = async () => {
+        try {
+            const response = await axios.get(`${apiUrl}/post`);
+            if (response.data.success) {
+                dispatch({
+                    type: "POSTS_LOADED_SUCCESS",
+                    payload: response.data.posts,
+                });
+            }
+        } catch (error) {
+            console.log("Fail to load posts");
+        }
+    };
+
     const addPost = async (postForm: PostForm) => {
         try {
-            const response = await axios.post(`${apiUrl}/posts`, postForm);
+            const response = await axios.post(`${apiUrl}/post`, postForm);
             if (response.data.success) {
                 localStorage.setItem(
                     LOCAL_STORAGE_TOKEN_NAME,
@@ -114,7 +132,7 @@ const PostContextProvider: React.FC<PostContextProviderProps> = ({
     const updatePost = async (postForm: PostForm) => {
         try {
             const response = await axios.put(
-                `${apiUrl}/posts/${postForm._id}`,
+                `${apiUrl}/post/${postForm._id}`,
                 postForm
             );
             if (response.data.success) {
@@ -137,7 +155,27 @@ const PostContextProvider: React.FC<PostContextProviderProps> = ({
         }
     };
 
-    const postContextData = { addPost, updatePost, postState };
+    // Delete post
+    const deletePost = async (postId: string) => {
+        try {
+            const response = await axios.delete(`${apiUrl}/post/${postId}`);
+            if (response.data.success)
+                dispatch({
+                    type: "DELETE_POST",
+                    payload: response.data.postId,
+                });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const postContextData = {
+        getPosts,
+        addPost,
+        updatePost,
+        deletePost,
+        postState,
+    };
     return (
         <PostContext.Provider value={postContextData}>
             {children}
