@@ -1,28 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Post from "./Post";
 import { PostContext } from "../../contexts/postContext";
-
-// const PostData = [
-//     {
-//         id: 1,
-//         title: "Vuon Lai Retreat",
-//         time: "Now",
-//         location: "Ho Chi Minh",
-//         description:
-//             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-//         imgUrl: "https://duonglaovuonlai.vn/upload/photo/logo_15254024042019.png",
-//     },
-//     {
-//         id: 2,
-//         title: "Vuon Lai Retreat",
-//         time: "Now",
-//         location: "Ho Chi Minh",
-//         description:
-//             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-//         imgUrl: "https://duonglaovuonlai.vn/upload/photo/logo_15254024042019.png",
-//     },
-// ];
 
 const PostList: React.FC = () => {
     const navigate = useNavigate();
@@ -31,7 +10,15 @@ const PostList: React.FC = () => {
         navigate("/donate");
     };
 
-    const { postState } = useContext(PostContext);
+    const { postState, getAllPosts } = useContext(PostContext);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await getAllPosts();
+        };
+
+        fetchData();
+    }, []);
 
     const postData = postState.posts;
 
@@ -39,7 +26,7 @@ const PostList: React.FC = () => {
         <div className="flex gap-10 justify-center flex-wrap items-center py-10">
             {postData.map(
                 ({
-                    id,
+                    _id,
                     type,
                     title,
                     body,
@@ -49,19 +36,19 @@ const PostList: React.FC = () => {
                     location,
                     match,
                     isArchived,
-                    photoLink,
+                    photoUrl,
                     createAt,
                 }) => {
                     return (
                         <Post
-                            key={id}
-                            id={id}
+                            key={_id}
+                            _id={_id}
                             title={title}
                             type={type}
                             createAt={createAt}
                             location={location}
                             body={body}
-                            photoLink={photoLink}
+                            photoUrl={photoUrl}
                             author={author}
                             items={items}
                             status={status}

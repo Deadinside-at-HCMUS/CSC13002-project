@@ -9,6 +9,7 @@ import { PostContext } from "../contexts/postContext";
 import { Item } from "../reducers/postReducer";
 
 const initialPostState: PostForm = {
+    _id: "",
     type: "Donating",
     title: "",
     body: "",
@@ -91,7 +92,7 @@ const DonatePage: React.FC = () => {
     const [addedItemData, setAddedItemData] = useState<Item[]>(formData.items);
 
     const [newItem, setNewItem] = useState<Item>({
-        id: "",
+        _id: "",
         name: "",
         quantity: "",
         category: CategoryEnum.Unknown,
@@ -121,7 +122,7 @@ const DonatePage: React.FC = () => {
 
     const handleAddItem = () => {
         const newItemData: Item = {
-            id: (addedItemData.length + 1).toString(),
+            _id: (addedItemData.length + 1).toString(),
             name: newItem.name,
             quantity: newItem.quantity,
             category: newItem.category,
@@ -130,7 +131,7 @@ const DonatePage: React.FC = () => {
         setAddedItemData((prevData) => [...prevData, newItemData]);
 
         setNewItem({
-            id: "",
+            _id: "",
             name: "",
             quantity: "",
             category: CategoryEnum.Unknown,
@@ -368,14 +369,14 @@ const DonatePage: React.FC = () => {
                                             {addedItemData.map(
                                                 (item, index) => (
                                                     <tr
-                                                        key={item.id}
+                                                        key={item._id}
                                                         className="border"
                                                     >
                                                         <td className="px-4 py-2 text-blue-500 font-semibold">
                                                             <Link
-                                                                to={`/post/${item.id}`}
+                                                                to={`/post/${item._id}`}
                                                             >
-                                                                #{item.id}
+                                                                #{item._id}
                                                             </Link>
                                                         </td>
                                                         <td className="px-4 py-2 font-semibold">

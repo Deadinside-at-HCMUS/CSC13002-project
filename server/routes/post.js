@@ -49,13 +49,35 @@ router.post("/", verifyToken, async (req, res) => {
 });
 
 // @route GET api/post
-// @desc Get post
+// @desc Get User post
 // @access Private
 router.get("/", verifyToken, async (req, res) => {
-    const posts = await Post.find({ author: req.userId })
-        .populate("author", "username email")
-        .populate("match");
-    return res.json({ success: true, posts });
+    try {
+        const posts = await Post.find({ author: req.userId })
+            .populate("author", "username email")
+            .populate("match");
+        return res.json({ success: true, posts });
+    } catch (error) {
+        return res
+            .status(500)
+            .json({ success: false, error: "Internal server error" });
+    }
+});
+
+// @route GET api/post
+// @desc Get all post
+// @access Private
+router.get("/all", async (req, res) => {
+    try {
+        const posts = await Post.find()
+            .populate("author", "username email")
+            .populate("match");
+        return res.json({ success: true, posts });
+    } catch (error) {
+        return res
+            .status(500)
+            .json({ success: false, error: "Internal server error" });
+    }
 });
 
 // @route PUT api/post
@@ -78,22 +100,17 @@ router.put("/:id", [validateObjectId, verifyToken], async (req, res) => {
                 .status(403)
                 .send({ message: "User don't have access to edit!" });
 
-        const fileData = req.file;
-        if (fileData) {
-            cloudinary.uploader.destroy(post.photoId);
-        }
-
         let updatedPost = {
             type: req.body.type || post.type,
             title: req.body.title || post.title,
             body: req.body.body || post.body,
-            item: req.body.item || post.item,
+            items: req.body.item || post.items,
             status: req.body.status || post.status,
             location: req.body.location || post.location,
             match: req.body.match || post.match,
             isArchived: req.body.isArchived || post.isArchived,
-            photoLink: fileData?.path || post.photoLink,
-            photoId: fileData?.filename || post.photoId,
+            photoUrl: req.body.path || post.photoLink,
+            photoId: req.body.filename || post.photoId,
         };
 
         const { error } = validate(updatedPost);

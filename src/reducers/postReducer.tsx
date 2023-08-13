@@ -10,13 +10,14 @@ export enum CategoryEnum {
 }
 
 export interface Item {
-    id: string;
+    _id: string;
     name: string;
     quantity: string;
     category: CategoryEnum;
 }
 
 export interface Post {
+    _id: string;
     type: string;
     title: string;
     body: string;
@@ -66,14 +67,14 @@ export const postReducer = (
             const postId = payload as string;
             return {
                 ...state,
-                posts: state.posts.filter((post) => post.id !== postId),
+                posts: state.posts.filter((post) => post._id !== postId),
             };
         }
 
         case "UPDATE_POST": {
             const updatedPost = payload as Post;
             const newPosts = state.posts.map((post) =>
-                post.id === updatedPost.id ? updatedPost : post
+                post._id === updatedPost._id ? updatedPost : post
             );
 
             return {

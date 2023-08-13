@@ -3,7 +3,7 @@ import { BiTimeFive } from "react-icons/bi";
 import { Item } from "../../reducers/postReducer";
 
 interface PostProps {
-    id: string;
+    _id: string;
     type: string;
     title: string;
     body: string;
@@ -13,13 +13,13 @@ interface PostProps {
     location: string;
     match: string[];
     isArchived: boolean;
-    photoLink: string;
+    photoUrl: string;
     createAt: string;
     onDonateClick: () => void;
 }
 
 const Post: React.FC<PostProps> = ({
-    id,
+    _id,
     type,
     title,
     body,
@@ -29,12 +29,12 @@ const Post: React.FC<PostProps> = ({
     location,
     match,
     isArchived,
-    photoLink,
+    photoUrl,
     createAt,
     onDonateClick,
 }) => {
     return (
-        <div key={id}>
+        <div key={_id}>
             <div className="group group/item w-[250px] p-[20px] bg-white rounded-[10px] hover:bg-[#2a68ff] shadow-lg shadow-[#f1f4f8]-700 hover:shadow-lg cursor-pointer">
                 <span className="flex justify-between items-center gap-4">
                     <h1 className="text-[16px] font-semibold group-hover:text-white">
@@ -52,16 +52,17 @@ const Post: React.FC<PostProps> = ({
                 </p>
 
                 <div className="flex items-center gap-2 py-[10px]">
-                    <img src={photoLink} className="w-[80%]" />
+                    <img src={photoUrl} className="w-[80%]" />
                     {/* <span className="text-[14px] py-[1rem] block group-hover:text-white"></span> */}
                 </div>
-
-                <button
-                    className="bg-blue-500 text-white border-[2px] rounded-[10px] block p-[10px] w-full text-[14px] font-semibold group-hover:bg-white group-hover:text-[#2a68ff]"
-                    onClick={onDonateClick}
-                >
-                    Donate
-                </button>
+                {type === "Receiving" && (
+                    <button
+                        className="bg-blue-500 text-white border-[2px] rounded-[10px] block p-[10px] w-full text-[14px] font-semibold group-hover:bg-white group-hover:text-[#2a68ff]"
+                        onClick={onDonateClick}
+                    >
+                        Donate
+                    </button>
+                )}
             </div>
         </div>
     );

@@ -15,6 +15,7 @@ import axios, { AxiosError } from "axios";
 import { Item } from "../reducers/postReducer";
 
 export interface PostForm {
+    _id: string;
     type: string;
     title: string;
     body: string;
@@ -43,7 +44,8 @@ interface PostStateType {
 
 interface PostContextType {
     addPost: (postForm: PostForm) => Promise<PostResponse>;
-    getPosts: () => Promise<void>;
+    getUserPosts: () => Promise<void>;
+    getAllPosts: () => Promise<void>;
     updatePost: (postForm: PostForm) => Promise<PostResponse>;
     deletePost: (id: string) => Promise<void>;
     uploadImage: (
@@ -69,10 +71,25 @@ const PostContextProvider: React.FC<PostContextProviderProps> = ({
         postsLoading: true,
     });
 
-    // Get all posts
-    const getPosts = async () => {
+    // Get all posts of one user
+    const getUserPosts = async () => {
         try {
             const response = await axios.get(`${apiUrl}/post`);
+            if (response.data.success) {
+                dispatch({
+                    type: "POSTS_LOADED_SUCCESS",
+                    payload: response.data.posts,
+                });
+            }
+        } catch (error) {
+            console.log("Fail to load posts");
+        }
+    };
+
+    // Get all posts of from DB
+    const getAllPosts = async () => {
+        try {
+            const response = await axios.get(`${apiUrl}/post/all`);
             if (response.data.success) {
                 dispatch({
                     type: "POSTS_LOADED_SUCCESS",
@@ -130,6 +147,7 @@ const PostContextProvider: React.FC<PostContextProviderProps> = ({
             const response = await axios.post(`${apiUrl}/post`, submitForm);
 
             console.log(response);
+
             if (response.data.success) {
                 localStorage.setItem(ADD_POST, response.data.content);
 
@@ -159,7 +177,7 @@ const PostContextProvider: React.FC<PostContextProviderProps> = ({
     const updatePost = async (postForm: PostForm) => {
         try {
             const response = await axios.put(
-                `${apiUrl}/post/${postForm.id}`,
+                `${apiUrl}/post/${postForm._id}`,
                 postForm
             );
             if (response.data.success) {
@@ -197,7 +215,8 @@ const PostContextProvider: React.FC<PostContextProviderProps> = ({
     };
 
     const postContextData = {
-        getPosts,
+        getUserPosts,
+        getAllPosts,
         addPost,
         updatePost,
         deletePost,
