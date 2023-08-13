@@ -17,7 +17,6 @@ export interface Item {
 }
 
 export interface Post {
-    id: string;
     type: string;
     title: string;
     body: string;
@@ -27,7 +26,8 @@ export interface Post {
     location: string;
     match: string[];
     isArchived: boolean;
-    photoLink: File | null;
+    photoUrl: string;
+    photoID: string;
     createAt: string;
 }
 

@@ -71,7 +71,7 @@ const postSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
-        photoLink: {
+        photoUrl: {
             type: String,
         },
         photoId: {
@@ -120,6 +120,7 @@ const validate = (post) => {
         match: joi.array().default([]).optional(),
         isArchived: joi.boolean().default(false),
         photoId: joi.string(),
+        photoUrl: joi.string(),
     });
     return schema.validate(post);
 };

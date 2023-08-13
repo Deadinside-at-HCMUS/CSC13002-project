@@ -10,7 +10,7 @@ const postRouter = require("./routes/post");
 connection();
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false })); // Add this line
+app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/auth", authRouter);
 app.use("/api/post", postRouter);

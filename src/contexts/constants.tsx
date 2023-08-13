@@ -11,3 +11,8 @@ export const ADD_POST = "ADD_POST";
 export const DELETE_POST = "DELETE_POST";
 export const UPDATE_POST = "UPDATE_POST";
 export const FIND_POST = "FIND_POST";
+
+export const CLOUDINARY_NAME = "de6o8unxv";
+export const CLOUDINARY_UPLOAD_PRESET = "nramtgvk";
+export const CLOUDINARY_KEY = "829344473411369";
+export const CLOUDINARY_SECRET = "EuIkOp7Rtan87alxbueAw0HllUQ";

@@ -9,7 +9,6 @@ import { PostContext } from "../contexts/postContext";
 import { Item } from "../reducers/postReducer";
 
 const initialPostState: PostForm = {
-    id: "",
     type: "Donating",
     title: "",
     body: "",
@@ -19,7 +18,8 @@ const initialPostState: PostForm = {
     location: "",
     match: [],
     isArchived: false,
-    photoLink: null,
+    photoId: "",
+    photoUrl: "",
     createAt: "",
 };
 
@@ -39,9 +39,7 @@ const categoryEnumToString: CategoryEnumToString = {
 };
 
 const DonatePage: React.FC = () => {
-    const { addPost } = useContext(PostContext);
-
-    const [selectedImage, setSelectedImage] = useState<File | null>(null);
+    const { addPost, uploadImage } = useContext(PostContext);
 
     const [formData, setFormData] = useState<PostForm>(initialPostState);
 
@@ -69,9 +67,25 @@ const DonatePage: React.FC = () => {
         });
     };
 
-    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageChange = async (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
         const file = event.target.files?.[0] || null;
-        setSelectedImage(file);
+        if (file) {
+            try {
+                const imgData = await uploadImage(file);
+
+                const { photoId, photoUrl } = imgData;
+
+                setFormData((prevItem) => ({
+                    ...prevItem,
+                    photoId: photoId,
+                    photoUrl: photoUrl,
+                }));
+            } catch (error) {
+                console.log("Error:", error);
+            }
+        }
     };
 
     const [addedItemData, setAddedItemData] = useState<Item[]>(formData.items);
@@ -133,16 +147,14 @@ const DonatePage: React.FC = () => {
         setFormData((prevItem) => ({
             ...prevItem,
             items: addedItemData,
-            photoLink: selectedImage,
         }));
-    }, [addedItemData, selectedImage]);
+    }, [addedItemData]);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
         try {
             const addPostData = await addPost(formData);
-            console.log(addPostData);
 
             if (addPostData.success) {
                 // if submit post successfully
@@ -161,6 +173,7 @@ const DonatePage: React.FC = () => {
                         }
                     }, 5000);
                 })();
+                console.log(addPostData);
             }
         } catch (error) {
             console.log(error);
@@ -190,9 +203,9 @@ const DonatePage: React.FC = () => {
                     </div>
                 </div>
                 <form
-                    encType="multipart/form-data"
                     onSubmit={handleSubmit}
                     className="p-4"
+                    encType="multipart/form-data"
                 >
                     <div className="mb-4 gap-5 flex flex-row">
                         <div className="mb-2 w-1/2 flex flex-col ">

@@ -8,12 +8,13 @@ import {
     DELETE_POST,
     UPDATE_POST,
     FIND_POST,
+    CLOUDINARY_NAME,
+    CLOUDINARY_UPLOAD_PRESET,
 } from "./constants";
 import axios, { AxiosError } from "axios";
 import { Item } from "../reducers/postReducer";
 
 export interface PostForm {
-    id: string;
     type: string;
     title: string;
     body: string;
@@ -23,7 +24,8 @@ export interface PostForm {
     location: string;
     match: string[];
     isArchived: boolean;
-    photoLink: File | null;
+    photoId: string;
+    photoUrl: string;
     createAt: string;
 }
 
@@ -41,6 +43,12 @@ interface PostStateType {
 
 interface PostContextType {
     addPost: (postForm: PostForm) => Promise<PostResponse>;
+    getPosts: () => Promise<void>;
+    updatePost: (postForm: PostForm) => Promise<PostResponse>;
+    deletePost: (id: string) => Promise<void>;
+    uploadImage: (
+        img: File | null
+    ) => Promise<{ photoId: string; photoUrl: string }>;
     postState: PostStateType;
 }
 
@@ -76,6 +84,32 @@ const PostContextProvider: React.FC<PostContextProviderProps> = ({
         }
     };
 
+    // Upload Image
+    const uploadImage = async (
+        img: File | null
+    ): Promise<{ photoId: string; photoUrl: string }> => {
+        const cloudApi = `https://api.Cloudinary.com/v1_1/${CLOUDINARY_NAME}/image/upload`;
+
+        const imgForm = new FormData();
+        imgForm.append("file", img as File);
+        imgForm.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+        const options = {
+            method: "POST",
+            body: imgForm,
+        };
+
+        try {
+            const response = await fetch(cloudApi, options);
+            const result = await response.json();
+            const { asset_id, url } = result;
+            return { photoId: asset_id, photoUrl: url };
+        } catch (error) {
+            console.log("Error:", error);
+            return { photoId: "", photoUrl: "" };
+        }
+    };
+
     // Add post
     const addPost = async (postForm: PostForm) => {
         try {
@@ -89,18 +123,15 @@ const PostContextProvider: React.FC<PostContextProviderProps> = ({
                 location: postForm.location,
                 match: postForm.match,
                 isArchived: postForm.isArchived,
-                photoLink: postForm.photoLink,
+                photoId: postForm.photoId,
+                photoUrl: postForm.photoUrl,
             };
-
-            console.log(submitForm);
-
+            console.log(postForm);
             const response = await axios.post(`${apiUrl}/post`, submitForm);
 
             console.log(response);
             if (response.data.success) {
                 localStorage.setItem(ADD_POST, response.data.content);
-
-                console.log(response.data);
 
                 dispatch({ type: "ADD_POST", payload: response.data.post });
             } else {
@@ -170,6 +201,7 @@ const PostContextProvider: React.FC<PostContextProviderProps> = ({
         addPost,
         updatePost,
         deletePost,
+        uploadImage,
         postState,
     };
     return (
