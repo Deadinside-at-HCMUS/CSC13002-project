@@ -24,41 +24,42 @@ const PostList: React.FC = () => {
 
     return (
         <div className="flex gap-10 justify-center flex-wrap items-center py-10">
-            {postData.map(
-                ({
-                    _id,
-                    type,
-                    title,
-                    body,
-                    author,
-                    items,
-                    status,
-                    location,
-                    match,
-                    isArchived,
-                    photoUrl,
-                    createAt,
-                }) => {
-                    return (
-                        <Post
-                            key={_id}
-                            _id={_id}
-                            title={title}
-                            type={type}
-                            createAt={createAt}
-                            location={location}
-                            body={body}
-                            photoUrl={photoUrl}
-                            author={author}
-                            items={items}
-                            status={status}
-                            match={match}
-                            isArchived={isArchived}
-                            onDonateClick={handleDonateClick}
-                        />
-                    );
-                }
-            )}
+            {postData &&
+                postData.map(
+                    ({
+                        _id,
+                        type,
+                        title,
+                        body,
+                        author,
+                        items,
+                        status,
+                        location,
+                        match,
+                        isArchived,
+                        photoUrl,
+                        createAt,
+                    }) => {
+                        return (
+                            <Post
+                                key={_id}
+                                _id={_id}
+                                title={title}
+                                type={type}
+                                createAt={createAt}
+                                location={location}
+                                body={body}
+                                photoUrl={photoUrl}
+                                author={author}
+                                items={items}
+                                status={status}
+                                match={match}
+                                isArchived={isArchived}
+                                onDonateClick={handleDonateClick}
+                            />
+                        );
+                    }
+                )}
         </div>
     );
 };

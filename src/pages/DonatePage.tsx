@@ -92,7 +92,7 @@ const DonatePage: React.FC = () => {
     const [addedItemData, setAddedItemData] = useState<Item[]>(formData.items);
 
     const [newItem, setNewItem] = useState<Item>({
-        _id: "",
+        idx: "",
         name: "",
         quantity: "",
         category: CategoryEnum.Unknown,
@@ -122,7 +122,7 @@ const DonatePage: React.FC = () => {
 
     const handleAddItem = () => {
         const newItemData: Item = {
-            _id: (addedItemData.length + 1).toString(),
+            idx: (addedItemData.length + 1).toString(),
             name: newItem.name,
             quantity: newItem.quantity,
             category: newItem.category,
@@ -131,7 +131,7 @@ const DonatePage: React.FC = () => {
         setAddedItemData((prevData) => [...prevData, newItemData]);
 
         setNewItem({
-            _id: "",
+            idx: "",
             name: "",
             quantity: "",
             category: CategoryEnum.Unknown,
@@ -369,14 +369,14 @@ const DonatePage: React.FC = () => {
                                             {addedItemData.map(
                                                 (item, index) => (
                                                     <tr
-                                                        key={item._id}
+                                                        key={item.idx}
                                                         className="border"
                                                     >
                                                         <td className="px-4 py-2 text-blue-500 font-semibold">
                                                             <Link
-                                                                to={`/post/${item._id}`}
+                                                                to={`/post/${item.idx}`}
                                                             >
-                                                                #{item._id}
+                                                                #{item.idx}
                                                             </Link>
                                                         </td>
                                                         <td className="px-4 py-2 font-semibold">

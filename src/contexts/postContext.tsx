@@ -143,15 +143,24 @@ const PostContextProvider: React.FC<PostContextProviderProps> = ({
                 photoId: postForm.photoId,
                 photoUrl: postForm.photoUrl,
             };
-            console.log(postForm);
+
+            // console.log(submitForm);
+
             const response = await axios.post(`${apiUrl}/post`, submitForm);
 
-            console.log(response);
+            // console.log(response);
 
             if (response.data.success) {
+                const addedPost: Post = {
+                    ...response.data.content,
+                    _id: response.data.content._id || "",
+                };
+
                 localStorage.setItem(ADD_POST, response.data.content);
 
-                dispatch({ type: "ADD_POST", payload: response.data.post });
+                dispatch({ type: "ADD_POST", payload: addedPost });
+
+                await getAllPosts();
             } else {
                 console.log(response.data);
             }
