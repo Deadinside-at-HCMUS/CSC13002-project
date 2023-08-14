@@ -9,6 +9,10 @@ import ChatBot from "../components/Chatbox/ChatBox";
 import { AuthContext } from "../contexts/authContext";
 
 const HomePage: React.FC = () => {
+    const {
+        authState: { isAuthenticated },
+    } = useContext(AuthContext);
+
     const navigate = useNavigate();
 
     const handleAboutClick = () => {
@@ -30,10 +34,6 @@ const HomePage: React.FC = () => {
     const handelProfileClick = () => {
         navigate("/profile");
     };
-
-    const {
-        authState: { isAuthenticated },
-    } = useContext(AuthContext);
 
     return (
         <div className="w-[85%] m-auto bg-white">

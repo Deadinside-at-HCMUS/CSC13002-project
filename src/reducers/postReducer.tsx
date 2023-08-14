@@ -16,12 +16,18 @@ export interface Item {
     category: CategoryEnum;
 }
 
+export interface AuthorType {
+    _id: string;
+    username: string;
+    email: string;
+}
+
 export interface Post {
     _id: string;
     type: string;
     title: string;
     body: string;
-    author: string;
+    author: AuthorType;
     items: Item[];
     status: string;
     location: string;

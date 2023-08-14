@@ -1,7 +1,7 @@
 import React from "react";
-import { Outlet } from "react-router-dom"
+import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar/Sidebar";
-import Header from "../components/Header/Header"
+import Header from "../components/Header/Header";
 
 const ProfilePage: React.FC = () => {
     return (
@@ -14,7 +14,7 @@ const ProfilePage: React.FC = () => {
                 </div>
             </div>
         </div>
-    )
+    );
 };
 
 export default ProfilePage;

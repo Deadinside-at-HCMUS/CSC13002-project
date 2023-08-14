@@ -10,6 +10,7 @@ const PostList: React.FC = () => {
         navigate("/donate");
     };
 
+    // loi cai nay wa homepage de xu ly, va phai truyen vao trong PostList nay cac Post data
     const { postState, getAllPosts } = useContext(PostContext);
 
     useEffect(() => {
@@ -21,6 +22,8 @@ const PostList: React.FC = () => {
     }, []);
 
     const postData = postState.posts;
+
+    // const sortedPostData =
 
     return (
         <div className="flex gap-10 justify-center flex-wrap items-center py-10">
@@ -38,7 +41,7 @@ const PostList: React.FC = () => {
                         match,
                         isArchived,
                         photoUrl,
-                        createAt,
+                        createdAt,
                     }) => {
                         return (
                             <Post
@@ -46,7 +49,7 @@ const PostList: React.FC = () => {
                                 _id={_id}
                                 title={title}
                                 type={type}
-                                createAt={createAt}
+                                createAt={createdAt}
                                 location={location}
                                 body={body}
                                 photoUrl={photoUrl}

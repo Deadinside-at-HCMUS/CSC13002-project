@@ -3,8 +3,8 @@ import { format } from "date-fns";
 import { Link } from "react-router-dom";
 import { getPostStatus } from "./utils/GetPostStatus";
 import { FiArchive } from "react-icons/fi";
-import { PostContext } from "../../contexts/postContext";
-import { AuthContext } from "../../contexts/authContext";
+import { User } from "../../reducers/authReducer";
+import { Post } from "../../reducers/postReducer";
 
 interface RecentPost {
     postId: string;
@@ -17,31 +17,22 @@ interface RecentPost {
     currentPostStatus: string;
 }
 
-const PostTable: React.FC = () => {
-    const { authState } = useContext(AuthContext);
+interface PostTableProps {
+    authUser: User | null;
+    authUsers: User[] | null;
+    postData: Post[];
+}
 
-    const { postState, getAllPosts, getUserPosts } = useContext(PostContext);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            if (authState.user?.role === "collaborator") {
-                await getAllPosts();
-            } else {
-                await getUserPosts();
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    const postData = postState.posts;
-    const user = authState.user;
-
+const PostTable: React.FC<PostTableProps> = ({
+    authUser,
+    authUsers,
+    postData,
+}) => {
     let recentPostData: RecentPost[] = [];
 
-    if (user?.role === "collaborator" && authState.users) {
+    if (authUser?.role === "collaborator" && authUsers) {
         recentPostData = postData.map((post) => {
-            const owner = authState.users?.find(
+            const owner = authUsers?.find(
                 (user) => user._id === post.author._id
             );
             return {
@@ -55,21 +46,18 @@ const PostTable: React.FC = () => {
                 currentPostStatus: post.status,
             };
         });
-        console.log(recentPostData);
     } else {
         recentPostData = postData.map((post) => ({
             postId: post._id,
-            name: user?.fullName || "",
-            customerId: user?._id || "",
-            address: user?.location || "",
-            phoneNumber: user?.phonenumber || "",
+            name: authUser?.fullName || "",
+            customerId: authUser?._id || "",
+            address: authUser?.location || "",
+            phoneNumber: authUser?.phonenumber || "",
             postDate: post.createdAt,
             donationList: "",
             currentPostStatus: post.status,
         }));
     }
-
-    console.log(recentPostData);
 
     const handleArchivePost = (index: number) => {
         console.log("archive");

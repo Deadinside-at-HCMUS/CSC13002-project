@@ -13,7 +13,11 @@ const initialPostState: PostForm = {
     type: "Donating",
     title: "",
     body: "",
-    author: "",
+    author: {
+        _id: "",
+        username: "",
+        email: "",
+    },
     items: [],
     status: "Posted",
     location: "",
@@ -24,20 +28,20 @@ const initialPostState: PostForm = {
     createdAt: "",
 };
 
-type CategoryEnumToString = {
-    [key in CategoryEnum]: string;
-};
+// type CategoryEnumToString = {
+//     [key in CategoryEnum]: string;
+// };
 
-const categoryEnumToString: CategoryEnumToString = {
-    [CategoryEnum.Unknown]: "--Select category--",
-    [CategoryEnum.Electronic]: "Electronic",
-    [CategoryEnum.Clothing]: "Clothing",
-    [CategoryEnum.Book]: "Book",
-    [CategoryEnum.Food]: "Food",
-    [CategoryEnum.Vehicle]: "Vehicle",
-    [CategoryEnum.Household]: "Household",
-    [CategoryEnum.Medical]: "Medical",
-};
+// const categoryEnumToString: CategoryEnumToString = {
+//     [CategoryEnum.Unknown]: "--Select category--",
+//     [CategoryEnum.Electronic]: "Electronic",
+//     [CategoryEnum.Clothing]: "Clothing",
+//     [CategoryEnum.Book]: "Book",
+//     [CategoryEnum.Food]: "Food",
+//     [CategoryEnum.Vehicle]: "Vehicle",
+//     [CategoryEnum.Household]: "Household",
+//     [CategoryEnum.Medical]: "Medical",
+// };
 
 const DonatePage: React.FC = () => {
     const { addPost, uploadImage } = useContext(PostContext);

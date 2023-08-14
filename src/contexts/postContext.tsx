@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useReducer } from "react";
-import { postReducer, Post } from "../reducers/postReducer";
+import { postReducer, Post, AuthorType } from "../reducers/postReducer";
 import {
     apiUrl,
     POSTS_LOADED_SUCCESS,
@@ -19,7 +19,7 @@ export interface PostForm {
     type: string;
     title: string;
     body: string;
-    author: string;
+    author: AuthorType;
     items: Item[];
     status: string;
     location: string;
