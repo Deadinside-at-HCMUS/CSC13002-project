@@ -2,7 +2,7 @@ import React from "react";
 import StatsGrid from "../components/Chart/StatsGrid";
 import TransactionChart from "../components/Chart/TransactionChart";
 import UserPieChart from "../components/Chart/UserPieChart";
-import PostTable from "../components/Chart/PostTable"
+import PostTable from "../components/Chart/PostTable";
 
 const DashboardPage: React.FC = () => {
     return (
@@ -19,7 +19,7 @@ const DashboardPage: React.FC = () => {
             </div>
             <PostTable />
         </div>
-    )
+    );
 };
 
 export default DashboardPage;

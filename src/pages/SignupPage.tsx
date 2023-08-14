@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AuthContext } from "../contexts/authContext";
-import { UserRegisterForm, RoleEnum } from "../contexts/authContext";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
+import { UserRegisterForm } from "../contexts/authContext";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const defaultValues: UserRegisterForm = {
     username: "",
@@ -17,7 +17,7 @@ const defaultValues: UserRegisterForm = {
     location: "",
     gender: "non-binary",
     phonenumber: "",
-    role: RoleEnum.user,
+    role: "user",
 };
 
 const phoneRegExp = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
@@ -57,7 +57,7 @@ const validationSchema = yup.object({
         .max(10, "Phone number is not valid!")
         .min(10, "Phone number is not valid!")
         .matches(phoneRegExp, "Phone number is not valid!"),
-    role: yup.mixed<RoleEnum>().required("Select role is required!"),
+    role: yup.string().required("Select role is required!"),
     remember: yup.boolean().required(),
 });
 
@@ -67,18 +67,7 @@ const SignupPage: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
-    const [registerForm, setRegisterForm] = useState({
-        username: "",
-        email: "",
-        password: "",
-        passwordconfirm: "",
-        fullName: "",
-        dateOfBirth: "",
-        location: "",
-        gender: "non-binary",
-        phonenumber: "",
-        role: RoleEnum.user,
-    });
+    const [registerForm, setRegisterForm] = useState(defaultValues);
 
     const {
         username,
@@ -164,7 +153,8 @@ const SignupPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Username <span className="text-red-500 font-normal">*</span>
+                            Username{" "}
+                            <span className="text-red-500 font-normal">*</span>
                         </label>
                         <input
                             {...register("username")}
@@ -186,7 +176,8 @@ const SignupPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Email <span className="text-red-500 font-normal">*</span>
+                            Email{" "}
+                            <span className="text-red-500 font-normal">*</span>
                         </label>
                         <input
                             {...register("email")}
@@ -208,7 +199,8 @@ const SignupPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Password <span className="text-red-500 font-normal">*</span>
+                            Password{" "}
+                            <span className="text-red-500 font-normal">*</span>
                         </label>
                         <div className="relative">
                             <input
@@ -224,7 +216,11 @@ const SignupPage: React.FC = () => {
                                 className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600"
                                 onClick={() => setShowPassword(!showPassword)}
                             >
-                                {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                                {showPassword ? (
+                                    <AiOutlineEyeInvisible />
+                                ) : (
+                                    <AiOutlineEye />
+                                )}
                             </button>
                         </div>
                         {errors.password && (
@@ -238,7 +234,8 @@ const SignupPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Confirm Password <span className="text-red-500 font-normal">*</span>
+                            Confirm Password{" "}
+                            <span className="text-red-500 font-normal">*</span>
                         </label>
                         <div className="relative">
                             <input
@@ -252,9 +249,15 @@ const SignupPage: React.FC = () => {
                             />
                             <button
                                 className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600"
-                                onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
+                                onClick={() =>
+                                    setShowPasswordConfirm(!showPasswordConfirm)
+                                }
                             >
-                                {showPasswordConfirm ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                                {showPasswordConfirm ? (
+                                    <AiOutlineEyeInvisible />
+                                ) : (
+                                    <AiOutlineEye />
+                                )}
                             </button>
                         </div>
                         {errors.passwordconfirm && (
@@ -268,7 +271,8 @@ const SignupPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Full name <span className="text-red-500 font-normal">*</span>
+                            Full name{" "}
+                            <span className="text-red-500 font-normal">*</span>
                         </label>
                         <input
                             {...register("fullName")}
@@ -290,7 +294,8 @@ const SignupPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Date of birth <span className="text-red-500 font-normal">*</span>
+                            Date of birth{" "}
+                            <span className="text-red-500 font-normal">*</span>
                         </label>
                         <input
                             {...register("dateOfBirth")}
@@ -312,7 +317,8 @@ const SignupPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Location <span className="text-red-500 font-normal">*</span>
+                            Location{" "}
+                            <span className="text-red-500 font-normal">*</span>
                         </label>
                         <input
                             {...register("location")}
@@ -334,7 +340,8 @@ const SignupPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Phone Number <span className="text-red-500 font-normal">*</span>
+                            Phone Number{" "}
+                            <span className="text-red-500 font-normal">*</span>
                         </label>
                         <input
                             {...register("phonenumber")}
@@ -355,7 +362,8 @@ const SignupPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            Gender <span className="text-red-500 font-normal">*</span>
+                            Gender{" "}
+                            <span className="text-red-500 font-normal">*</span>
                         </label>
                         <select
                             {...register("gender")}
@@ -377,7 +385,8 @@ const SignupPage: React.FC = () => {
                             htmlFor=""
                             className="text-sm font-bold text-gray-600 block"
                         >
-                            I want to be <span className="text-red-500 font-normal">*</span>
+                            I want to be{" "}
+                            <span className="text-red-500 font-normal">*</span>
                         </label>
                         <select
                             {...register("role")}
@@ -394,7 +403,7 @@ const SignupPage: React.FC = () => {
                     </div>
                     <div>
                         <button
-                            className={`w-full py-2 px-4 rounded-md text-white text-sm ${(
+                            className={`w-full py-2 px-4 rounded-md text-white text-sm ${
                                 !username ||
                                 !email ||
                                 !password ||
@@ -404,9 +413,10 @@ const SignupPage: React.FC = () => {
                                 !location ||
                                 !phonenumber ||
                                 gender === "non-binary" ||
-                                role === RoleEnum.user
-                            ) ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
-                                }`}
+                                role === "user"
+                                    ? "bg-gray-500 cursor-not-allowed"
+                                    : "bg-blue-600 hover:bg-blue-700"
+                            }`}
                         >
                             Submit
                         </button>
@@ -423,8 +433,8 @@ const SignupPage: React.FC = () => {
                         </div>
                     </div>
                 </form>
-            </div >
-        </div >
+            </div>
+        </div>
     );
 };
 

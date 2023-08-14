@@ -29,7 +29,7 @@ export interface Post {
     isArchived: boolean;
     photoUrl: string;
     photoID: string;
-    createAt: string;
+    createdAt: string;
 }
 
 type PostState = {

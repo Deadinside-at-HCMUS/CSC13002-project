@@ -4,11 +4,6 @@ import { apiUrl, LOCAL_STORAGE_TOKEN_USER } from "./constants";
 import axios, { AxiosError } from "axios";
 import setAuthToken from "../utils/setAuthToken";
 
-export enum RoleEnum {
-    user,
-    collaborator,
-}
-
 export interface UserLoginForm {
     email: string;
     password: string;
@@ -24,13 +19,14 @@ export interface UserRegisterForm {
     location: string;
     gender: string;
     phonenumber: string;
-    role: RoleEnum;
+    role: string;
 }
 
 interface AuthStateType {
     authLoading: boolean;
     isAuthenticated: boolean;
     user: User | null;
+    users: User[] | null;
 }
 
 interface LoginResponse {
@@ -65,6 +61,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         authLoading: true,
         isAuthenticated: false,
         user: null,
+        users: null,
     });
 
     // authenticate user
@@ -81,6 +78,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
                     payload: {
                         isAuthenticated: true,
                         user: respone.data.user,
+                        users: respone.data.users,
                     },
                 });
             }
@@ -92,7 +90,11 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
                     setAuthToken(null);
                     dispatch({
                         type: "SET_AUTH",
-                        payload: { isAuthenticated: false, user: null },
+                        payload: {
+                            isAuthenticated: false,
+                            user: null,
+                            users: null,
+                        },
                     });
                 } else {
                     console.log(error.config);
@@ -187,7 +189,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         localStorage.removeItem(LOCAL_STORAGE_TOKEN_USER);
         dispatch({
             type: "SET_AUTH",
-            payload: { isAuthenticated: false, user: null },
+            payload: { isAuthenticated: false, user: null, users: null },
         });
     };
 

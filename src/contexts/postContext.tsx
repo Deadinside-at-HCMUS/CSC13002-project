@@ -27,7 +27,7 @@ export interface PostForm {
     isArchived: boolean;
     photoId: string;
     photoUrl: string;
-    createAt: string;
+    createdAt: string;
 }
 
 interface PostResponse {

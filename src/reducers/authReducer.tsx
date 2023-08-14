@@ -1,12 +1,12 @@
-import { RoleEnum } from "../contexts/authContext";
-
 type AuthState = {
     authLoading: boolean;
     isAuthenticated: boolean;
     user: User | null;
+    users: User[] | null;
 };
 
 export type User = {
+    _id: string;
     username: string;
     email: string;
     password: string;
@@ -15,14 +15,15 @@ export type User = {
     location: string;
     gender: string;
     phonenumber: string;
-    role: RoleEnum;
+    role: string;
 };
 
 type AuthAction = {
-    type: "SET_AUTH";
+    type: string;
     payload: {
         isAuthenticated: boolean;
         user: User | null;
+        users: User[] | null;
     };
 };
 
@@ -32,7 +33,7 @@ export const authReducer = (
 ): AuthState => {
     const {
         type,
-        payload: { isAuthenticated, user },
+        payload: { isAuthenticated, user, users },
     } = action;
 
     switch (type) {
@@ -42,6 +43,7 @@ export const authReducer = (
                 authLoading: false,
                 isAuthenticated,
                 user,
+                users,
             };
 
         default:

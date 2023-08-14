@@ -10,11 +10,12 @@ const verifyToken = require("../middleware/auth");
 router.get("/", verifyToken, async (req, res) => {
     try {
         const user = await User.findById(req.userId).select("-password");
-        if (!user)
+        const users = await User.find({ role: "user" }).select("-password");
+        if (!users || !user)
             return res
                 .status(400)
                 .json({ success: false, message: "User not found!" });
-        res.json({ success: true, user });
+        res.json({ success: true, user, users });
     } catch (error) {
         console.log(error);
         res.status(500).json({

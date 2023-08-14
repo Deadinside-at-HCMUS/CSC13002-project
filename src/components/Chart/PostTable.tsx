@@ -1,74 +1,76 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
 import { getPostStatus } from "./utils/GetPostStatus";
 import { FiArchive } from "react-icons/fi";
+import { PostContext } from "../../contexts/postContext";
+import { AuthContext } from "../../contexts/authContext";
 
-interface RecentOrder {
-    post_id: string;
+interface RecentPost {
+    postId: string;
     name: string;
-    customer_id: string;
+    customerId: string;
     address: string;
-    phone_number: string;
-    order_date: string;
-    donation_list: string;
-    current_order_status: string;
+    phoneNumber: string;
+    postDate: string;
+    donationList: string;
+    currentPostStatus: string;
 }
 
-const recentOrderData: RecentOrder[] = [
-    {
-        post_id: "1",
-        name: "Huynh Duc Thien",
-        customer_id: "23143",
-        address: "Cottage Grove, OR 97424",
-        phone_number: "0945738232",
-        order_date: "2022-05-17T03:24:00",
-        donation_list: "$435.50",
-        current_order_status: "POSTED",
-    },
-    {
-        post_id: "7",
-        name: "Dang Dao Duong An",
-        customer_id: "96453",
-        address: "Los Angeles, CA 90017",
-        phone_number: "0934539982",
-        order_date: "2022-05-14T05:24:00",
-        donation_list: "$96.35",
-        current_order_status: "VERIFIED",
-    },
-    {
-        post_id: "2",
-        name: "Le Anh Thu",
-        customer_id: "65345",
-        address: "Westminster, CA 92683",
-        phone_number: "0987654321",
-        order_date: "2022-05-17T07:14:00",
-        donation_list: "$836.44",
-        current_order_status: "WAITING",
-    },
-    {
-        post_id: "3",
-        name: "Nguyen Minh Dat",
-        customer_id: "87832",
-        address: "San Mateo, CA 94403",
-        phone_number: "098987654",
-        order_date: "2022-05-16T12:40:00",
-        donation_list: "$334.50",
-        current_order_status: "DONE",
-    },
-    {
-        post_id: "4",
-        name: "Tia To",
-        customer_id: "09832",
-        address: "San Mateo, CA 94403",
-        phone_number: "0876738921",
-        order_date: "2022-05-14T03:24:00",
-        donation_list: "$876.00",
-        current_order_status: "DOING",
-    },
-];
-
 const PostTable: React.FC = () => {
+    const { authState } = useContext(AuthContext);
+
+    const { postState, getAllPosts, getUserPosts } = useContext(PostContext);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (authState.user?.role === "collaborator") {
+                await getAllPosts();
+            } else {
+                await getUserPosts();
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const postData = postState.posts;
+    const user = authState.user;
+
+    let recentPostData: RecentPost[] = [];
+
+    if (user?.role === "collaborator" && authState.users) {
+        recentPostData = postData.map((post) => {
+            const owner = authState.users?.find(
+                (user) => user._id === post.author._id
+            );
+            return {
+                postId: post._id,
+                name: owner?.fullName || "",
+                customerId: owner?._id || "",
+                address: owner?.location || "",
+                phoneNumber: owner?.phonenumber || "",
+                postDate: post.createdAt,
+                donationList: "",
+                currentPostStatus: post.status,
+            };
+        });
+        console.log(recentPostData);
+    } else {
+        recentPostData = postData.map((post) => ({
+            postId: post._id,
+            name: user?.fullName || "",
+            customerId: user?._id || "",
+            address: user?.location || "",
+            phoneNumber: user?.phonenumber || "",
+            postDate: post.createdAt,
+            donationList: "",
+            currentPostStatus: post.status,
+        }));
+    }
+
+    console.log(recentPostData);
+
     const handleArchivePost = (index: number) => {
         console.log("archive");
     };
@@ -90,11 +92,11 @@ const PostTable: React.FC = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {recentOrderData.map((post, index) => (
-                            <tr key={post.post_id} className="border">
+                        {recentPostData.map((post, index) => (
+                            <tr key={post.postId} className="border">
                                 <td className="px-4 py-2 text-blue-500 font-semibold">
-                                    <Link to={`/post/${post.post_id}`}>
-                                        #{post.post_id}
+                                    <Link to={`/post/${post.postId}`}>
+                                        #{post.postId}
                                     </Link>
                                 </td>
                                 <td className="px-4 py-2 font-semibold">
@@ -105,20 +107,23 @@ const PostTable: React.FC = () => {
                                 </td>
                                 <td className="px-4 py-2 ">
                                     <Link to={`/profile`}>
-                                        {post.phone_number}
+                                        {post.phoneNumber}
                                     </Link>
                                 </td>
                                 <td className="px-4 py-2 ">
-                                    {post.donation_list}
+                                    {post.donationList}
                                 </td>
                                 <td className="px-4 py-2 ">
-                                    {format(
-                                        new Date(post.order_date),
-                                        "dd MMM yyyy"
-                                    )}
+                                    {post.postDate
+                                        ? format(
+                                              new Date(post.postDate),
+                                              "dd MMM yyyy"
+                                          )
+                                        : ""}
                                 </td>
+
                                 <td className="px-4 py-2 ">
-                                    {getPostStatus(post.current_order_status)}
+                                    {getPostStatus(post.currentPostStatus)}
                                 </td>
                                 <td className="px-2 py-2 ">
                                     <FiArchive

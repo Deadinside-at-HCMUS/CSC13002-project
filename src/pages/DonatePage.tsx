@@ -21,7 +21,7 @@ const initialPostState: PostForm = {
     isArchived: false,
     photoId: "",
     photoUrl: "",
-    createAt: "",
+    createdAt: "",
 };
 
 type CategoryEnumToString = {
