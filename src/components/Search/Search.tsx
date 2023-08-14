@@ -70,7 +70,10 @@ const Search: React.FC = () => {
                 </div>
             </form>
 
-            <PostList selectedType={selectedType} />
+            <PostList
+                selectedType={selectedType}
+                selectedSortBy={selectedSortBy}
+            />
 
             <div className="flex items-center gap-10 justify-center">
                 <div className="flex items-center gap-2">
@@ -109,7 +112,7 @@ const Search: React.FC = () => {
                     >
                         <option value=""></option>
                         <option value="time">Newest</option>
-                        <option value="priority">Priority</option>
+                        {/* <option value="priority">Priority</option> */}
                         <option value="verified">Verified</option>
                     </select>
                 </div>

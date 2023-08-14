@@ -5,16 +5,19 @@ import { PostContext } from "../../contexts/postContext";
 
 interface PostListProps {
     selectedType: string;
+    selectedSortBy: string;
 }
 
-const PostList: React.FC<PostListProps> = ({ selectedType }) => {
+const PostList: React.FC<PostListProps> = ({
+    selectedType,
+    selectedSortBy,
+}) => {
     const navigate = useNavigate();
 
     const handleDonateClick = () => {
         navigate("/donate");
     };
 
-    // loi cai nay wa homepage de xu ly, va phai truyen vao trong PostList nay cac Post data
     const { postState, getAllPosts } = useContext(PostContext);
 
     useEffect(() => {
@@ -29,9 +32,23 @@ const PostList: React.FC<PostListProps> = ({ selectedType }) => {
 
     const postData = postState.posts;
 
-    const filteredPosts = selectedType
+    let filteredPosts = selectedType
         ? postData.filter((postDatum) => postDatum.type === selectedType)
         : postData;
+
+    if (selectedSortBy === "time") {
+        filteredPosts.sort(
+            (a, b) =>
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+        );
+    } else if (selectedSortBy === "verified") {
+        filteredPosts = filteredPosts.filter(
+            (postDatum) => postDatum.status === "Verified"
+        );
+    } else {
+        filteredPosts = filteredPosts;
+    }
 
     console.log(filteredPosts);
 
