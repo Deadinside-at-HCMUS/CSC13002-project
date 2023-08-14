@@ -47,7 +47,7 @@ const HomePage: React.FC = () => {
                 onProfileClick={handelProfileClick}
             />
             <Search />
-            <Postlist />
+            <Postlist selectedType="selectedType" />
             <ChatBot />
             <Value />
             <Footer />

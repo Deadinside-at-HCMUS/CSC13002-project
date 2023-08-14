@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import Post from "./Post";
 import { PostContext } from "../../contexts/postContext";
 
-const PostList: React.FC = () => {
+interface PostListProps {
+    selectedType: string;
+}
+
+const PostList: React.FC<PostListProps> = ({ selectedType }) => {
     const navigate = useNavigate();
 
     const handleDonateClick = () => {
@@ -21,14 +25,20 @@ const PostList: React.FC = () => {
         fetchData();
     }, []);
 
+    console.log(selectedType);
+
     const postData = postState.posts;
 
-    // const sortedPostData =
+    const filteredPosts = selectedType
+        ? postData.filter((postDatum) => postDatum.type === selectedType)
+        : postData;
+
+    console.log(filteredPosts);
 
     return (
         <div className="flex gap-10 justify-center flex-wrap items-center py-10">
-            {postData &&
-                postData.map(
+            {filteredPosts &&
+                filteredPosts.map(
                     ({
                         _id,
                         type,
