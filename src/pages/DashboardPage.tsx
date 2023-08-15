@@ -27,17 +27,36 @@ const DashboardPage: React.FC = () => {
         fetchData();
     }, []);
 
+    const totalDonation = postData.reduce((total, post) => {
+        if (post.type === "Donating" && post.status === "Done") {
+            return total + 1;
+        }
+        return total;
+    }, 0);
+
+    const totalReceive = postData.reduce((total, post) => {
+        if (post.type === "Receiving" && post.status === "Done") {
+            return total + 1;
+        }
+        return total;
+    }, 0);
+
+    const totalUser = authUsers ? authUsers.length : 0;
+
+    const totalConnection = totalDonation + totalReceive;
+
     return (
         <div className="flex flex-col gap-4">
             <StatsGrid
-                totalDonations={21}
-                totalReceives={23}
-                totalUsers={72}
-                totalConnections={50}
+                totalDonations={totalDonation}
+                totalReceives={totalReceive}
+                totalUsers={totalUser}
+                totalConnections={totalConnection}
+                authUser={authUser}
             />
             <div className="flex flex-row gap-4 w-full">
-                <TransactionChart />
-                <UserPieChart />
+                {authUser?.role === "collaborator" && <TransactionChart />}
+                {authUser?.role === "collaborator" && <UserPieChart />}
             </div>
             <PostTable
                 authUser={authUser}
