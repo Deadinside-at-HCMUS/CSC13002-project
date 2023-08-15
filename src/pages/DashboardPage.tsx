@@ -47,13 +47,13 @@ const DashboardPage: React.FC = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <StatsGrid
+            {authUser?.role === "collaborator" && <StatsGrid
                 totalDonations={totalDonation}
                 totalReceives={totalReceive}
                 totalUsers={totalUser}
                 totalConnections={totalConnection}
                 authUser={authUser}
-            />
+            />}
             <div className="flex flex-row gap-4 w-full">
                 {authUser?.role === "collaborator" && <TransactionChart />}
                 {authUser?.role === "collaborator" && <UserPieChart />}
