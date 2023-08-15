@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { AiOutlineSearch, AiOutlineCloseCircle } from "react-icons/ai";
 import { BsHouseDoor } from "react-icons/bs";
 import { CiLocationOn } from "react-icons/ci";
+import PostList from "../Postlist/PostList";
 
 const Search: React.FC = () => {
     const [selectedType, setSelectedType] = useState<string>("");
@@ -14,10 +15,23 @@ const Search: React.FC = () => {
         setSelectedLocation("");
     };
 
-    // const handleSecectPostType = (event) => {
-    //     sortedPostData = filter("Receive");
+    const handleTypeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedValue = e.target.value;
+        setSelectedType(selectedValue);
+        console.log("Selected Type:", selectedValue);
+    };
 
-    // }
+    const handleSortBySelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedValue = e.target.value;
+        setSelectedSortBy(selectedValue);
+        console.log("Selected Sort By:", selectedValue);
+    };
+
+    const handleLocationSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedValue = e.target.value;
+        setSelectedLocation(selectedValue);
+        console.log("Selected Location:", selectedValue);
+    };
 
     return (
         <div className="grid gap-10 bg-[#f1f4f8] rounded-[10px] p-[3rem]">
@@ -56,6 +70,11 @@ const Search: React.FC = () => {
                 </div>
             </form>
 
+            <PostList
+                selectedType={selectedType}
+                selectedSortBy={selectedSortBy}
+            />
+
             <div className="flex items-center gap-10 justify-center">
                 <div className="flex items-center gap-2">
                     <label
@@ -68,12 +87,12 @@ const Search: React.FC = () => {
                         name="type"
                         id="type"
                         value={selectedType}
-                        onChange={(e) => setSelectedType(e.target.value)}
+                        onChange={handleTypeSelect}
                         className="bg-white rounded-[3px] px-4 py-1"
                     >
                         <option value=""></option>
-                        <option value="donation">Donation</option>
-                        <option value="receive">Receive</option>
+                        <option value="Donating">Donation</option>
+                        <option value="Receiving">Receive</option>
                     </select>
                 </div>
 
@@ -88,12 +107,12 @@ const Search: React.FC = () => {
                         name=""
                         id="relevance"
                         value={selectedSortBy}
-                        onChange={(e) => setSelectedSortBy(e.target.value)}
+                        onChange={handleSortBySelect}
                         className="bg-white rounded-[3px] px-4 py-1"
                     >
                         <option value=""></option>
                         <option value="time">Newest</option>
-                        <option value="priority">Priority</option>
+                        {/* <option value="priority">Priority</option> */}
                         <option value="verified">Verified</option>
                     </select>
                 </div>
@@ -109,7 +128,7 @@ const Search: React.FC = () => {
                         name=""
                         id="location"
                         value={selectedLocation}
-                        onChange={(e) => setSelectedLocation(e.target.value)}
+                        onChange={handleLocationSelect}
                         className="bg-white rounded-[3px] px-4 py-1"
                     >
                         <option value=""></option>

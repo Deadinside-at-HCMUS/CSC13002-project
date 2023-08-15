@@ -14,7 +14,7 @@ interface PostProps {
     match: string[];
     isArchived: boolean;
     photoUrl: string;
-    createAt: string;
+    createAt: Date;
     onDonateClick: () => void;
 }
 
@@ -42,7 +42,7 @@ const Post: React.FC<PostProps> = ({
                     </h1>
                     <span className="flex items-center text-[#ccc] gap-1">
                         <BiTimeFive />
-                        {createAt}
+                        {createAt.toString()}
                     </span>
                 </span>
                 <h6 className="text-[#ccc]">{location}</h6>

@@ -3,14 +3,21 @@ import { useNavigate } from "react-router-dom";
 import Post from "./Post";
 import { PostContext } from "../../contexts/postContext";
 
-const PostList: React.FC = () => {
+interface PostListProps {
+    selectedType: string;
+    selectedSortBy: string;
+}
+
+const PostList: React.FC<PostListProps> = ({
+    selectedType,
+    selectedSortBy,
+}) => {
     const navigate = useNavigate();
 
     const handleDonateClick = () => {
         navigate("/donate");
     };
 
-    // loi cai nay wa homepage de xu ly, va phai truyen vao trong PostList nay cac Post data
     const { postState, getAllPosts } = useContext(PostContext);
 
     useEffect(() => {
@@ -21,14 +28,34 @@ const PostList: React.FC = () => {
         fetchData();
     }, []);
 
+    console.log(selectedType);
+
     const postData = postState.posts;
 
-    // const sortedPostData =
+    let filteredPosts = selectedType
+        ? postData.filter((postDatum) => postDatum.type === selectedType)
+        : postData;
+
+    if (selectedSortBy === "time") {
+        filteredPosts.sort(
+            (a, b) =>
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+        );
+    } else if (selectedSortBy === "verified") {
+        filteredPosts = filteredPosts.filter(
+            (postDatum) => postDatum.status === "Verified"
+        );
+    } else {
+        filteredPosts = filteredPosts;
+    }
+
+    console.log(filteredPosts);
 
     return (
         <div className="flex gap-10 justify-center flex-wrap items-center py-10">
-            {postData &&
-                postData.map(
+            {filteredPosts &&
+                filteredPosts.map(
                     ({
                         _id,
                         type,

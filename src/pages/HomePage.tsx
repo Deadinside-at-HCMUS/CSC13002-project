@@ -47,7 +47,10 @@ const HomePage: React.FC = () => {
                 onProfileClick={handelProfileClick}
             />
             <Search />
-            <Postlist />
+            <Postlist
+                selectedType="selectedType"
+                selectedSortBy="selectedSortBy"
+            />
             <ChatBot />
             <Value />
             <Footer />
