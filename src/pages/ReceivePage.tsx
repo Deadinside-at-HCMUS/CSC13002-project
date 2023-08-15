@@ -13,11 +13,6 @@ const initialPostState: PostForm = {
     type: "Receiving",
     title: "",
     body: "",
-    author: {
-        _id: "",
-        username: "",
-        email: "",
-    },
     items: [],
     status: "Posted",
     location: "",
@@ -25,23 +20,8 @@ const initialPostState: PostForm = {
     isArchived: false,
     photoId: "",
     photoUrl: "",
-    createdAt: "",
+    createdAt: new Date(),
 };
-
-// type CategoryEnumToString = {
-//     [key in CategoryEnum]: string;
-// };
-
-// const categoryEnumToString: CategoryEnumToString = {
-//     [CategoryEnum.Unknown]: "--Select category--",
-//     [CategoryEnum.Electronic]: "Electronic",
-//     [CategoryEnum.Clothing]: "Clothing",
-//     [CategoryEnum.Book]: "Book",
-//     [CategoryEnum.Food]: "Food",
-//     [CategoryEnum.Vehicle]: "Vehicle",
-//     [CategoryEnum.Household]: "Household",
-//     [CategoryEnum.Medical]: "Medical",
-// };
 
 const ReceivePage: React.FC = () => {
     const { addPost, uploadImage } = useContext(PostContext);

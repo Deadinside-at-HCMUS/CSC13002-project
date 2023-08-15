@@ -109,7 +109,6 @@ const validate = (post) => {
         type: joi.string().valid("Donating", "Receiving").required(),
         title: joi.string().required(),
         body: joi.string().required(),
-        author: joi.string().allow(""),
         items: joi.array().items(singleItemSchema),
         status: joi
             .string()

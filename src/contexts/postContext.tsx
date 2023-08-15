@@ -19,7 +19,7 @@ export interface PostForm {
     type: string;
     title: string;
     body: string;
-    author: AuthorType;
+    // author: AuthorType;
     items: Item[];
     status: string;
     location: string;
@@ -134,7 +134,7 @@ const PostContextProvider: React.FC<PostContextProviderProps> = ({
                 type: postForm.type,
                 title: postForm.title,
                 body: postForm.body,
-                author: postForm.author,
+                // author: postForm.author,
                 items: postForm.items,
                 status: postForm.status,
                 location: postForm.location,

@@ -4,35 +4,19 @@ import { BsHouseDoor } from "react-icons/bs";
 import { CiLocationOn } from "react-icons/ci";
 import PostList from "../Postlist/PostList";
 
-const Search: React.FC = () => {
-    const [selectedType, setSelectedType] = useState<string>("");
-    const [selectedSortBy, setSelectedSortBy] = useState<string>("");
-    const [selectedLocation, setSelectedLocation] = useState<string>("");
+interface SearchProps {
+    onTypeSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    onSortBySelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    onLocationSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    onClearAll: () => void;
+}
 
-    const handleClearAll = () => {
-        setSelectedType("");
-        setSelectedSortBy("");
-        setSelectedLocation("");
-    };
-
-    const handleTypeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedValue = e.target.value;
-        setSelectedType(selectedValue);
-        console.log("Selected Type:", selectedValue);
-    };
-
-    const handleSortBySelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedValue = e.target.value;
-        setSelectedSortBy(selectedValue);
-        console.log("Selected Sort By:", selectedValue);
-    };
-
-    const handleLocationSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedValue = e.target.value;
-        setSelectedLocation(selectedValue);
-        console.log("Selected Location:", selectedValue);
-    };
-
+const Search: React.FC<SearchProps> = ({
+    onTypeSelect,
+    onSortBySelect,
+    onLocationSelect,
+    onClearAll,
+}) => {
     return (
         <div className="grid gap-10 bg-[#f1f4f8] rounded-[10px] p-[3rem]">
             <form action="">
@@ -70,11 +54,6 @@ const Search: React.FC = () => {
                 </div>
             </form>
 
-            <PostList
-                selectedType={selectedType}
-                selectedSortBy={selectedSortBy}
-            />
-
             <div className="flex items-center gap-10 justify-center">
                 <div className="flex items-center gap-2">
                     <label
@@ -86,8 +65,7 @@ const Search: React.FC = () => {
                     <select
                         name="type"
                         id="type"
-                        value={selectedType}
-                        onChange={handleTypeSelect}
+                        onChange={onTypeSelect}
                         className="bg-white rounded-[3px] px-4 py-1"
                     >
                         <option value=""></option>
@@ -106,8 +84,7 @@ const Search: React.FC = () => {
                     <select
                         name=""
                         id="relevance"
-                        value={selectedSortBy}
-                        onChange={handleSortBySelect}
+                        onChange={onSortBySelect}
                         className="bg-white rounded-[3px] px-4 py-1"
                     >
                         <option value=""></option>
@@ -127,8 +104,7 @@ const Search: React.FC = () => {
                     <select
                         name=""
                         id="location"
-                        value={selectedLocation}
-                        onChange={handleLocationSelect}
+                        onChange={onLocationSelect}
                         className="bg-white rounded-[3px] px-4 py-1"
                     >
                         <option value=""></option>
@@ -140,7 +116,7 @@ const Search: React.FC = () => {
 
                 <span
                     className="text-[#a1a1a1] cursor-pointer"
-                    onClick={handleClearAll}
+                    onClick={onClearAll}
                 >
                     Clear All
                 </span>
