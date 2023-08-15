@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BiTimeFive } from "react-icons/bi";
 import { AuthorType, Item } from "../../reducers/postReducer";
+import { formatDistanceToNow } from "date-fns";
 
 interface PostProps {
     _id: string;
@@ -48,7 +49,9 @@ const PostContainer: React.FC<PostProps> = ({
                     </h1>
                     <span className="flex items-center text-[#ccc] gap-1">
                         <BiTimeFive />
-                        {createdAt.toString()}
+                        {formatDistanceToNow(new Date(createdAt), {
+                            addSuffix: true,
+                        })}
                     </span>
                 </span>
                 <h6 className="text-[#ccc]">{location}</h6>

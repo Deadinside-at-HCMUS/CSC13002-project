@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { getPostStatus } from "./utils/GetPostStatus";
 import { FiArchive } from "react-icons/fi";
 import { User } from "../../reducers/authReducer";
-import { Post } from "../../reducers/postReducer";
+import { Item, Post } from "../../reducers/postReducer";
 
 interface RecentPost {
     postId: string;
@@ -12,8 +12,8 @@ interface RecentPost {
     customerId: string;
     address: string;
     phoneNumber: string;
-    postDate: string;
-    donationList: string;
+    postDate: Date;
+    donationList: Item[] | null;
     currentPostStatus: string;
 }
 
@@ -42,7 +42,7 @@ const PostTable: React.FC<PostTableProps> = ({
                 address: owner?.location || "",
                 phoneNumber: owner?.phonenumber || "",
                 postDate: post.createdAt,
-                donationList: "",
+                donationList: post.items,
                 currentPostStatus: post.status,
             };
         });
@@ -54,7 +54,7 @@ const PostTable: React.FC<PostTableProps> = ({
             address: authUser?.location || "",
             phoneNumber: authUser?.phonenumber || "",
             postDate: post.createdAt,
-            donationList: "",
+            donationList: post.items,
             currentPostStatus: post.status,
         }));
     }
@@ -100,7 +100,13 @@ const PostTable: React.FC<PostTableProps> = ({
                                     </Link>
                                 </td>
                                 <td className="px-4 py-2 ">
-                                    {post.donationList}
+                                    <ul>
+                                        {post.donationList?.map(
+                                            (item, index) => (
+                                                <li key={index}>{item.name}</li>
+                                            )
+                                        )}
+                                    </ul>
                                 </td>
                                 <td className="px-4 py-2 ">
                                     {post.postDate
