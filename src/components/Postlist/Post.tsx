@@ -52,7 +52,6 @@ const PostContainer: React.FC<PostProps> = ({
                     </span>
                 </span>
                 <h6 className="text-[#ccc]">{location}</h6>
-
                 <p className="text-[13px] text-[#95959] pt-[20px] border-t-[2px] mt-[20px] group-hover:text-[#fff]">
                     {showFullBody ? body : `${body.slice(0, 100)}...`}
                     {!showFullBody && (
@@ -68,6 +67,7 @@ const PostContainer: React.FC<PostProps> = ({
                 <div className="flex items-center gap-2 w-[250px] py-[10px]">
                     <img src={photoUrl} className="w-[80%]" alt="Post Image" />
                 </div>
+
                 {type === "Receiving" && (
                     <button
                         className="bg-blue-500 text-white border-[2px] rounded-[10px] block p-[10px] w-full text-[14px] font-semibold group-hover:bg-white group-hover:text-[#2a68ff]"
