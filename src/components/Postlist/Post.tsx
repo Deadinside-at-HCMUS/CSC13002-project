@@ -54,7 +54,7 @@ const Post: React.FC<PostProps> = ({
                 </span>
                 <h6 className="text-[#ccc]">{location}</h6>
                 <p className="text-[13px] text-[#95959] pt-[20px] border-t-[2px] mt-[20px] group-hover:text-[#fff]">
-                    {showFullBody ? body : `${body.slice(0, 300)}...`}
+                    {showFullBody ? body : `${body.slice(0, 100)}...`}
                     {!showFullBody && (
                         <span
                             className="text-[#2a68ff] cursor-pointer hover:text-white"
