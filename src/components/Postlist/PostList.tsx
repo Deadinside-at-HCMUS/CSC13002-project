@@ -26,7 +26,7 @@ const PostList: React.FC = () => {
     // const sortedPostData =
 
     return (
-        <div className="flex gap-10 justify-center flex-wrap items-center py-10">
+        <div className="flex gap-10 justify-center flex-wrap items-start py-10">
             {postData &&
                 postData.map(
                     ({
