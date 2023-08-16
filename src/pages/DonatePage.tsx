@@ -9,7 +9,6 @@ import { PostContext } from "../contexts/postContext";
 import { Item } from "../reducers/postReducer";
 import locations from "../components/data/Location.json"
 
-
 const initialPostState: PostForm = {
     _id: "",
     type: "Donating",
