@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import PostContainer from "./Post";
 import { Post } from "../../reducers/postReducer";
+import { AuthContext } from "../../contexts/authContext";
 
 interface PostListProps {
     filteredPosts: Post[] | null;
 }
 
 const PostList: React.FC<PostListProps> = ({ filteredPosts }) => {
+    const {
+        authState: { isAuthenticated },
+    } = useContext(AuthContext);
+
     const navigate = useNavigate();
 
     const handleDonateClick = () => {
-        navigate("/donate");
+        isAuthenticated ? navigate("/donate") : navigate("/login");
     };
 
     return (

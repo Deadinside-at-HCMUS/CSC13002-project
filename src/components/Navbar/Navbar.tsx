@@ -58,8 +58,8 @@ const Navbar: React.FC<NavbarProps> = ({
                     </li>
                     <div className="language text-[18px]">
                         <select>
-                            <option value="vi">Vietnamese</option>
                             <option value="en">English</option>
+                            <option value="vi">Vietnamese</option>
                             {/* Add more language options as needed */}
                         </select>
                     </div>

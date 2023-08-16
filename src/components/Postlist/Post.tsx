@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { BiTimeFive } from "react-icons/bi";
 import { AuthorType, Item } from "../../reducers/postReducer";
 import { formatDistanceToNow } from "date-fns";
-
 interface PostProps {
     _id: string;
     type: string;
@@ -42,24 +41,25 @@ const PostContainer: React.FC<PostProps> = ({
 
     return (
         <div key={_id}>
-            <div className="group group/item w-[250px] p-[20px] bg-white rounded-[10px] hover:bg-[#2a68ff] shadow-lg shadow-[#f1f4f8]-700 hover:shadow-lg cursor-pointer">
+            <div className="group group/item w-[350px] p-[20px] bg-white rounded-[10px] hover:bg-[#2a68ff] shadow-lg shadow-[#f1f4f8]-700 hover:shadow-lg cursor-pointer">
                 <span className="flex justify-between items-center gap-4">
-                    <h1 className="text-[16px] font-semibold group-hover:text-white">
+                    <h1 className="text-[16px] font-semibold group-hover:text-white ">
                         {title}
                     </h1>
-                    <span className="flex items-center text-[#ccc] gap-1">
-                        <BiTimeFive />
-                        {formatDistanceToNow(new Date(createdAt), {
-                            addSuffix: true,
-                        })}
-                    </span>
                 </span>
                 <h6 className="text-[#ccc]">{location}</h6>
+
+                <span className="flex items-center text-[#ccc] gap-1">
+                    <BiTimeFive />
+                    {formatDistanceToNow(new Date(createdAt), {
+                        addSuffix: true,
+                    })}
+                </span>
                 <p className="text-[13px] text-[#95959] pt-[20px] border-t-[2px] mt-[20px] group-hover:text-[#fff]">
                     {showFullBody ? body : `${body.slice(0, 100)}...`}
                     {!showFullBody && (
                         <span
-                            className="text-[#2a68ff] cursor-pointer hover:text-white"
+                            className="pl-1 text-[#2a68ff] cursor-pointer group-hover:text-blue-300"
                             onClick={toggleShowFullBody}
                         >
                             Read More
@@ -67,8 +67,8 @@ const PostContainer: React.FC<PostProps> = ({
                     )}
                 </p>
 
-                <div className="flex items-center gap-2 w-[250px] py-[10px]">
-                    <img src={photoUrl} className="w-[80%]" alt="Post Image" />
+                <div className="flex items-center gap-2 w-[350px] py-[10px]">
+                    <img src={photoUrl} className="w-[85%]" alt="Post Image" />
                 </div>
 
                 {type === "Receiving" && (

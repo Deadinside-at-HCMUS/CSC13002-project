@@ -179,7 +179,7 @@ const Search: React.FC<SearchProps> = ({
                 </div>
 
                 <span
-                    className="text-[#a1a1a1] cursor-pointer"
+                    className="text-[#a1a1a1] cursor-pointer hover:text-blue-400"
                     onClick={onClearAll}
                 >
                     Clear All
