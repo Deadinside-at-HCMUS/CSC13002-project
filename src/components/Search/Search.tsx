@@ -68,7 +68,7 @@ const Search: React.FC<SearchProps> = ({
                     </label>
                     <select
                         name="type"
-                        id="type"
+                        id="typeDropdown"
                         onChange={onTypeSelect}
                         className="bg-white rounded-[3px] px-4 py-1"
                     >
@@ -87,7 +87,7 @@ const Search: React.FC<SearchProps> = ({
                     </label>
                     <select
                         name=""
-                        id="relevance"
+                        id="sortByDropdown"
                         onChange={onSortBySelect}
                         className="bg-white rounded-[3px] px-4 py-1"
                     >
@@ -107,7 +107,7 @@ const Search: React.FC<SearchProps> = ({
                     </label>
                     <select
                         name=""
-                        id="location"
+                        id="locationDropdown"
                         onChange={onLocationSelect}
                         className="bg-white rounded-[3px] px-4 py-1"
                     >

@@ -310,9 +310,9 @@ const DonatePage: React.FC = () => {
                                 <option value="Tp Ho Chi Minh">
                                     Tp Hồ Chí Minh
                                 </option>
-                                <option value="Tra Vinh">Other</option>
-                                <option value="Tuyen Quang">Other</option>
-                                <option value="Vinh Long">Other</option>
+                                <option value="Tra Vinh">Trà Vinh</option>
+                                <option value="Tuyen Quang">Tuyên Quang</option>
+                                <option value="Vinh Long">Vĩnh Long</option>
                                 <option value="Vinh Phuc">Vĩnh Phúc</option>
                                 <option value="Yen Bai">Yên Bái</option>
                             </select>
@@ -346,18 +346,21 @@ const DonatePage: React.FC = () => {
                                         type="text"
                                         placeholder="Item Name"
                                         onChange={handleNameChange}
+                                        value={newItem.name}
                                         className="w-full p-2 border rounded-md focus:outline-none focus:border-blue-400"
                                     />
                                     <input
                                         type="text"
                                         placeholder="Quantity"
                                         onChange={handleQuantityChange}
+                                        value={newItem.quantity}
                                         className="w-full p-2 border rounded-md focus:outline-none focus:border-blue-400 mt-2"
                                     />
                                     <select
                                         id="category"
                                         name="category"
                                         onChange={handleCategoryChange}
+                                        value={newItem.category}
                                         className="w-full p-2 border rounded-md focus:outline-none focus:border-blue-400 mt-2"
                                     >
                                         <option value="Unknown">
@@ -495,11 +498,10 @@ const DonatePage: React.FC = () => {
                         <button
                             type="submit"
                             className={`flex text-white px-4 py-2 rounded-md  float-right
-                            ${
-                                !formData.title || !formData.body || !newItem
+                            ${!formData.title || !formData.body || !newItem
                                     ? "bg-gray-500 cursor-not-allowed"
                                     : "bg-blue-500 hover:bg-blue-600"
-                            }`}
+                                }`}
                         >
                             Submit Form
                         </button>

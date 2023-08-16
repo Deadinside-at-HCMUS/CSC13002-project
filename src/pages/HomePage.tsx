@@ -46,6 +46,23 @@ const HomePage: React.FC = () => {
         setSelectedType("");
         setSelectedSortBy("");
         setSelectedLocation("");
+
+        // Reset the dropdown boxes to their default empty choice
+        const typeDropdown = document.getElementById("typeDropdown") as HTMLSelectElement;
+        const sortByDropdown = document.getElementById("sortByDropdown") as HTMLSelectElement;
+        const locationDropdown = document.getElementById("locationDropdown") as HTMLSelectElement;
+
+        if (typeDropdown) {
+            typeDropdown.selectedIndex = 0;
+        }
+
+        if (sortByDropdown) {
+            sortByDropdown.selectedIndex = 0;
+        }
+
+        if (locationDropdown) {
+            locationDropdown.selectedIndex = 0;
+        }
     };
 
     const handleTypeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -96,8 +113,8 @@ const HomePage: React.FC = () => {
 
     filteredPosts = selectedLocation
         ? filteredPosts.filter(
-              (postDatum) => postDatum.location === selectedLocation
-          )
+            (postDatum) => postDatum.location === selectedLocation
+        )
         : filteredPosts;
 
     // console.log(filteredPosts);
