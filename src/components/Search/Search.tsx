@@ -4,35 +4,19 @@ import { BsHouseDoor } from "react-icons/bs";
 import { CiLocationOn } from "react-icons/ci";
 import PostList from "../Postlist/PostList";
 
-const Search: React.FC = () => {
-    const [selectedType, setSelectedType] = useState<string>("");
-    const [selectedSortBy, setSelectedSortBy] = useState<string>("");
-    const [selectedLocation, setSelectedLocation] = useState<string>("");
+interface SearchProps {
+    onTypeSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    onSortBySelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    onLocationSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    onClearAll: () => void;
+}
 
-    const handleClearAll = () => {
-        setSelectedType("");
-        setSelectedSortBy("");
-        setSelectedLocation("");
-    };
-
-    const handleTypeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedValue = e.target.value;
-        setSelectedType(selectedValue);
-        console.log("Selected Type:", selectedValue);
-    };
-
-    const handleSortBySelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedValue = e.target.value;
-        setSelectedSortBy(selectedValue);
-        console.log("Selected Sort By:", selectedValue);
-    };
-
-    const handleLocationSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedValue = e.target.value;
-        setSelectedLocation(selectedValue);
-        console.log("Selected Location:", selectedValue);
-    };
-
+const Search: React.FC<SearchProps> = ({
+    onTypeSelect,
+    onSortBySelect,
+    onLocationSelect,
+    onClearAll,
+}) => {
     return (
         <div className="grid gap-10 bg-[#f1f4f8] rounded-[10px] p-[3rem]">
             <form action="">
@@ -70,10 +54,10 @@ const Search: React.FC = () => {
                 </div>
             </form>
 
-            <PostList
+            {/* <PostList
                 selectedType={selectedType}
                 selectedSortBy={selectedSortBy}
-            />
+            /> */}
 
             <div className="flex items-center gap-10 justify-center">
                 <div className="flex items-center gap-2">
@@ -86,8 +70,7 @@ const Search: React.FC = () => {
                     <select
                         name="type"
                         id="type"
-                        value={selectedType}
-                        onChange={handleTypeSelect}
+                        onChange={onTypeSelect}
                         className="bg-white rounded-[3px] px-4 py-1"
                     >
                         <option value=""></option>
@@ -106,8 +89,7 @@ const Search: React.FC = () => {
                     <select
                         name=""
                         id="relevance"
-                        value={selectedSortBy}
-                        onChange={handleSortBySelect}
+                        onChange={onSortBySelect}
                         className="bg-white rounded-[3px] px-4 py-1"
                     >
                         <option value=""></option>
@@ -127,20 +109,79 @@ const Search: React.FC = () => {
                     <select
                         name=""
                         id="location"
-                        value={selectedLocation}
-                        onChange={handleLocationSelect}
+                        onChange={onLocationSelect}
                         className="bg-white rounded-[3px] px-4 py-1"
                     >
                         <option value=""></option>
-                        <option value="hcm">Ho Chi Minh</option>
-                        <option value="hn">Ha Noi</option>
-                        <option value="dn">Da Nang</option>
+                        <option value="An Giang">An Giang</option>
+                        <option value="Ba ria Vung tau">Bà rịa Vũng tàu</option>
+                        <option value="Bac Giang">Bắc Giang</option>
+                        <option value="Bac Kan">Bắc Kạn</option>
+                        <option value="Bac Lieu">Bạc Liêu</option>
+                        <option value="Bac Ninh">Bắc Ninh</option>
+                        <option value="Ben Tre">Bến Tre</option>
+                        <option value="Binh Dinh">Bình Định</option>
+                        <option value="Binh Duong">Bình Dương</option>
+                        <option value="Binh Phuoc">Bình Phước</option>
+                        <option value="Binh Thuan">Bình Thuận</option>
+                        <option value="Ca Mau">Cà Mau</option>
+                        <option value="Can Tho">Cần Thơ</option>
+                        <option value="Cao Bang">Cao Bằng</option>
+                        <option value="Da Nang">Đà Nẵng</option>
+                        <option value="Dak Lak">Đắk Lắk</option>
+                        <option value="Dak Nong">Đắk Nông</option>
+                        <option value="Dien Bien">Điện Biên</option>
+                        <option value="Dong Nai">Đồng Nai</option>
+                        <option value="Dong Thap">Đồng Tháp</option>
+                        <option value="Gia Lai">Gia Lai</option>
+                        <option value="Ha Giang">Hà Giang</option>
+                        <option value="Ha Nam">Hà Nam</option>
+                        <option value="Ha Noi">Hà Nội</option>
+                        <option value="Ha Tinh">Hà Tĩnh</option>
+                        <option value="Hai Duong">Hải Dương</option>
+                        <option value="Hai Phong">Hải Phòng</option>
+                        <option value="Hau Giang">Hậu Giang</option>
+                        <option value="Hoa Binh">Hòa Bình</option>
+                        <option value="Hung Yen">Hưng Yên</option>
+                        <option value="Khanh Hoa">Khánh Hòa</option>
+                        <option value="Kien Giang">Kiên Giang</option>
+                        <option value="Kon Tum">Kon Tum</option>
+                        <option value="Lai Chau">Lai Châu</option>
+                        <option value="Lam Dong">Lâm Đồng</option>
+                        <option value="Lang Son">Lạng Sơn</option>
+                        <option value="Lao Cai">Lào Cai</option>
+                        <option value="Long An">Long An</option>
+                        <option value="Nam Dinh">Nam Định</option>
+                        <option value="Nghe An">Nghệ An</option>
+                        <option value="Ninh Binh">Ninh Bình</option>
+                        <option value="Ninh Thuan">Ninh Thuận</option>
+                        <option value="Phu Tho">Phú Thọ</option>
+                        <option value="Phu Yen">Phú Yên</option>
+                        <option value="Quang Binh">Quảng Bình</option>
+                        <option value="Quang Nam">Quảng Nam</option>
+                        <option value="Quang Ngai">Quảng Ngãi</option>
+                        <option value="Quang Ninh">Quảng Ninh</option>
+                        <option value="Quang Tri">Quảng Trị</option>
+                        <option value="Soc Trang">Sóc Trăng</option>
+                        <option value="Son La">Sơn La</option>
+                        <option value="Tay Ninh">Tây Ninh</option>
+                        <option value="Thai Binh">Thái Bình</option>
+                        <option value="Thai Nguyen">Thái Nguyên</option>
+                        <option value="Thanh Hoa">Thanh Hóa</option>
+                        <option value="Thua Thien Hue">Thừa Thiên Huế</option>
+                        <option value="Tien Giang">Tiền Giang</option>
+                        <option value="Tp Ho Chi Minh">Tp Hồ Chí Minh</option>
+                        <option value="Tra Vinh">Other</option>
+                        <option value="Tuyen Quang">Other</option>
+                        <option value="Vinh Long">Other</option>
+                        <option value="Vinh Phuc">Vĩnh Phúc</option>
+                        <option value="Yen Bai">Yên Bái</option>
                     </select>
                 </div>
 
                 <span
                     className="text-[#a1a1a1] cursor-pointer"
-                    onClick={handleClearAll}
+                    onClick={onClearAll}
                 >
                     Clear All
                 </span>

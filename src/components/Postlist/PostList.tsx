@@ -1,59 +1,21 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import Post from "./Post";
-import { PostContext } from "../../contexts/postContext";
+import PostContainer from "./Post";
+import { Post } from "../../reducers/postReducer";
 
 interface PostListProps {
-    selectedType: string;
-    selectedSortBy: string;
+    filteredPosts: Post[] | null;
 }
 
-const PostList: React.FC<PostListProps> = ({
-    selectedType,
-    selectedSortBy,
-}) => {
+const PostList: React.FC<PostListProps> = ({ filteredPosts }) => {
     const navigate = useNavigate();
 
     const handleDonateClick = () => {
         navigate("/donate");
     };
 
-    const { postState, getAllPosts } = useContext(PostContext);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            await getAllPosts();
-        };
-
-        fetchData();
-    }, []);
-
-    console.log(selectedType);
-
-    const postData = postState.posts;
-
-    let filteredPosts = selectedType
-        ? postData.filter((postDatum) => postDatum.type === selectedType)
-        : postData;
-
-    if (selectedSortBy === "time") {
-        filteredPosts.sort(
-            (a, b) =>
-                new Date(b.createdAt).getTime() -
-                new Date(a.createdAt).getTime()
-        );
-    } else if (selectedSortBy === "verified") {
-        filteredPosts = filteredPosts.filter(
-            (postDatum) => postDatum.status === "Verified"
-        );
-    } else {
-        filteredPosts = filteredPosts;
-    }
-
-    console.log(filteredPosts);
-
     return (
-        <div className="flex gap-10 justify-center flex-wrap items-center py-10">
+        <div className="flex gap-10 justify-center flex-wrap items-start py-10">
             {filteredPosts &&
                 filteredPosts.map(
                     ({
@@ -71,12 +33,12 @@ const PostList: React.FC<PostListProps> = ({
                         createdAt,
                     }) => {
                         return (
-                            <Post
+                            <PostContainer
                                 key={_id}
                                 _id={_id}
                                 title={title}
                                 type={type}
-                                createAt={createdAt}
+                                createdAt={createdAt}
                                 location={location}
                                 body={body}
                                 photoUrl={photoUrl}
