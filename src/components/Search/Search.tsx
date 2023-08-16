@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { AiOutlineSearch, AiOutlineCloseCircle } from "react-icons/ai";
 import { BsHouseDoor } from "react-icons/bs";
 import { CiLocationOn } from "react-icons/ci";
-import PostList from "../Postlist/PostList";
 
 interface SearchProps {
     onTypeSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
