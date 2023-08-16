@@ -146,15 +146,13 @@ const HomePage: React.FC = () => {
 
     // console.log(filteredPosts);
 
-    useEffect(() => {
-        console.log(searchResult);
+    // console.log(searchResult);
 
-        filteredPosts = postData.filter((postDatum) =>
-            doesPostMatchQuery(postDatum, searchQuery)
-        );
-
-        console.log(filteredPosts);
-    }, [searchResult]);
+    filteredPosts = searchResult
+        ? filteredPosts.filter((postDatum) =>
+              doesPostMatchQuery(postDatum, searchResult)
+          )
+        : filteredPosts;
 
     return (
         <div className="w-[85%] m-auto bg-white">
