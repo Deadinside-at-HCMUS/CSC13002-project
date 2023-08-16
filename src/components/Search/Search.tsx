@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, FormEvent } from "react";
 import { AiOutlineSearch, AiOutlineCloseCircle } from "react-icons/ai";
-import locations from "../data/Location.json"
+import locations from "../data/Location.json";
 
 interface SearchProps {
     onTypeSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
     onSortBySelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
     onLocationSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    onSearchQuery: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onSearchClick: (e: FormEvent) => void;
     onClearAll: () => void;
 }
 
@@ -13,33 +15,52 @@ const Search: React.FC<SearchProps> = ({
     onTypeSelect,
     onSortBySelect,
     onLocationSelect,
+    onSearchQuery,
+    onSearchClick,
     onClearAll,
 }) => {
-    const [searchPost, setSearchPost] = useState("");
+    // const [searchPost, setSearchPost] = useState("");
+    // const [searchResult, setSearchResult] = useState("");
 
-    const handleClearPost = () => {
-        setSearchPost("");
-    };
+    // const handleClearPost = () => {
+    //     setSearchPost("");
+    // };
+
+    // const handleSearchClick = (e: FormEvent) => {
+    //     e.preventDefault(); // Prevent form submission
+    //     setSearchResult(searchPost);
+    // };
+
+    // useEffect(() => {
+    //     console.log(searchResult);
+    // }, [searchResult]);
 
     return (
         <div className="grid gap-10 bg-[#f1f4f8] rounded-[10px] p-[3rem]">
-            <form action="">
+            {/* <form action=""> */}
+            <form onSubmit={onSearchClick}>
                 <div className="flex justify-between items-center rounded-[8px] gap-[10px] bg-white p-5 shadow-lg shadow-[#f1f4f8]-700">
                     <div className="flex items-center gap-2 flex-grow">
-                        <AiOutlineSearch className="text-[25px] icon" />
+                        {/* <AiOutlineSearch className="text-[25px] icon" /> */}
                         <input
                             type="text"
                             className="bg-transparent text-blue-500 focus:outline-none flex-grow"
                             placeholder="Search Post Here..."
-                            value={searchPost}
-                            onChange={(e) => setSearchPost(e.target.value)}
+                            // value={searchPost}
+                            // onChange={(e) => setSearchPost(e.target.value)}
+                            onChange={onSearchQuery}
                         />
-                        <AiOutlineCloseCircle
+                        {/* <AiOutlineCloseCircle
                             className="text-[20px] text-[#a5a6a6] hover:text-[#000] icon mr-2"
                             onClick={handleClearPost}
-                        />
+                        /> */}
                     </div>
-                    <button className="bg-blue-500 h-full p-3 px-6 rounded-[10px] text-white cursor-pointer hover:bg-blue-300">
+                    <button
+                        className="bg-blue-500 h-full p-3 px-6 rounded-[10px] text-white cursor-pointer hover:bg-blue-300"
+                        // onClick={handleSearchClick}
+                        // onChange={onSearchClick}
+                        type="submit"
+                    >
                         Search
                     </button>
                 </div>
