@@ -92,9 +92,10 @@ const HomePage: React.FC = () => {
         console.log("Selected Location:", selectedValue);
     };
 
-    // const handleClearPost = () => {
-    //     setSearchPost("");
-    // };
+    const handleClearQuery = () => {
+        setSearchQuery("");
+        setSearchResult("");
+    };
 
     const handleSearchQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchValue = e.target.value;
@@ -171,6 +172,7 @@ const HomePage: React.FC = () => {
                 onLocationSelect={handleLocationSelect}
                 onSearchQuery={handleSearchQuery}
                 onSearchClick={handleSearchClick}
+                onClearQuery={handleClearQuery}
                 onClearAll={handleClearAll}
             />
             <Postlist filteredPosts={filteredPosts} />
