@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
 import Search from "../components/Search/Search";
@@ -8,6 +8,7 @@ import Value from "../components/Value/Value";
 import ChatBot from "../components/Chatbox/ChatBox";
 import { AuthContext } from "../contexts/authContext";
 import { PostContext } from "../contexts/postContext";
+import { doesPostMatchQuery } from "../reducers/postReducer";
 
 const HomePage: React.FC = () => {
     const {
@@ -41,11 +42,36 @@ const HomePage: React.FC = () => {
     const [selectedType, setSelectedType] = useState<string>("");
     const [selectedSortBy, setSelectedSortBy] = useState<string>("");
     const [selectedLocation, setSelectedLocation] = useState<string>("");
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchResult, setSearchResult] = useState("");
 
     const handleClearAll = () => {
         setSelectedType("");
         setSelectedSortBy("");
         setSelectedLocation("");
+
+        // Reset the dropdown boxes to their default empty choice
+        const typeDropdown = document.getElementById(
+            "typeDropdown"
+        ) as HTMLSelectElement;
+        const sortByDropdown = document.getElementById(
+            "sortByDropdown"
+        ) as HTMLSelectElement;
+        const locationDropdown = document.getElementById(
+            "locationDropdown"
+        ) as HTMLSelectElement;
+
+        if (typeDropdown) {
+            typeDropdown.selectedIndex = 0;
+        }
+
+        if (sortByDropdown) {
+            sortByDropdown.selectedIndex = 0;
+        }
+
+        if (locationDropdown) {
+            locationDropdown.selectedIndex = 0;
+        }
     };
 
     const handleTypeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -66,6 +92,23 @@ const HomePage: React.FC = () => {
         console.log("Selected Location:", selectedValue);
     };
 
+    const handleClearQuery = () => {
+        setSearchQuery("");
+        setSearchResult("");
+    };
+
+    const handleSearchQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const searchValue = e.target.value;
+        setSearchQuery(searchValue);
+        // console.log(searchValue);
+        // console.log(searchQuery);
+    };
+
+    const handleSearchClick = (e: FormEvent) => {
+        e.preventDefault(); // Prevent form submission
+        setSearchResult(searchQuery);
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             await getAllPosts();
@@ -73,6 +116,8 @@ const HomePage: React.FC = () => {
 
         fetchData();
     }, []);
+
+    // console.log(searchResult);
 
     // console.log(selectedType);
 
@@ -102,6 +147,14 @@ const HomePage: React.FC = () => {
 
     // console.log(filteredPosts);
 
+    // console.log(searchResult);
+
+    filteredPosts = searchResult
+        ? filteredPosts.filter((postDatum) =>
+              doesPostMatchQuery(postDatum, searchResult)
+          )
+        : filteredPosts;
+
     return (
         <div className="w-[85%] m-auto bg-white">
             <Navbar
@@ -117,6 +170,9 @@ const HomePage: React.FC = () => {
                 onTypeSelect={handleTypeSelect}
                 onSortBySelect={handleSortBySelect}
                 onLocationSelect={handleLocationSelect}
+                onSearchQuery={handleSearchQuery}
+                onSearchClick={handleSearchClick}
+                onClearQuery={handleClearQuery}
                 onClearAll={handleClearAll}
             />
             <Postlist filteredPosts={filteredPosts} />

@@ -119,7 +119,7 @@ const Header: React.FC = () => {
                                     backgroundImage:
                                         'url("https://source.unsplash.com/80x80?face")',
                                 }}
-                            ></div>
+                            />
                         </Menu.Button>
                     </div>
                     <Transition

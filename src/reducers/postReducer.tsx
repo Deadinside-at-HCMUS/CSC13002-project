@@ -38,6 +38,16 @@ export interface Post {
     createdAt: Date;
 }
 
+export function doesPostMatchQuery(post: Post, searchQuery: string): boolean {
+    const query = searchQuery.toLowerCase(); // Convert the search query to lowercase for case-insensitive matching
+
+    // Check if the lowercase title or body contains the query
+    const titleMatches = post.title.toLowerCase().includes(query);
+    const bodyMatches = post.body.toLowerCase().includes(query);
+
+    return titleMatches || bodyMatches;
+}
+
 type PostState = {
     post: Post | null;
     posts: Post[];
