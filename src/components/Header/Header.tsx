@@ -64,7 +64,8 @@ const Header: React.FC = () => {
                                             Messages
                                         </strong>
                                         <div className="mt-2 py-1 text-sm">
-                                            This is messages panel.
+                                            Currently, there are no new
+                                            messages.
                                         </div>
                                     </div>
                                 </Popover.Panel>
@@ -98,7 +99,8 @@ const Header: React.FC = () => {
                                             Notifications
                                         </strong>
                                         <div className="mt-2 py-1 text-sm">
-                                            This is notification panel.
+                                            Currently, there are no new
+                                            notifications.
                                         </div>
                                     </div>
                                 </Popover.Panel>
