@@ -403,8 +403,7 @@ const SignupPage: React.FC = () => {
                     </div>
                     <div>
                         <button
-                            className={`w-full py-2 px-4 rounded-md text-white text-sm ${
-                                !username ||
+                            className={`w-full py-2 px-4 rounded-md text-white text-sm ${!username ||
                                 !email ||
                                 !password ||
                                 !passwordconfirm ||
@@ -413,10 +412,10 @@ const SignupPage: React.FC = () => {
                                 !location ||
                                 !phonenumber ||
                                 gender === "non-binary" ||
-                                role === "user"
-                                    ? "bg-gray-500 cursor-not-allowed"
-                                    : "bg-blue-600 hover:bg-blue-700"
-                            }`}
+                                role === ""
+                                ? "bg-gray-500 cursor-not-allowed"
+                                : "bg-blue-600 hover:bg-blue-700"
+                                }`}
                         >
                             Submit
                         </button>
