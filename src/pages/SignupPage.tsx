@@ -25,7 +25,9 @@ const passwordRegExp =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 const validationSchema = yup.object({
-    username: yup.string().required("Username is required!"),
+    username: yup.string()
+        .required("Username is required!")
+        .min(5, "Username has minimum 5 characters!"),
     email: yup
         .string()
         .required("Email is required!")
@@ -404,6 +406,7 @@ const SignupPage: React.FC = () => {
                     <div>
                         <button
                             className={`w-full py-2 px-4 rounded-md text-white text-sm ${!username ||
+                                !username ||
                                 !email ||
                                 !password ||
                                 !passwordconfirm ||
