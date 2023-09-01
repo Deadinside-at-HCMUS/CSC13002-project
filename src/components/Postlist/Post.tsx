@@ -37,6 +37,7 @@ const PostContainer: React.FC<PostProps> = ({
 
     const toggleShowFullBody = () => {
         setShowFullBody(!showFullBody);
+        console.log(author, items, status, match, isArchived)
     };
 
     return (

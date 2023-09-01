@@ -60,7 +60,7 @@ const PostTable: React.FC<PostTableProps> = ({
     }
 
     const handleArchivePost = (index: number) => {
-        console.log("archive");
+        console.log(index, ": archive");
     };
 
     return (
@@ -111,9 +111,9 @@ const PostTable: React.FC<PostTableProps> = ({
                                 <td className="px-4 py-2 ">
                                     {post.postDate
                                         ? format(
-                                              new Date(post.postDate),
-                                              "dd MMM yyyy"
-                                          )
+                                            new Date(post.postDate),
+                                            "dd MMM yyyy"
+                                        )
                                         : ""}
                                 </td>
 

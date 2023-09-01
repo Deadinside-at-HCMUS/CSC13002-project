@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useReducer } from "react";
-import { postReducer, Post, AuthorType } from "../reducers/postReducer";
+import { postReducer, Post } from "../reducers/postReducer";
 import {
     apiUrl,
     POSTS_LOADED_SUCCESS,
@@ -81,6 +81,7 @@ const PostContextProvider: React.FC<PostContextProviderProps> = ({
                     payload: response.data.posts,
                 });
             }
+            console.log(POSTS_LOADED_SUCCESS, POSTS_LOADED_FAIL, DELETE_POST, UPDATE_POST, FIND_POST)
         } catch (error) {
             console.log("Fail to load posts");
         }

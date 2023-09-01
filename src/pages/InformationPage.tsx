@@ -23,7 +23,7 @@ const InformationPage: React.FC = () => {
     const username = user ? user.username : "";
     const fullname = user ? user.fullName : "";
     const email = user ? user.email : "";
-    const birthday = user ? user.dateOfBirth : "";
+    //const birthday = user ? user.dateOfBirth : "";
     const location = user ? user.location : "";
     const role = user ? user.role : "";
     const gender = user ? user.gender : "";
