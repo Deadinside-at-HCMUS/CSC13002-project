@@ -3,6 +3,7 @@
 # Connect Me
 
 Welcome to Connect Me! This is a simple server application built with MERN stack. It provides some functionality and requires a successful connection to start.
+[UI Prototype](https://docs.google.com/document/d/19JhgUuQnpQIBKXn1cxue0YjtRSoQuvgy/edit?usp=sharing&ouid=101224278931199856814&rtpof=true&sd=true)
 
 ## Prerequisites
 
